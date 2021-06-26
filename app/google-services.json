@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "775642900834",
+    "project_id": "fptu-challangefocus",
+    "storage_bucket": "fptu-challangefocus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775642900834:android:b49a9334d17959a8ee643b",
+        "android_client_info": {
+          "package_name": "fpt.provipluxurylimited.challengefocus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775642900834-qhllg0o63v9sk48cp7fduvd9jlprmnlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLrTvBH4Ar1vbx0gJ0jigF0-RrqDChPBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775642900834-qhllg0o63v9sk48cp7fduvd9jlprmnlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
