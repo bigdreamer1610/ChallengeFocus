@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dicovery_nav_graph"
+    app:startDestination="@id/discoveryListFragment">
+    <fragment
+        android:id="@+id/discoveryListFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.discovery.DiscoveryListFragment"
+        android:label="fragment_discovery_list"
+        tools:layout="@layout/fragment_discovery_list" >
+        <action
+            android:id="@+id/action_discoveryListFragment_to_detailChallengeFragment"
+            app:destination="@id/detailChallengeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailChallengeFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.DetailChallengeFragment"
+        android:label="fragment_detail_challenge"
+        tools:layout="@layout/fragment_detail_challenge" />
+</navigation>

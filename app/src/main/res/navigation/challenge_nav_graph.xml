@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/challenge_nav_graph"
+    app:startDestination="@id/myChallengesFragment">
+
+    <fragment
+        android:id="@+id/myChallengesFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.MyChallengesFragment"
+        android:label="fragment_my_challenges"
+        tools:layout="@layout/fragment_my_challenges" >
+        <action
+            android:id="@+id/action_myChallengesFragment_to_detailChallengeFragment2"
+            app:destination="@id/detailChallengeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailChallengeFragment2"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.DetailChallengeFragment"
+        android:label="fragment_detail_challenge"
+        tools:layout="@layout/fragment_detail_challenge" />
+</navigation>

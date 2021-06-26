@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="tabbar_background">#F0F2F5</color>
+    <color name="menu_item_unselected">#B9BFC6</color>
+    <color name="menu_item_selected">#414B58</color>
 </resources>

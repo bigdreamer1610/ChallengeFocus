@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+/>
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chipMenu"
         android:layout_width="match_parent"
@@ -14,6 +19,7 @@
         android:background="@drawable/rounded"
         android:elevation="16dp"
         android:padding="8dp"
+        app:cnb_unselectedColor="@color/menu_item_unselected"
         app:cnb_menuResource="@menu/menu_bottom"
         />
 

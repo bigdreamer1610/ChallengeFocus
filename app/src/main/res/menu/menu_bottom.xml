@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    app:cnb_unselectedColor="#fff"
+    app:cnb_unselectedColor="@color/menu_item_selected"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/itemExplore"
         android:title="Khám phá"
         android:icon="@drawable/ic_memu_discover"
         app:cnb_backgroundColor="#ff785b"
-        app:cnb_iconColor="#FFC5C8"
+        app:cnb_iconColor="@color/menu_item_selected"
         app:cnb_textColor="#fff"
         />
     <item
@@ -15,7 +15,7 @@
         android:title="Thử thách"
         android:icon="@drawable/ic_menu_challenge"
         app:cnb_backgroundColor="#ff785b"
-        app:cnb_iconColor="#FFC5C8"
+        app:cnb_iconColor="@color/menu_item_selected"
         app:cnb_textColor="#fff"
         />
     <item
@@ -23,7 +23,7 @@
         android:title="Tôi"
         android:icon="@drawable/ic_menu_profile"
         app:cnb_backgroundColor="#ff785b"
-        app:cnb_iconColor="#FFC5C8"
+        app:cnb_iconColor="@color/menu_item_selected"
         app:cnb_textColor="#fff"
         />
 </menu>
