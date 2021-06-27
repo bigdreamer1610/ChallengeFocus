@@ -14,6 +14,7 @@ import fpt.provipluxurylimited.challengefocus.challenge.ChallengeFragment;
 import fpt.provipluxurylimited.challengefocus.challenge.MyChallengesFragment;
 import fpt.provipluxurylimited.challengefocus.discovery.DiscoveryFragment;
 import fpt.provipluxurylimited.challengefocus.discovery.DiscoveryListFragment;
+import fpt.provipluxurylimited.challengefocus.pomodoro.PomodoroFragment;
 import fpt.provipluxurylimited.challengefocus.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         initComponents(savedInstanceState);
         initData();
     }
@@ -41,15 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (i) {
                     case R.id.itemExplore:
-                        System.out.println("it's explore");
                         fragment = new DiscoveryFragment();
                         break;
                     case R.id.itemChallenge:
-                        System.out.println("it's challenge");
                         fragment = new ChallengeFragment();
                         break;
+                    case R.id.itemPomo:
+                        fragment = new PomodoroFragment();
+                        break;
                     case R.id.itemProfile:
-                        System.out.println("it's profile");
                         fragment = new ProfileFragment();
                         break;
                 }

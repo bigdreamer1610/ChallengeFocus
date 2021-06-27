@@ -19,6 +19,14 @@
         app:cnb_textColor="#fff"
         />
     <item
+        android:id="@+id/itemPomo"
+        android:title="Pomodoro"
+        android:icon="@drawable/ic_menu_pomo"
+        app:cnb_backgroundColor="#ff785b"
+        app:cnb_iconColor="@color/menu_item_selected"
+        app:cnb_textColor="#fff"
+        />
+    <item
         android:id="@+id/itemProfile"
         android:title="Tôi"
         android:icon="@drawable/ic_menu_profile"
