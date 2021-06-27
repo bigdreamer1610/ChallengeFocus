@@ -5,17 +5,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.jetbrains.annotations.NotNull;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.challenge.classes.FragmentAdapter;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +41,9 @@ public class MyChallengesFragment extends Fragment {
 
     NavController navController;
     Button detailButton;
+    TabLayout tabLayout;
+    ViewPager2 viewPager;
+    FragmentAdapter fragmentAdapter;
 
     public MyChallengesFragment() {
         // Required empty public constructor
@@ -80,16 +89,46 @@ public class MyChallengesFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
         detailButton = view.findViewById(R.id.btnDetail);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        viewPager = view.findViewById(R.id.viewPager);
+        initComponents();
+    }
 
+    protected void initComponents() {
         setUpAction();
     }
 
     protected void setUpAction() {
-        detailButton.setOnClickListener(new View.OnClickListener() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fragmentAdapter = new FragmentAdapter(fm, getLifecycle());
+        viewPager.setAdapter(fragmentAdapter);
+
+        tabLayout.addTab(tabLayout.newTab().setText(Constants.DOING));
+        tabLayout.addTab(tabLayout.newTab().setText(Constants.DONE));
+        tabLayout.addTab(tabLayout.newTab().setText(Constants.FAIL));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
-                // push to another screen
-                navController.navigate(R.id.action_myChallengesFragment_to_detailChallengeFragment2);
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
     }

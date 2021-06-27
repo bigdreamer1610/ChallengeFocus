@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".challenge.MyChallengesFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
+    <RelativeLayout
+        android:id="@+id/layoutHolder"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="@color/theme"
+        android:layout_height="70dp">
     <TextView
-        android:id="@+id/tvChallenge"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="My challenges"
+        android:text="Thử thách của bạn"
         android:textColor="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
-        />
-
-    <Button
-        android:id="@+id/btnDetail"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="Detail Challenge"
+        android:textAlignment="center"
+        android:gravity="center"
         android:textSize="25dp"
-
-        app:layout_constraintTop_toBottomOf="@+id/tvChallenge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tabLayout"
+        android:background="@color/theme"
+        android:layout_below="@+id/layoutHolder"
+        app:tabSelectedTextColor="@color/text_theme"
+        app:tabTextColor="@color/less_opacity_text_theme"
+        app:tabIndicatorColor="@color/indicator_color"
+        />
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        android:layout_below="@+id/tabLayout" />
+</RelativeLayout>

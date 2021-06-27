@@ -10,4 +10,8 @@
     <color name="tabbar_background">#F0F2F5</color>
     <color name="menu_item_unselected">#B9BFC6</color>
     <color name="menu_item_selected">#414B58</color>
+    <color name="theme">#F8F0DD</color>
+    <color name="text_theme">#414B58</color>
+    <color name="less_opacity_text_theme">#80414B58</color>
+    <color name="indicator_color">#5E4D4D</color>
 </resources>
