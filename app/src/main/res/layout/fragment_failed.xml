@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/pretty_gray"
+        android:fontFamily="@font/quicksand_medium"
+        android:textSize="13dp"
         android:text="Bạn chưa hoàng thành thử thách nào. Cố lên nào! 4" />
 
 </FrameLayout>

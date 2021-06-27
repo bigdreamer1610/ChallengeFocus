@@ -14,4 +14,5 @@
     <color name="text_theme">#414B58</color>
     <color name="less_opacity_text_theme">#80414B58</color>
     <color name="indicator_color">#5E4D4D</color>
+    <color name="pretty_gray">#666161</color>
 </resources>
