@@ -11,6 +11,11 @@ public class Challenge {
     public Challenge() {
     }
 
+    public Challenge(String image, String name) {
+        this.image = image;
+        this.name = name;
+    }
+
     public Challenge(String image, String name, ChallengeStatus status, String from, String to) {
         this.image = image;
         this.name = name;

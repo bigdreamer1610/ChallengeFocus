@@ -7,15 +7,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoveryRecylerAdapter;
+import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoverySection;
+import fpt.provipluxurylimited.challengefocus.models.Challenge;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +44,12 @@ public class DiscoveryListFragment extends Fragment {
     private String mParam2;
 
     NavController navController;
-    Button btnDetail;
+    SearchView searchView;
+    RecyclerView recyclerView;
+
+    private static final String TAG = "List_Discovery";
+
+    private ArrayList<DiscoverySection> list;
 
     public DiscoveryListFragment() {
         // Required empty public constructor
@@ -79,17 +94,53 @@ public class DiscoveryListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
-        btnDetail = view.findViewById(R.id.btnDetail);
+        recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
+        searchView = view.findViewById(R.id.searchView);
 
         setUpAction();
+        initData();
+        initComponents(view);
     }
 
     protected void setUpAction() {
-        btnDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_discoveryListFragment_to_detailChallengeFragment);
-            }
-        });
     }
+
+    private void initComponents(View view) {
+        recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
+        DiscoveryRecylerAdapter discoveryRecylerAdapter = new DiscoveryRecylerAdapter(list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+//        discoveryRecylerAdapter.set
+        recyclerView.setAdapter(discoveryRecylerAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void initData() {
+        list = new ArrayList<>();
+        String name1 = "Sống khoẻ mỗi ngày";
+        String name2 = "Đẹp hơn mỗi ngày";
+        String name3 = "Học thêm một ít";
+
+        ArrayList<Challenge> cha1 = new ArrayList<>();
+        ArrayList<Challenge> cha2 = new ArrayList<>();
+        ArrayList<Challenge> cha3 = new ArrayList<>();
+
+        cha1.add(new Challenge("ic_book", "Skincare mỗi ngày" ));
+        cha1.add(new Challenge("ic_book", "Mặc đẹp mỗi ngày" ));
+        list.add(new DiscoverySection(name1, cha1));
+
+        cha2.add(new Challenge("ic_book", "Đẹp xe mỗi " ));
+        cha2.add(new Challenge("ic_book", "Yoga mỗi " ));
+        cha2.add(new Challenge("ic_book", "Ngủ sớm" ));
+        list.add(new DiscoverySection(name2, cha2));
+
+        cha3.add(new Challenge("ic_book", "Một trang sách" ));
+        list.add(new DiscoverySection(name3, cha3));
+
+        System.out.println("list: " + list);
+
+
+//        cha1.add(new Challenge("ic_book", "Skincare mỗi" ));
+    }
+
 }

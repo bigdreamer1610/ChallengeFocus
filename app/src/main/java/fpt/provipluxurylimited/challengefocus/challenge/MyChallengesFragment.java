@@ -88,7 +88,6 @@ public class MyChallengesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
-        detailButton = view.findViewById(R.id.btnDetail);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         initComponents();

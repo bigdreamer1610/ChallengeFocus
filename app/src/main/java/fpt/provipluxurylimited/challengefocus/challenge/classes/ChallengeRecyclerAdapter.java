@@ -20,6 +20,7 @@ import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecyclerAdapter.MyViewHolder> {
 
     private ArrayList<Challenge> challengeList;
+//    private final View.OnClickListener myOnClick = new MyOn
 
     public ChallengeRecyclerAdapter(ArrayList<Challenge> challengeList) {
         this.challengeList = challengeList;
@@ -76,4 +77,5 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
     public int getItemCount() {
         return challengeList.size();
     }
+
 }
