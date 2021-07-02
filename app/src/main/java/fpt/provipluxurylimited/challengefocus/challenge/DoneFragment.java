@@ -95,7 +95,7 @@ public class DoneFragment extends Fragment {
     protected void initComponents(View view) {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDone);
-        adapter = new ChallengeRecyclerAdapter(list);
+        adapter = new ChallengeRecyclerAdapter(list, getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

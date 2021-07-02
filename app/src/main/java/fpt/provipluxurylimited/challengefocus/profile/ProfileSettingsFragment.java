@@ -2,13 +2,27 @@ package fpt.provipluxurylimited.challengefocus.profile;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.models.SettingType;
+import fpt.provipluxurylimited.challengefocus.models.SettingsItem;
+import fpt.provipluxurylimited.challengefocus.profile.classes.SettingsRecyclerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +39,13 @@ public class ProfileSettingsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    SettingsRecyclerAdapter adapter;
+    RecyclerView recyclerView;
+    Button btnLogout;
+    CircleImageView imageView;
+
+    private ArrayList<SettingsItem> list;
 
     public ProfileSettingsFragment() {
         // Required empty public constructor
@@ -62,5 +83,30 @@ public class ProfileSettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_settings, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initData();
+        initComponents(view);
+    }
+
+    private void initComponents(View view) {
+        btnLogout = view.findViewById(R.id.btnLogout);
+        recyclerView = view.findViewById(R.id.recyclerViewSettings);
+        imageView = view.findViewById(R.id.imageViewProfile);
+        adapter = new SettingsRecyclerAdapter(list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    private void initData() {
+        list = new ArrayList<>();
+        list.add(new SettingsItem(SettingType.FEEDBACK));
+        list.add(new SettingsItem((SettingType.CONTACT)));
     }
 }
