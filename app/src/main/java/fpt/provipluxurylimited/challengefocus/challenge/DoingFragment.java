@@ -115,7 +115,7 @@ public class DoingFragment extends Fragment {
     }
 
     protected void initData() {
-        list.add(0, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));
+        list.add(0, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 50));
         list.add(1, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));
         list.add(2, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));
         list.add(3, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));

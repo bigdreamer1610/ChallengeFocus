@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="50dp">
+<ImageView
+    android:id="@+id/imgIcon"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:src="@drawable/ic_feedback"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="20dp"
+    />
+    <TextView
+        android:id="@+id/textViewSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gửi phản hồi về app"
+        android:fontFamily="@font/quicksand_regular"
+        android:textSize="15dp"
+        android:layout_toRightOf="@id/imgIcon"
+        android:textColor="@color/text_theme"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        />
+    <ImageView
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:src="@drawable/ic_arrow_right"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        />
+
+</RelativeLayout>

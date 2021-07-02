@@ -39,6 +39,7 @@
                 android:textSize="18dp" />
 
             <LinearLayout
+                android:id="@+id/layoutPercentageHolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -61,6 +62,17 @@
                     android:layout_gravity="center"
                     android:textColor="@color/text_theme" />
             </LinearLayout>
+            <TextView
+                android:id="@+id/textViewDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10/06/2021 -> 10/07/2021"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:textColor="@color/pretty_gray"
+                android:fontFamily="@font/quicksand_medium"
+                android:textSize="11dp"
+                />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

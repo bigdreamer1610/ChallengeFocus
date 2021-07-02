@@ -8,14 +8,15 @@
     android:background="@color/white"
     tools:context=".profile.ProfileFragment" >
 
-    <TextView
-        android:id="@+id/textViewProfile"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView3"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Profile"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/profile_nav_graph" />
 </androidx.constraintlayout.widget.ConstraintLayout>
