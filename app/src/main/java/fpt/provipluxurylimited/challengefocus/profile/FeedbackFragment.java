@@ -15,23 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.provipluxurylimited.challengefocus.R;
-import fpt.provipluxurylimited.challengefocus.models.SettingType;
-import fpt.provipluxurylimited.challengefocus.models.SettingsItem;
-import fpt.provipluxurylimited.challengefocus.profile.classes.SettingsRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.profile.classes.StarRecyclerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProfileSettingsFragment#newInstance} factory method to
+ * Use the {@link FeedbackFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileSettingsFragment extends Fragment {
+public class FeedbackFragment extends Fragment implements StarRecyclerAdapter.ItemClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,15 +42,15 @@ public class ProfileSettingsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    SettingsRecyclerAdapter adapter;
+    private List<Boolean> list;
     RecyclerView recyclerView;
-    Button btnLogout;
-    CircleImageView imageView;
+    StarRecyclerAdapter adapter;
+    ImageView btnBack;
     NavController navController;
 
-    private ArrayList<SettingsItem> list;
+    private int starPosition = -1;
 
-    public ProfileSettingsFragment() {
+    public FeedbackFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +60,11 @@ public class ProfileSettingsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileSettingsFragment.
+     * @return A new instance of fragment FeedbackFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileSettingsFragment newInstance(String param1, String param2) {
-        ProfileSettingsFragment fragment = new ProfileSettingsFragment();
+    public static FeedbackFragment newInstance(String param1, String param2) {
+        FeedbackFragment fragment = new FeedbackFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -85,7 +85,7 @@ public class ProfileSettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_settings, container, false);
+        return inflater.inflate(R.layout.fragment_feedback, container, false);
     }
 
     @Override
@@ -95,29 +95,47 @@ public class ProfileSettingsFragment extends Fragment {
         initComponents(view);
     }
 
+    private void initData() {
+        list = new ArrayList<>();
+        list.add(Boolean.FALSE);
+        list.add(Boolean.FALSE);
+        list.add(Boolean.FALSE);
+        list.add(Boolean.FALSE);
+        list.add(Boolean.FALSE);
+    }
+
     private void initComponents(View view) {
         navController = Navigation.findNavController(view);
-        btnLogout = view.findViewById(R.id.btnLogout);
-        recyclerView = view.findViewById(R.id.recyclerViewSettings);
-        imageView = view.findViewById(R.id.imageViewProfile);
-        adapter = new SettingsRecyclerAdapter(list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        btnBack = view.findViewById(R.id.btnBack);
+        recyclerView = view.findViewById(R.id.recyclerViewStar);
+        adapter = new StarRecyclerAdapter(list, this.getContext());
+        adapter.setClickListener(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        btnBack.setClickable(true);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_profileSettingsFragment_to_feedbackFragment);
+                navController.popBackStack();
             }
         });
-
     }
 
-    private void initData() {
-        list = new ArrayList<>();
-        list.add(new SettingsItem(SettingType.FEEDBACK));
-        list.add(new SettingsItem((SettingType.CONTACT)));
+    @Override
+    public void onClick(View view, int position) {
+        for(int i = 0; i < list.size(); i++) {
+            if (i <= position) {
+                list.set(i, true);
+            } else {
+                list.set(i, false);
+            }
+        }
+        adapter.notifyDataSetChanged();
+//        adapter.notifyAll();
     }
+
+
 }

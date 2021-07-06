@@ -50,7 +50,6 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         }
 
         public void setItemClickLister(DiscoveryItemClickListener itemClickLister) {
-//            this.itemClickListener = itemClickListener;
             this.itemClickListener = itemClickLister;
         }
 
