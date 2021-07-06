@@ -19,4 +19,5 @@
     <color name="round_profile_background">#F0F2F5</color>
     <color name="dark_gray">#666161</color>
     <color name="orange_border">#F4766A</color>
+    <color name="percent_purple">#5D5FEF</color>
 </resources>

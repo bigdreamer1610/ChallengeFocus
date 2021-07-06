@@ -5,15 +5,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import fpt.provipluxurylimited.challengefocus.R;
 
@@ -33,8 +34,9 @@ public class DetailChallengeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    NavController navController;
-    Button btnBack;
+    ImageView imageViewBack;
+    TextView textViewTitle;
+    TextView textViewPercentage;
 
     public DetailChallengeFragment() {
         // Required empty public constructor
@@ -78,18 +80,19 @@ public class DetailChallengeFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        navController = Navigation.findNavController(view);
-        btnBack = view.findViewById(R.id.btnBack);
-
-        setUpAction();
+        initComponents(view);
     }
 
-    protected void setUpAction() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
+    private void initComponents(View view) {
+        textViewPercentage = view.findViewById(R.id.textViewPercentage);
+        textViewTitle = view.findViewById(R.id.textViewTitle);
+        imageViewBack = view.findViewById(R.id.btnBack);
+
+        imageViewBack.setClickable(true);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // pop screen
-                navController.popBackStack();
+                Toast.makeText(getContext(), "You clicked back", Toast.LENGTH_SHORT).show();
             }
         });
     }
