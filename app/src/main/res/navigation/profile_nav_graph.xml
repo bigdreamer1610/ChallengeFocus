@@ -13,7 +13,7 @@
         <action
             android:id="@+id/action_profileSettingsFragment_to_feedbackFragment"
             app:destination="@id/feedbackFragment"
-            app:enterAnim="@android:anim/slide_in_left" />
+            app:enterAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/feedbackFragment"

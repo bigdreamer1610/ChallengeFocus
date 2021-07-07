@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -31,7 +33,7 @@ import fpt.provipluxurylimited.challengefocus.profile.classes.SettingsRecyclerAd
  * Use the {@link ProfileSettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileSettingsFragment extends Fragment {
+public class ProfileSettingsFragment extends Fragment implements SettingsRecyclerAdapter.ItemClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,17 +103,18 @@ public class ProfileSettingsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewSettings);
         imageView = view.findViewById(R.id.imageViewProfile);
         adapter = new SettingsRecyclerAdapter(list);
+        adapter.setClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_profileSettingsFragment_to_feedbackFragment);
-            }
-        });
+//        btnLogout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                navController.navigate(R.id.action_profileSettingsFragment_to_feedbackFragment);
+//            }
+//        });
 
     }
 
@@ -119,5 +122,15 @@ public class ProfileSettingsFragment extends Fragment {
         list = new ArrayList<>();
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        switch (position) {
+            case 1:
+                FragmentTransaction transaction = new FragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_from_left,)
+                //navController.navigate(R.id.action_profileSettingsFragment_to_feedbackFragment);
+        }
     }
 }

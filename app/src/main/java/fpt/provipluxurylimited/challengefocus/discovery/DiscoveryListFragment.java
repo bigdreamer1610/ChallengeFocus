@@ -110,7 +110,6 @@ public class DiscoveryListFragment extends Fragment {
         DiscoveryRecylerAdapter discoveryRecylerAdapter = new DiscoveryRecylerAdapter(list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
-//        discoveryRecylerAdapter.set
         recyclerView.setAdapter(discoveryRecylerAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -137,10 +136,6 @@ public class DiscoveryListFragment extends Fragment {
         cha3.add(new Challenge("ic_book", "Một trang sách" ));
         list.add(new DiscoverySection(name3, cha3));
 
-        System.out.println("list: " + list);
-
-
-//        cha1.add(new Challenge("ic_book", "Skincare mỗi" ));
     }
 
 }

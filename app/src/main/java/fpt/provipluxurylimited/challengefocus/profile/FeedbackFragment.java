@@ -134,7 +134,6 @@ public class FeedbackFragment extends Fragment implements StarRecyclerAdapter.It
             }
         }
         adapter.notifyDataSetChanged();
-//        adapter.notifyAll();
     }
 
 
