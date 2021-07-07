@@ -124,12 +124,12 @@ public class DiscoveryListFragment extends Fragment {
         ArrayList<Challenge> cha2 = new ArrayList<>();
         ArrayList<Challenge> cha3 = new ArrayList<>();
 
-        cha1.add(new Challenge("ic_book", "Skincare mỗi ngày" ));
+        cha1.add(new Challenge("ic_book", "Skincare mỗi ngày hello babbi world its me" ));
         cha1.add(new Challenge("ic_book", "Mặc đẹp mỗi ngày" ));
         list.add(new DiscoverySection(name1, cha1));
 
         cha2.add(new Challenge("ic_book", "Đẹp xe mỗi " ));
-        cha2.add(new Challenge("ic_book", "Yoga mỗi " ));
+        cha2.add(new Challenge("ic_book", "Yoga mỗi ngày" ));
         cha2.add(new Challenge("ic_book", "Ngủ sớm" ));
         list.add(new DiscoverySection(name2, cha2));
 

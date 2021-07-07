@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="140dp"
-    android:layout_height="wrap_content">
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
     <ImageView
         android:id="@+id/imageViewDiscovery"
         android:layout_width="130dp"
@@ -20,6 +22,11 @@
         android:fontFamily="@font/quicksand_medium"
         android:text="Một trang sách Không bao giờ quên ahihihihifhf"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        />
 
 </RelativeLayout>
