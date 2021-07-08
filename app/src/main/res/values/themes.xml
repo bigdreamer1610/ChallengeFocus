@@ -25,4 +25,8 @@
     <style name="Theme.ChallengeFocus.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ChallengeFocus.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/white</item>
+    </style>
 </resources>

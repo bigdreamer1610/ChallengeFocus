@@ -51,6 +51,7 @@ public class FeedbackActivity extends AppCompatActivity implements StarRecyclerA
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         btnBack.setClickable(true);
+        clickBack();
 
     }
 

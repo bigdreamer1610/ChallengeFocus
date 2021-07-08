@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.SearchView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoveryRecylerAdapter;
@@ -46,6 +48,7 @@ public class DiscoveryListFragment extends Fragment {
     NavController navController;
     SearchView searchView;
     RecyclerView recyclerView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String TAG = "List_Discovery";
 
@@ -106,12 +109,20 @@ public class DiscoveryListFragment extends Fragment {
     }
 
     private void initComponents(View view) {
+        swipeRefreshLayout  = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
         DiscoveryRecylerAdapter discoveryRecylerAdapter = new DiscoveryRecylerAdapter(list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(discoveryRecylerAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                discoveryRecylerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initData() {
@@ -137,5 +148,5 @@ public class DiscoveryListFragment extends Fragment {
         list.add(new DiscoverySection(name3, cha3));
 
     }
-
+    
 }
