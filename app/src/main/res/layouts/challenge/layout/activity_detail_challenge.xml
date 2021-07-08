@@ -114,12 +114,22 @@
                 android:name="fpt.provipluxurylimited.challengefocus.challenge.ItemFragment"
                 tools:layout="@layout/fragment_item"
                 />
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/fragmentNoItem"
+                android:name="fpt.provipluxurylimited.challengefocus.challenge.NoItemFragment"
+                android:layout_marginTop="20dp"
+                tools:layout="@layout/fragment_no_item"
+                />
 
         </LinearLayout>
     </ScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/floatingButton"
         android:src="@drawable/ic_pen_white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

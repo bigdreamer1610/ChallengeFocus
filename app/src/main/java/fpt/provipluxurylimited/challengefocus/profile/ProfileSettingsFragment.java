@@ -110,19 +110,24 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-//        btnLogout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                navController.navigate(R.id.action_profileSettingsFragment_to_feedbackFragment);
-//            }
-//        });
+        clickLogout();
 
     }
+
 
     private void initData() {
         list = new ArrayList<>();
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
+    }
+
+    void clickLogout() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -131,6 +136,10 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
             case 1:
                 Intent feedbackIntent = new Intent(this.getActivity(), FeedbackActivity.class);
                 startActivity(feedbackIntent);
+            default:
+                return;
         }
     }
+
+
 }

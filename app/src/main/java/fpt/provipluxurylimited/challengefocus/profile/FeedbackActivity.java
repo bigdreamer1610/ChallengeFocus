@@ -23,9 +23,6 @@ public class FeedbackActivity extends AppCompatActivity implements StarRecyclerA
     RecyclerView recyclerView;
     StarRecyclerAdapter adapter;
     ImageView btnBack;
-    NavController navController;
-
-    private int starPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +50,15 @@ public class FeedbackActivity extends AppCompatActivity implements StarRecyclerA
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
         btnBack.setClickable(true);
+
+    }
+
+    void clickBack() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-//                navController.popBackStack();
             }
         });
     }
