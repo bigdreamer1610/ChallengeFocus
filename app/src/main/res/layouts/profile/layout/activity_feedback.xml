@@ -4,30 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".profile.FeedbackFragment">
-<RelativeLayout
-    android:id="@+id/topHolder"
-    android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:background="@color/theme"
-    >
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_back"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gửi phản hồi"
-        android:fontFamily="@font/quicksand_medium"
-        android:textSize="20dp"
-        android:textColor="@color/text_theme"
-        android:layout_centerInParent="true"/>
-</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/topHolder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/theme"
+        >
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gửi phản hồi"
+            android:fontFamily="@font/quicksand_medium"
+            android:textSize="20dp"
+            android:textColor="@color/text_theme"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="700dp"

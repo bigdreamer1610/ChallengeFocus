@@ -10,6 +10,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.transition.Slide;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,7 @@ import fpt.provipluxurylimited.challengefocus.helpers.Constants;
  * Use the {@link MyChallengesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyChallengesFragment extends Fragment {
+public class MyChallengesFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +47,7 @@ public class MyChallengesFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     FragmentAdapter fragmentAdapter;
+    FragmentManager fm;
 
     public MyChallengesFragment() {
         // Required empty public constructor
@@ -98,7 +102,7 @@ public class MyChallengesFragment extends Fragment {
     }
 
     protected void setUpAction() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm = getActivity().getSupportFragmentManager();
         fragmentAdapter = new FragmentAdapter(fm, getLifecycle());
         viewPager.setAdapter(fragmentAdapter);
 
@@ -131,4 +135,5 @@ public class MyChallengesFragment extends Fragment {
             }
         });
     }
+
 }

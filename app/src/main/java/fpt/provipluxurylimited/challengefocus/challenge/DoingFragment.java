@@ -1,5 +1,6 @@
 package fpt.provipluxurylimited.challengefocus.challenge;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
  * Use the {@link DoingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DoingFragment extends Fragment {
+public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,8 +97,8 @@ public class DoingFragment extends Fragment {
     protected void initComponents(View view) {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDoing);
-//        adapter = new ChallengeRecyclerAdapter(list);
         adapter = new ChallengeRecyclerAdapter(list, getContext());
+        adapter.setItemClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -134,5 +135,9 @@ public class DoingFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onClick(View view, int position) {
+        Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
+        startActivity(intent);
+    }
 }

@@ -1,5 +1,6 @@
 package fpt.provipluxurylimited.challengefocus.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -128,9 +129,8 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     public void onClick(View view, int position) {
         switch (position) {
             case 1:
-                FragmentTransaction transaction = new FragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.slide_from_left,)
-                //navController.navigate(R.id.action_profileSettingsFragment_to_feedbackFragment);
+                Intent feedbackIntent = new Intent(this.getActivity(), FeedbackActivity.class);
+                startActivity(feedbackIntent);
         }
     }
 }

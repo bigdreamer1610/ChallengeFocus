@@ -19,6 +19,7 @@ import fpt.provipluxurylimited.challengefocus.models.Challenge;
 public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDiscoveryRecyclerAdapter.ItemHolder> {
 
     ArrayList<Challenge> list;
+    private ChildClickListener mClickListener;
 
     public ChildDiscoveryRecyclerAdapter(ArrayList<Challenge> list) {
         this.list = list;
@@ -46,18 +47,33 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
         holder.imgViewChallenge.setImageResource(R.drawable.ic_cook);
     }
 
-    class ItemHolder extends RecyclerView.ViewHolder {
+    class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView imgViewChallenge;
         TextView textViewName;
-
-
 
         public ItemHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
             imgViewChallenge = itemView.findViewById(R.id.imageViewDiscovery);
             textViewName = itemView.findViewById(R.id.textViewChallengeName);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) {
+                mClickListener.onClickChild(view, getAdapterPosition());
+            }
+        }
+    }
+
+    public void setChildClickListener(ChildClickListener childClickListener) {
+        this.mClickListener = childClickListener;
+    }
+
+    public interface ChildClickListener {
+        void onClickChild(View view, int position);
     }
 }

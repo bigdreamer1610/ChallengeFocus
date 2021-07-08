@@ -24,6 +24,7 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
 
     private ArrayList<Challenge> challengeList;
     private Context context;
+    private ChallengeItemClickListener mChallengeClickListener;
 
 
     public ChallengeRecyclerAdapter(ArrayList<Challenge> challengeList, Context context) {
@@ -49,13 +50,12 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
             itemView.setOnClickListener(this);
         }
 
-        public void setItemClickLister(DiscoveryItemClickListener itemClickLister) {
-            this.itemClickListener = itemClickLister;
-        }
-
         @Override
         public void onClick(View view) {
-            itemClickListener.onClick(view, getAdapterPosition(), false);
+//            itemClickListener.onClick(view, getAdapterPosition(), false);
+            if (mChallengeClickListener != null) {
+                mChallengeClickListener.onClick(view, getAdapterPosition());
+            }
         }
     }
     @NonNull
@@ -89,20 +89,20 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         holder.textViewChallengeName.setText(name);
         holder.textViewPercentage.setText(percentage + "%");
 
-        holder.setItemClickLister(new DiscoveryItemClickListener() {
-            @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                if (!isLongClick) {
-                    Toast.makeText(context, "short clicked: " + challengeList.get(position), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
     }
 
     @Override
     public int getItemCount() {
         return challengeList.size();
+    }
+
+    public void setItemClickListener(ChallengeItemClickListener itemClickListener) {
+        this.mChallengeClickListener = itemClickListener;
+    }
+
+    public interface ChallengeItemClickListener {
+        void onClick(View view, int position);
     }
 
 }

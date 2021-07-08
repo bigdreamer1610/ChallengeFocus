@@ -1,10 +1,14 @@
 package fpt.provipluxurylimited.challengefocus.challenge;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +33,7 @@ import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
  * Use the {@link FailedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FailedFragment extends Fragment {
+public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +49,7 @@ public class FailedFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     ChallengeRecyclerAdapter adapter;
     Timer timer;
+    NavController navController;
 
     public FailedFragment() {
         // Required empty public constructor
@@ -88,6 +93,7 @@ public class FailedFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         list = new ArrayList<>();
+//        navController = Navigation.findNavController(view);
         initComponents(view);
         initData();
     }
@@ -97,6 +103,7 @@ public class FailedFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewFailed);
         adapter = new ChallengeRecyclerAdapter(list, getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        adapter.setItemClickListener(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -104,9 +111,6 @@ public class FailedFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                adapter.notifyDataSetChanged();
-//                timer = new Timer();
-//                timer.schedule(new DoingFragment.RefreshTask(), 2000);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -120,4 +124,11 @@ public class FailedFragment extends Fragment {
         list.add(3, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.failed, 30));
 
     }
+
+    @Override
+    public void onClick(View view, int position) {
+        Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
+        startActivity(intent);
+    }
+
 }

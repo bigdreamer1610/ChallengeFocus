@@ -1,17 +1,14 @@
+
 package fpt.provipluxurylimited.challengefocus.challenge;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +17,18 @@ import android.view.ViewGroup;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 import fpt.provipluxurylimited.challengefocus.R;
-import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
-import fpt.provipluxurylimited.challengefocus.models.Challenge;
-import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
+import fpt.provipluxurylimited.challengefocus.challenge.classes.ItemRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.models.ItemStatus;
+import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DoneFragment#newInstance} factory method to
+ * Use the {@link ItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener {
+public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,13 +39,12 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<Challenge> list;
+    private ArrayList<ToDoItem> list;
     RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
-    ChallengeRecyclerAdapter adapter;
-    Timer timer;
+    ItemRecyclerAdapter adapter;
 
-    public DoneFragment() {
+
+    public ItemFragment() {
         // Required empty public constructor
     }
 
@@ -59,11 +54,11 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DoneFragment.
+     * @return A new instance of fragment ItemFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DoneFragment newInstance(String param1, String param2) {
-        DoneFragment fragment = new DoneFragment();
+    public static ItemFragment newInstance(String param1, String param2) {
+        ItemFragment fragment = new ItemFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -84,47 +79,50 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_done, container, false);
+        return inflater.inflate(R.layout.fragment_item, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        list = new ArrayList<>();
-        initComponents(view);
         initData();
+        initComponent(view);
+
     }
 
-    protected void initComponents(View view) {
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
-        recyclerView = view.findViewById(R.id.recyclerViewDone);
-        adapter = new ChallengeRecyclerAdapter(list, getContext());
-        adapter.setItemClickListener(this);
+    private void initData() {
+        list = new ArrayList<>();
+        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
+        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
+
+    }
+
+    private void initComponent(View view) {
+        recyclerView = view.findViewById(R.id.recyclerViewItem);
+        adapter = new ItemRecyclerAdapter(list, this.getContext());
         adapter.setItemClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-    }
-
-    protected void initData() {
-        list.add(0, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.done, 30));
-        list.add(1, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.done, 30));
-
     }
 
     @Override
-    public void onClick(View view, int position) {
-        //navController.navigate(R.id.action_doneFragment_to_detailChallengeFragment2);
-        Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
-        startActivity(intent);
+    public void onclick(View view, int position) {
+        System.out.println("click cell");
     }
 }

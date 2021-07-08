@@ -18,15 +18,16 @@ import java.util.ArrayList;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 
-public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecylerAdapter.SectionHolder> {
+public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecylerAdapter.SectionHolder> implements ChildDiscoveryRecyclerAdapter.ChildClickListener {
 
     ArrayList<DiscoverySection> list;
+    private ParentClickListener mClickListener;
 
     public DiscoveryRecylerAdapter(ArrayList<DiscoverySection> list) {
         this.list = list;
     }
 
-    class SectionHolder extends RecyclerView.ViewHolder {
+    class SectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView header;
         RecyclerView childRecyclerView;
@@ -34,6 +35,15 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
             super(itemView);
             header = itemView.findViewById(R.id.textViewHeader);
             childRecyclerView = itemView.findViewById(R.id.recyclerViewDiscoverySection);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) {
+//                mClickListener.onClickParent(view,g);
+            }
         }
     }
 
@@ -56,7 +66,7 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
         holder.header.setText(header.toString());
 
         ChildDiscoveryRecyclerAdapter childDiscoveryRecyclerAdapter = new ChildDiscoveryRecyclerAdapter(items);
-
+        childDiscoveryRecyclerAdapter.setChildClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(holder.itemView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         holder.childRecyclerView.setLayoutManager(layoutManager);
         holder.childRecyclerView.setAdapter(childDiscoveryRecyclerAdapter);
@@ -66,5 +76,19 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void setParentClickListener(ParentClickListener parentClickListener) {
+        this.mClickListener = parentClickListener;
+    }
+
+    public interface ParentClickListener {
+//        void onClickParent(View view, int section);
+        void onClickParent(View view, int section, int row);
+    }
+
+    @Override
+    public void onClickChild(View view, int position) {
+//        mClickListener.onClickParent(view, get);
     }
 }

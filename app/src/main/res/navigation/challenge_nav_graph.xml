@@ -19,4 +19,22 @@
         android:name="fpt.provipluxurylimited.challengefocus.challenge.DetailChallengeFragment"
         android:label="fragment_detail_challenge"
         tools:layout="@layout/fragment_detail_challenge" />
+    <fragment
+        android:id="@+id/doneFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.DoneFragment"
+        android:label="fragment_done"
+        tools:layout="@layout/fragment_done" >
+        <action
+            android:id="@+id/action_doneFragment_to_detailChallengeFragment2"
+            app:destination="@id/detailChallengeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/failedFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.FailedFragment"
+        android:label="fragment_failed"
+        tools:layout="@layout/fragment_failed" >
+        <action
+            android:id="@+id/action_failedFragment_to_detailChallengeFragment2"
+            app:destination="@id/detailChallengeFragment2" />
+    </fragment>
 </navigation>
