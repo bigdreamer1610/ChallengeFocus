@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:775642900834:android:dc7e1be79f16daffee643b",
+        "mobilesdk_app_id": "1:775642900834:android:787cae928b155350ee643b",
         "android_client_info": {
           "package_name": "fpt.provipluxurylimited.challengefocus"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "775642900834-v4b3a27tndg9fa189qlae88kgtqlp8d1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fpt.provipluxurylimited.challengefocus",
+            "certificate_hash": "392b1132423c7c7ef85eaa7da7203f3b85743e8a"
+          }
+        },
         {
           "client_id": "775642900834-qhllg0o63v9sk48cp7fduvd9jlprmnlm.apps.googleusercontent.com",
           "client_type": 3

@@ -14,6 +14,7 @@ import fpt.provipluxurylimited.challengefocus.challenge.ChallengeFragment;
 import fpt.provipluxurylimited.challengefocus.challenge.MyChallengesFragment;
 import fpt.provipluxurylimited.challengefocus.discovery.DiscoveryFragment;
 import fpt.provipluxurylimited.challengefocus.discovery.DiscoveryListFragment;
+import fpt.provipluxurylimited.challengefocus.firebase.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.pomodoro.PomodoroFragment;
 import fpt.provipluxurylimited.challengefocus.profile.ProfileFragment;
 
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void initData() {
+        FirebaseUtil.openFbReference("traveldeals");
 
     }
 
