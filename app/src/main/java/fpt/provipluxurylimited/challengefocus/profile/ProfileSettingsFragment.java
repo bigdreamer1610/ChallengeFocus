@@ -19,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     NavController navController;
 
     private ArrayList<SettingsItem> list;
+    private DatabaseReference mDatabase;
 
     public ProfileSettingsFragment() {
         // Required empty public constructor
@@ -119,6 +123,10 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         list = new ArrayList<>();
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("Users").child("userid1").child("name").setValue("Richard Nguyen");
     }
 
     void clickLogout() {

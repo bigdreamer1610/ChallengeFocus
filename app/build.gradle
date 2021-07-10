@@ -23,6 +23,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -59,7 +63,7 @@ dependencies {
 
     //firebase
     // firebasebom
-    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
     implementation 'com.google.firebase:firebase-analytics'
     //firebase auth
     implementation 'com.google.firebase:firebase-auth:21.0.1'

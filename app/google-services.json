@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "775642900834",
+    "firebase_url": "https://fptu-challangefocus-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "fptu-challangefocus",
     "storage_bucket": "fptu-challangefocus.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:775642900834:android:b49a9334d17959a8ee643b",
+        "mobilesdk_app_id": "1:775642900834:android:dc7e1be79f16daffee643b",
         "android_client_info": {
           "package_name": "fpt.provipluxurylimited.challengefocus"
         }
