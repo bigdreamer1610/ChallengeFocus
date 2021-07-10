@@ -38,12 +38,25 @@
             app:civ_border_width="5dp"
             />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/textViewCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/profileHolder"
+        app:layout_constraintBottom_toTopOf="@id/seperator"
+        android:text="I never give up"
+        android:textSize="15dp"
+        android:textColor="@color/text_theme"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
+        />
     <View
         android:id="@+id/seperator"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="@color/dark_gray"
-        app:layout_constraintTop_toBottomOf="@id/profileHolder"
+        app:layout_constraintTop_toBottomOf="@id/textViewCaption"
+        android:layout_marginTop="20dp"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSettings"
