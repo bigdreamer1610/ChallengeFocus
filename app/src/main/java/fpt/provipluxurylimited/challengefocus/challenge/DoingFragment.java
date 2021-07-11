@@ -123,7 +123,6 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
         list.add(3, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));
         list.add(4, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));
         list.add(5, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.doing, 30));
-
     }
 
     class RefreshTask extends TimerTask {

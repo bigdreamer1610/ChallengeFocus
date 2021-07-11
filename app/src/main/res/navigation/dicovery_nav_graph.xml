@@ -6,7 +6,7 @@
     app:startDestination="@id/discoveryListFragment">
     <fragment
         android:id="@+id/discoveryListFragment"
-        android:name="fpt.provipluxurylimited.challengefocus.discovery.DiscoveryListFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.discovery.discovery.DiscoveryListFragment"
         android:label="fragment_discovery_list"
         tools:layout="@layout/fragment_discovery_list" >
         <action

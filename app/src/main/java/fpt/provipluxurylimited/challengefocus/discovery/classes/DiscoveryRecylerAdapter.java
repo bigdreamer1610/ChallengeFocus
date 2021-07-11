@@ -16,14 +16,16 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.models.Category;
+import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 
 public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecylerAdapter.SectionHolder> implements ChildDiscoveryRecyclerAdapter.ChildClickListener {
 
-    ArrayList<DiscoverySection> list;
+    ArrayList<Category> list;
     private ParentClickListener mClickListener;
 
-    public DiscoveryRecylerAdapter(ArrayList<DiscoverySection> list) {
+    public DiscoveryRecylerAdapter(ArrayList<Category> list) {
         this.list = list;
     }
 
@@ -58,12 +60,11 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull SectionHolder holder, int position) {
-        DiscoverySection section = list.get(position);
-        String header = section.getSectionName();
+        Category category = list.get(position);
+        String header = category.getTitle();
+        ArrayList<CategoryChallenge> items = category.getChallenges();
 
-        ArrayList<Challenge> items = section.getItems();
-
-        holder.header.setText(header.toString());
+        holder.header.setText(header);
 
         ChildDiscoveryRecyclerAdapter childDiscoveryRecyclerAdapter = new ChildDiscoveryRecyclerAdapter(items);
         childDiscoveryRecyclerAdapter.setChildClickListener(this);

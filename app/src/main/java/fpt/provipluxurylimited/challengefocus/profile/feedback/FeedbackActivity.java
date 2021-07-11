@@ -2,6 +2,7 @@ package fpt.provipluxurylimited.challengefocus.profile.feedback;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
     AppCompatButton btnSend;
     EditText editTextContent;
     private Context context;
+    CoordinatorLayout mainContent;
 
     private List<Boolean> list;
     private FeedbackPresenter presenter;

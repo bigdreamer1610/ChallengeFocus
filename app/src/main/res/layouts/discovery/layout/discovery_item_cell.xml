@@ -9,7 +9,6 @@
         android:id="@+id/imageViewDiscovery"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:background="@color/theme"
         android:scaleType="fitCenter"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_cloth"></ImageView>

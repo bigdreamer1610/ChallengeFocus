@@ -9,19 +9,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.models.Category;
+import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 
 public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDiscoveryRecyclerAdapter.ItemHolder> {
 
-    ArrayList<Challenge> list;
+    ArrayList<CategoryChallenge> list;
     private ChildClickListener mClickListener;
 
-    public ChildDiscoveryRecyclerAdapter(ArrayList<Challenge> list) {
+    public ChildDiscoveryRecyclerAdapter(ArrayList<CategoryChallenge> list) {
         this.list = list;
     }
 
@@ -41,10 +45,11 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ItemHolder holder, int position) {
-        String name = list.get(position).getName();
-        String image = list.get(position).getImage();
-        holder.textViewName.setText(name);
-        holder.imgViewChallenge.setImageResource(R.drawable.ic_cook);
+
+        String title = list.get(position).getTitle();
+        holder.textViewName.setText(title);
+        Picasso.get().load(list.get(position).getImageUrl()).into(holder.imgViewChallenge);
+//        holder.imgViewChallenge.setImageResource(R.drawable.ic_cook);
     }
 
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
