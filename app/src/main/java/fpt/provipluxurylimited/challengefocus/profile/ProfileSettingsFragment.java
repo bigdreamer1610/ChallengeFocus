@@ -34,7 +34,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.provipluxurylimited.challengefocus.R;
-import fpt.provipluxurylimited.challengefocus.firebase.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.SettingType;
 import fpt.provipluxurylimited.challengefocus.models.SettingsItem;
@@ -66,9 +66,6 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     private ArrayList<SettingsItem> list;
     private DatabaseReference mDatabase;
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-
     public ProfileSettingsFragment() {
         // Required empty public constructor
     }
@@ -98,10 +95,6 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        FirebaseUtil.openFbReference("traveldeals");
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
     }
 
     @Override
@@ -114,8 +107,8 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initComponents(view);
         initData();
+        initComponents(view);
     }
 
     private void initComponents(View view) {
@@ -123,8 +116,8 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         btnLogout = view.findViewById(R.id.btnLogout);
         recyclerView = view.findViewById(R.id.recyclerViewSettings);
         imageView = view.findViewById(R.id.imageViewProfile);
-//        adapter = new SettingsRecyclerAdapter(list);
-//        adapter.setClickListener(this);
+        adapter = new SettingsRecyclerAdapter(list);
+        adapter.setClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -139,30 +132,13 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         list = new ArrayList<>();
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
-        // ==================================================
-        //save
-        try {
-            Challenge challenge = new Challenge("11", "22");
-            mDatabaseReference.push().setValue(challenge);
-            Log.d("Firebase", "=================== OK =================");
-
-        } catch (Exception e) {
-            Log.d("Firebase", "=================== BUGGGGG =================");
-        }
-
-
-        // ==================================================
-
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//
-//        mDatabase.child("Users").child("userid1").child("name").setValue("Richard Nguyen");
     }
 
     void clickLogout() {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FirebaseUtil.shared.getReference().child("Users/userid1/Information/name").setValue("Thuyy");
             }
         });
     }
