@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         initData();
     }
 
-
+    // TO-DO: solve re-create fragment problem
     protected void initComponents(Bundle savedInstanceState) {
         menu = findViewById(R.id.chipMenu);
 

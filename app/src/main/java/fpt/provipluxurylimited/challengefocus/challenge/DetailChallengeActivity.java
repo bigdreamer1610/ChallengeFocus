@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -24,8 +25,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 
-public class DetailChallengeActivity extends AppCompatActivity {
+public class DetailChallengeActivity extends BaseActivity {
 
     Fragment fragmentItem;
     Fragment fragmentNoItem;
@@ -34,6 +36,7 @@ public class DetailChallengeActivity extends AppCompatActivity {
     TextView textViewPercentage;
     FloatingActionButton floatButton;
     TextView textViewChooseDate;
+    Context context;
 
     BottomSheetDialog bottomSheetDialog;
     final Calendar myCalendar = Calendar.getInstance();
@@ -41,7 +44,6 @@ public class DetailChallengeActivity extends AppCompatActivity {
 
     private boolean hasItem = false;
     Date date;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class DetailChallengeActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
+        context = this;
         fragmentItem = (ItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentItem);
         fragmentNoItem = (NoItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentNoItem);
         textViewPercentage = findViewById(R.id.textViewPercentage);
@@ -88,8 +91,9 @@ public class DetailChallengeActivity extends AppCompatActivity {
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // when user has not picked the deadline => show dialog
                 if (date == null) {
-                    showAlertDialog();
+                    showDialog("Bạn cần đặt deadline trước khi thêm item", context);
                 } else {
                     hasItem = true;
                     updateFragment();
@@ -137,18 +141,4 @@ public class DetailChallengeActivity extends AppCompatActivity {
         }
     }
 
-    // when user has not picked deadline -> show dialog
-    void showAlertDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Bạn cần đặt deadline trước khi thêm item");
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profileSettingsFragment"
-        android:name="fpt.provipluxurylimited.challengefocus.profile.ProfileSettingsFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.profile.profile.ProfileSettingsFragment"
         android:label="fragment_profile_settings"
         tools:layout="@layout/fragment_profile_settings" >
         <action

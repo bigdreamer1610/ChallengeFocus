@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.FeedbackActivity">
+    tools:context=".profile.feedback.FeedbackActivity">
     <RelativeLayout
         android:id="@+id/topHolder"
         android:layout_width="match_parent"
@@ -66,6 +66,7 @@
                 android:paddingLeft="20dp"
                 />
             <EditText
+                android:id="@+id/editTextContent"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@drawable/rounded_edit_text"
@@ -80,6 +81,7 @@
                 android:padding="10dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSend"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/feeback_rounded_button"
