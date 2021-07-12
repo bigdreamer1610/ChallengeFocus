@@ -8,9 +8,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
-import fpt.provipluxurylimited.challengefocus.challenge.DoingFragment;
-import fpt.provipluxurylimited.challengefocus.challenge.DoneFragment;
-import fpt.provipluxurylimited.challengefocus.challenge.FailedFragment;
+import fpt.provipluxurylimited.challengefocus.challenge.doing.DoingFragment;
+import fpt.provipluxurylimited.challengefocus.challenge.done.DoneFragment;
+import fpt.provipluxurylimited.challengefocus.challenge.fail.FailedFragment;
 
 public class FragmentAdapter extends FragmentStateAdapter {
     public FragmentAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {

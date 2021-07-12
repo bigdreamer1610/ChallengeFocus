@@ -1,4 +1,4 @@
-package fpt.provipluxurylimited.challengefocus.challenge;
+package fpt.provipluxurylimited.challengefocus.challenge.fail;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
@@ -33,7 +33,7 @@ import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
  * Use the {@link FailedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener {
+public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener, FailedPresenter.FailedPresenterDelegate {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +50,9 @@ public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter
     ChallengeRecyclerAdapter adapter;
     Timer timer;
     NavController navController;
+    Context context;
+
+    private FailedPresenter presenter;
 
     public FailedFragment() {
         // Required empty public constructor
@@ -92,37 +95,43 @@ public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUp();
         list = new ArrayList<>();
 //        navController = Navigation.findNavController(view);
         initComponents(view);
         initData();
     }
 
+    void setUp() {
+        presenter = new FailedPresenter(new FailedUseCase(), this);
+        presenter.setDelegate(this);
+    }
+
     protected void initComponents(View view) {
+        context = this.getContext();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewFailed);
-        adapter = new ChallengeRecyclerAdapter(list, getContext());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        adapter.setItemClickListener(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
+                initData();
+//                swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
 
+    void setUpRecyclerView() {
+        adapter = new ChallengeRecyclerAdapter(list, getContext());
+        adapter.setItemClickListener(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 
     protected void initData() {
-        list.add(0, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.failed, 30));
-        list.add(1, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.failed, 30));
-        list.add(2, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.failed, 30));
-        list.add(3, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.failed, 30));
-
+        presenter.getFailedList();
     }
 
     @Override
@@ -131,4 +140,16 @@ public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter
         startActivity(intent);
     }
 
+    @Override
+    public void responseFailedList(ArrayList<Challenge> list) {
+        this.list = list;
+        setUpRecyclerView();
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showError(String error) {
+
+    }
 }

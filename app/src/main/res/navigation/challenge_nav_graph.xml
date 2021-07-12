@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_detail_challenge" />
     <fragment
         android:id="@+id/doneFragment"
-        android:name="fpt.provipluxurylimited.challengefocus.challenge.DoneFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.done.DoneFragment"
         android:label="fragment_done"
         tools:layout="@layout/fragment_done" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/failedFragment"
-        android:name="fpt.provipluxurylimited.challengefocus.challenge.FailedFragment"
+        android:name="fpt.provipluxurylimited.challengefocus.challenge.fail.FailedFragment"
         android:label="fragment_failed"
         tools:layout="@layout/fragment_failed" >
         <action

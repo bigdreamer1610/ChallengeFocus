@@ -1,5 +1,6 @@
 package fpt.provipluxurylimited.challengefocus.discovery.classes;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.models.Category;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
@@ -90,6 +92,8 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
 
     @Override
     public void onClickChild(View view, int position) {
+//        Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
+//        startActivity(intent);
 //        mClickListener.onClickParent(view, get);
     }
 }
