@@ -32,17 +32,17 @@ public class AuthenticationActivity extends AppCompatActivity {
 //    private ImageView btnBack;
 
 
-    @Override
-    public void onBackPressed() {
-        // do something on back.
-        Intent returnIntent = new Intent();
-        Bundle mBundle = new Bundle();
-        mBundle.putParcelable("user", FirebaseUtil.user);
-        returnIntent.putExtras(mBundle);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-        return;
-    }
+//    @Override
+//    public void onBackPressed() {
+//        // do something on back.
+//        Intent returnIntent = new Intent();
+//        Bundle mBundle = new Bundle();
+//        mBundle.putParcelable("user", FirebaseUtil.user);
+//        returnIntent.putExtras(mBundle);
+//        setResult(Activity.RESULT_OK, returnIntent);
+//        finish();
+//        return;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
