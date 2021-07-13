@@ -2,12 +2,16 @@ package fpt.provipluxurylimited.challengefocus.helpers;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,10 +67,37 @@ public class FirebaseUtil {
             String email = profile.getEmail();
             Uri photoUrl = profile.getPhotoUrl();
 
-            userProfile = new UserProfile(name, Objects.requireNonNull(photoUrl).toString(), "Hi! ^^");
+            userProfile = readUserProfileFromFb(uid);
+            if (userProfile == null) {
+                userProfile = new UserProfile(name, Objects.requireNonNull(photoUrl).toString(), "Hello world! ^^");
+                writeNewUser(uid, userProfile);
+            }
+
             Log.d("User Profile", userProfile.toString());
         }
         return userProfile;
+    }
+
+    private static UserProfile readUserProfileFromFb(String uid) {
+        UserProfile userProfile = null;
+        Task<DataSnapshot> dataSnapshotTask = mDatabaseReference.child(ApiClient.getUserProfileById(uid)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+        while (!dataSnapshotTask.isComplete()) {}
+        userProfile = dataSnapshotTask.getResult().getValue(UserProfile.class);
+        return userProfile;
+    }
+
+    private static void writeNewUser(String uid, UserProfile userProfile) {
+        mDatabaseReference.child(ApiClient.getUserProfileById(uid)).setValue(userProfile);
     }
 
 }
