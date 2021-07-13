@@ -1,16 +1,22 @@
 package fpt.provipluxurylimited.challengefocus;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.Bundle;
-import android.util.Log;
-
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import fpt.provipluxurylimited.challengefocus.authen.AuthenticationActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.ChallengeFragment;
 import fpt.provipluxurylimited.challengefocus.discovery.DiscoveryFragment;
+import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.pomodoro.PomodoroFragment;
 import fpt.provipluxurylimited.challengefocus.profile.ProfileFragment;
 
@@ -69,7 +75,28 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void initData() {
-
+        initFirebaseListener();
     }
 
+    private void initFirebaseListener() {
+        FirebaseUtil.user = FirebaseAuth.getInstance().getCurrentUser();
+        if (FirebaseUtil.user == null) {
+            Intent myIntent = new Intent(this, AuthenticationActivity.class);
+            startActivity(myIntent);
+        } else {
+            configureGoogleSignIn();
+        }
+    }
+
+    private void configureGoogleSignIn() {
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        FirebaseUtil.mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        FirebaseUtil.mFirebaseAuth = FirebaseAuth.getInstance();
+    }
 }

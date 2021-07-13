@@ -23,4 +23,7 @@
     <color name="light_gray">#C4C4C4</color>
     <color name="line_color">#C4C4C4</color>
     <color name="shadow_color">#40000000</color>
+
+    <color name="lighterBlack">#383734</color>
+    <color name="dark">#1B0536</color>
 </resources>

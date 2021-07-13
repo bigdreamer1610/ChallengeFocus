@@ -2,6 +2,12 @@ package fpt.provipluxurylimited.challengefocus.profile.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,12 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 
@@ -27,11 +28,13 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.authen.AuthenticationActivity;
+import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.models.SettingType;
 import fpt.provipluxurylimited.challengefocus.models.SettingsItem;
 import fpt.provipluxurylimited.challengefocus.models.UserProfile;
-import fpt.provipluxurylimited.challengefocus.profile.feedback.FeedbackActivity;
 import fpt.provipluxurylimited.challengefocus.profile.classes.SettingsRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.profile.feedback.FeedbackActivity;
 
 public class ProfileSettingsFragment extends Fragment implements SettingsRecyclerAdapter.ItemClickListener, ProfilePresenter.ProfilePresenterDelegate {
 
@@ -117,10 +120,19 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                presenter.getUserProfile();
-                //FirebaseUtil.shared.getReference().child("Users/userid1/Information/name").setValue("Thuyy");
+                signOut();
             }
         });
+    }
+
+    public void signOut() {
+        Log.d("sign out", "Singing out");
+        FirebaseAuth.getInstance().signOut();
+        FirebaseUtil.mGoogleSignInClient.signOut();
+        FirebaseUtil.mFirebaseAuth.removeAuthStateListener(FirebaseUtil.mAuthStateListener);
+
+        Intent myIntent = new Intent(this.getContext(), AuthenticationActivity.class);
+        startActivity(myIntent);
     }
 
     @Override
