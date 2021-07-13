@@ -1,6 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.models;
 
 public class UserProfile {
+
     private String name;
     private String imageUrl;
     private String caption;
