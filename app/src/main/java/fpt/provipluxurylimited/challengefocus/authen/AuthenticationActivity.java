@@ -1,6 +1,8 @@
 package fpt.provipluxurylimited.challengefocus.authen;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,9 +34,9 @@ public class AuthenticationActivity extends AppCompatActivity {
 //    private ImageView btnBack;
 
 
-//    @Override
-//    public void onBackPressed() {
-//        // do something on back.
+    @Override
+    public void onBackPressed() {
+        // do something on back.
 //        Intent returnIntent = new Intent();
 //        Bundle mBundle = new Bundle();
 //        mBundle.putParcelable("user", FirebaseUtil.user);
@@ -42,7 +44,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 //        setResult(Activity.RESULT_OK, returnIntent);
 //        finish();
 //        return;
-//    }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
