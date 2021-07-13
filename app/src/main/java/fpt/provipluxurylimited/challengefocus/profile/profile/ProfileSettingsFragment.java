@@ -104,7 +104,6 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         recyclerView.setAdapter(adapter);
 
         clickLogout();
-
     }
 
 
