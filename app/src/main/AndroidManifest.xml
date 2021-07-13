@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChallengeFocus">
-        <activity android:name=".profile.feedback.FeedbackActivity"></activity>
+        <activity android:name=".authen.AuthenticationActivity" />
+        <activity android:name=".profile.feedback.FeedbackActivity" />
         <activity android:name=".challenge.DetailChallengeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
