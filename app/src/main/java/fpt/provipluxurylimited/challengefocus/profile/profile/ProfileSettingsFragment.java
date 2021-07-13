@@ -1,12 +1,16 @@
 package fpt.provipluxurylimited.challengefocus.profile.profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.authen.AuthenticationActivity;
+import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.models.SettingType;
 import fpt.provipluxurylimited.challengefocus.models.SettingsItem;
@@ -53,7 +58,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     CircleImageView imageView;
     NavController navController;
     TextView textViewProfileName;
-    TextView textViewCaption;
+    EditText textViewCaption;
 
     private ArrayList<SettingsItem> list;
     private DatabaseReference mDatabase;
@@ -102,6 +107,18 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        textViewCaption.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+                // Update Caption
+                String newCaption = textViewCaption.getText().toString();
+                FirebaseUtil.mDatabaseReference.child(ApiClient.getCaptionById(FirebaseUtil.user.getUid())).setValue(newCaption);
+                return true;
+            }
+            return false;
+        });
 
         clickLogout();
     }
