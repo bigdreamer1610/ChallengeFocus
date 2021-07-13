@@ -38,8 +38,6 @@ public class FirebaseUtil {
     // [END declare_auth]
 
     public static final int RC_SIGN_IN = 9001;
-    private static Activity caller;
-
 
     //create a private constructor to avoid this class being instantiated
     private FirebaseUtil() {
@@ -91,7 +89,8 @@ public class FirebaseUtil {
             }
         });
 
-        while (!dataSnapshotTask.isComplete()) {}
+        while (!dataSnapshotTask.isComplete()) {
+        }
         userProfile = dataSnapshotTask.getResult().getValue(UserProfile.class);
         return userProfile;
     }
