@@ -1,91 +1,83 @@
 package fpt.provipluxurylimited.challengefocus.models;
 
 public class Challenge {
-    private String image;
-    private String name;
-    private ChallengeStatus status;
+    private String id;
+    private int challengeId;
+    private String dueDate;
+    private String imageUrl;
     private int percentage;
-    private String from;
-    private String to;
+    private String title;
+    private String status;
 
     public Challenge() {
     }
 
-    public Challenge(String image, String name) {
-        this.image = image;
-        this.name = name;
-    }
-
-    public Challenge(String image, String name, ChallengeStatus status, String from, String to) {
-        this.image = image;
-        this.name = name;
-        this.status = status;
-        this.from = from;
-        this.to = to;
-    }
-
-    public Challenge(String image, String name, ChallengeStatus status, int percentage, String from, String to) {
-        this.image = image;
-        this.name = name;
-        this.status = status;
+    public Challenge(String id, int challengeId, String dueDate, String imageUrl, int percentage, String title, String status) {
+        this.id = id;
+        this.challengeId = challengeId;
+        this.dueDate = dueDate;
+        this.imageUrl = imageUrl;
         this.percentage = percentage;
-        this.from = from;
-        this.to = to;
-    }
-
-    public Challenge(String image, String name, ChallengeStatus status, int percentage) {
-        this.image = image;
-        this.name = name;
+        this.title = title;
         this.status = status;
-        this.percentage = percentage;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setChallengeId(int challengeId) {
+        this.challengeId = challengeId;
     }
 
-    public void setStatus(ChallengeStatus status) {
-        this.status = status;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setPercentage(int percentage) {
         this.percentage = percentage;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getImage() {
-        return image;
+    public String getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public int getChallengeId() {
+        return challengeId;
     }
 
-    public ChallengeStatus getStatus() {
-        return status;
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public int getPercentage() {
         return percentage;
     }
 
-    public String getFrom() {
-        return from;
+    public String getTitle() {
+        return title;
     }
 
-    public String getTo() {
-        return to;
+    public String getStatus() {
+        return status;
     }
+
+
 }
 

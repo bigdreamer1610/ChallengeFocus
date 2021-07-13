@@ -1,13 +1,12 @@
-package fpt.provipluxurylimited.challengefocus.challenge;
+package fpt.provipluxurylimited.challengefocus.challenge.done;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,12 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Timer;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
@@ -32,52 +34,24 @@ import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
  * Use the {@link DoneFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener, DonePresenter.DonePresenterDelegate {
 
     private ArrayList<Challenge> list;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     ChallengeRecyclerAdapter adapter;
     Timer timer;
+    Context context;
+
+    private DonePresenter presenter;
 
     public DoneFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DoneFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DoneFragment newInstance(String param1, String param2) {
-        DoneFragment fragment = new DoneFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -90,41 +64,67 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUp();
         list = new ArrayList<>();
         initComponents(view);
         initData();
     }
 
+    void setUp() {
+        presenter = new DonePresenter(new DoneUseCase(), this);
+        presenter.setDelegate(this);
+    }
+
     protected void initComponents(View view) {
+        context = this.getContext();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDone);
-        adapter = new ChallengeRecyclerAdapter(list, getContext());
-        adapter.setItemClickListener(this);
-        adapter.setItemClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
+                initData();
+//                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
     }
 
-    protected void initData() {
-        list.add(0, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.done, 30));
-        list.add(1, new Challenge("ic_book","Vẽ 1 bức tranh", ChallengeStatus.done, 30));
+    void setUpRecyclerView() {
+        adapter = new ChallengeRecyclerAdapter(list, getContext());
+        adapter.setItemClickListener(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
 
+    protected void initData() {
+        presenter.getDoneList();
     }
 
     @Override
     public void onClick(View view, int position) {
-        //navController.navigate(R.id.action_doneFragment_to_detailChallengeFragment2);
+        System.out.println("position: " + position);
+        Challenge challenge = list.get(position);
+        Gson gson = new Gson();
+        String challengeString = gson.toJson(challenge);
         Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
+        intent.putExtra("challenge", challengeString);
         startActivity(intent);
+    }
+
+    @Override
+    public void responseDoingList(ArrayList<Challenge> list) {
+        this.list = list;
+        setUpRecyclerView();
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void showError(String error) {
+
     }
 }

@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -68,28 +70,25 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ChallengeRecyclerAdapter.MyViewHolder holder, int position) {
-        String image = challengeList.get(position).getImage();
-        ChallengeStatus status = challengeList.get(position).getStatus();
-        String name = challengeList.get(position).getName();
-        int percentage = challengeList.get(position).getPercentage();
+        String title = challengeList.get(position).getTitle();
 
-        // set
-        holder.imgViewChallenge.setImageResource(R.drawable.ic_book);
-        switch (status){
-            case doing:
+        String status = challengeList.get(position).getStatus();
+        int percetage = challengeList.get(position).getPercentage();
+        switch (status) {
+            case "doing":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_doing);
                 break;
-            case done:
+            case "done":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_check);
                 break;
-            case failed:
+            case "failed":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_fail);
                 break;
+
         }
-        holder.textViewChallengeName.setText(name);
-        holder.textViewPercentage.setText(percentage + "%");
-
-
+        holder.textViewChallengeName.setText(title);
+        holder.textViewPercentage.setText(percetage + "%");
+        Picasso.get().load(challengeList.get(position).getImageUrl()).into(holder.imgViewChallenge);
     }
 
     @Override

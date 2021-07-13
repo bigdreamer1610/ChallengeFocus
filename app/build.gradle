@@ -91,4 +91,7 @@ dependencies {
 
     implementation 'com.github.ibrahimsn98:CirclesLoadingView:1.0'
 
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.7'
+
 }
