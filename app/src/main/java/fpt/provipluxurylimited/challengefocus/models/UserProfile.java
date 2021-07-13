@@ -38,7 +38,12 @@ public class UserProfile {
         return caption;
     }
 
+    @Override
     public String toString() {
-        return "name: " + this.name + ", caption: " + this.caption;
+        return "UserProfile{" +
+                "name='" + name + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", caption='" + caption + '\'' +
+                '}';
     }
 }

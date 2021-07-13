@@ -1,14 +1,22 @@
 package fpt.provipluxurylimited.challengefocus.helpers;
 
 import android.app.Activity;
+import android.net.Uri;
+import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.Objects;
+import java.util.Optional;
+
+import fpt.provipluxurylimited.challengefocus.models.UserProfile;
 
 public class FirebaseUtil {
     public static FirebaseUtil shared = new FirebaseUtil();
@@ -40,6 +48,25 @@ public class FirebaseUtil {
 
     public DatabaseReference getReference() {
         return mDatabaseReference;
+    }
+
+    public static UserProfile getUserProfile() {
+        UserProfile userProfile = null;
+        if (user != null) {
+            UserInfo profile = user.getProviderData().get(0);
+            // Id of the provider (ex: google.com)
+            String providerId = profile.getProviderId();
+            // UID specific to the provider
+            String uid = profile.getUid();
+            // Name, email address, and profile photo Url
+            String name = profile.getDisplayName();
+            String email = profile.getEmail();
+            Uri photoUrl = profile.getPhotoUrl();
+
+            userProfile = new UserProfile(name, Objects.requireNonNull(photoUrl).toString(), "Hi! ^^");
+            Log.d("User Profile", userProfile.toString());
+        }
+        return userProfile;
     }
 
 }
