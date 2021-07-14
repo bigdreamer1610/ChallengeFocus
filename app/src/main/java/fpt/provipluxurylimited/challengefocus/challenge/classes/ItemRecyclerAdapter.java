@@ -5,10 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +32,10 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         this.context = context;
     }
 
+    public void setList(ArrayList<ToDoItem> list) {
+        this.list = list;
+    }
+
     @NonNull
     @NotNull
     @Override
@@ -38,19 +46,21 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ItemHolder holder, int position) {
-        ItemStatus status = list.get(position).getStatus();
-        String name = list.get(position).getName();
+        Boolean isDone = list.get(position).getIsDone();
+        String title = list.get(position).getTitle();
         String date = list.get(position).getDate();
-
-        if (status == ItemStatus.DONE) {
-            holder.imgCheckbox.setImageResource(R.drawable.ic_checkbox_checked);
-            holder.imgArrow.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgCheckbox.setImageResource(R.drawable.ic_checkbox_unchecked);
-            holder.imgArrow.setVisibility(View.INVISIBLE);
+        Boolean isExpand = list.get(position).getExpanded();
+        if (isDone) {
+            holder.textViewDate.setText(list.get(position).getDate());
+            Picasso.get().load(list.get(position).getImageUrl()).into(holder.imgResult);
         }
 
-        holder.textViewToDo.setText(name);
+        holder.imgArrow.setVisibility(isDone ? View.VISIBLE : View.INVISIBLE);
+        holder.imgCheckbox.setImageResource(isDone ? R.drawable.ic_checkbox_unchecked : R.drawable.ic_checkbox_checked);
+        holder.textViewToDo.setText(title);
+        holder.layoutDateHolder.setVisibility(isExpand ? View.VISIBLE : View.GONE);
+        holder.layoutImageHolder.setVisibility(isExpand ? View.VISIBLE : View.GONE);
+        holder.imgArrow.setImageResource(isExpand ? R.drawable.ic_arrow_down : R.drawable.ic_arrow_right);
     }
 
     @Override
@@ -67,12 +77,20 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         private ImageView imgCheckbox;
         private ImageView imgArrow;
         private TextView textViewToDo;
+        private RelativeLayout layoutImageHolder;
+        private LinearLayout layoutDateHolder;
+        private ImageView imgResult;
+        private TextView textViewDate;
 
         public ItemHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imgCheckbox = itemView.findViewById(R.id.imgCheckbox);
             imgArrow = itemView.findViewById(R.id.imgArrowOpen);
             textViewToDo = itemView.findViewById(R.id.textViewToDoTitle);
+            layoutImageHolder = itemView.findViewById(R.id.layoutImageHolder);
+            layoutDateHolder = itemView.findViewById(R.id.layoutDateHolder);
+            imgResult = itemView.findViewById(R.id.imageViewResult);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
 
             itemView.setOnClickListener(this);
         }
@@ -84,6 +102,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
             }
         }
     }
+
 
     public void setItemClickListener(ToDoItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;

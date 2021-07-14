@@ -45,6 +45,7 @@ public class DiscoveryListUseCase {
                             }
                             categories.add(new Category(id, title, categoryChallenges));
                         }
+                        System.out.println("count: " + categories.size());
                         delegate.onGetCategoryListSuccess(categories);
                     }
 

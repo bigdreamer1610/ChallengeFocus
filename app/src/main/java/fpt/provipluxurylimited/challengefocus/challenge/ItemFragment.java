@@ -1,12 +1,15 @@
 
 package fpt.provipluxurylimited.challengefocus.challenge;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,12 +19,15 @@ import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ItemRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.models.ItemStatus;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,7 +84,6 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_item, container, false);
     }
 
@@ -87,42 +92,61 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
         super.onViewCreated(view, savedInstanceState);
         initData();
         initComponent(view);
-
     }
 
     private void initData() {
         list = new ArrayList<>();
-        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Nhà giả kim", ItemStatus.UNDONE, "2020-12-12"));
-        list.add(new ToDoItem("Sự im lặng của bầy ", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("DEVUP", ItemStatus.DONE, "2020-12-12"));
-        list.add(new ToDoItem("Thiên tài toán học", ItemStatus.UNDONE, "2020-12-12"));
+        list.add(new ToDoItem("Hi bitch", "10-12-1222",false, "ho",1));
+    }
 
+    public void setList(ArrayList<ToDoItem> list) {
+        this.list = list;
+        this.list = list;
+        adapter.setList(list);
+        System.out.println("size: " + this.list.size());
+//        adapter.set
+        adapter.notifyDataSetChanged();
     }
 
     private void initComponent(View view) {
         recyclerView = view.findViewById(R.id.recyclerViewItem);
         adapter = new ItemRecyclerAdapter(list, this.getContext());
         adapter.setItemClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+;        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+            switch (direction) {
+                case ItemTouchHelper.LEFT:
+                    list.remove(viewHolder.getAdapterPosition());
+//                    getActivity().
+                    adapter.notifyDataSetChanged();
+                    ((DetailChallengeActivity) getActivity()).updateData(list);
+                case ItemTouchHelper.RIGHT:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onclick(View view, int position) {
-        System.out.println("click cell");
+        if (list.get(position).getIsDone()) {
+            list.get(position).setExpanded(!list.get(position).getExpanded());
+            adapter.setList(list);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

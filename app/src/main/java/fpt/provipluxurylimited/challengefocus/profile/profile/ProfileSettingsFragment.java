@@ -165,7 +165,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
 
     @Override
     public void responseData(UserProfile data) {
-        System.out.println("response data: " + data.toString());
+//        System.out.println("response data: " + data.toString());
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

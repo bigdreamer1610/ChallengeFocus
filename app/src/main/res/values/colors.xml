@@ -26,4 +26,8 @@
 
     <color name="lighterBlack">#383734</color>
     <color name="dark">#1B0536</color>
+    <color name="color_one">#ACCD96</color>
+    <color name="color_two">#FDCA76</color>
+    <color name="color_three">#B3CCD7</color>
+    <color name="link_color">#75878F</color>
 </resources>

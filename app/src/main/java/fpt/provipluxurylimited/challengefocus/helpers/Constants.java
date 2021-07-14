@@ -1,8 +1,14 @@
 package fpt.provipluxurylimited.challengefocus.helpers;
 
+import android.content.SharedPreferences;
+
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
 public class Constants {
+    public static final String pref = "MyPref";
+    public static final String userId = "id";
+    public static final String userName = "name";
+    public static final String imageUrl = "url";
     public static final String DOING = "đang làm";
     public static final String DONE = "hoàn thành";
     public static final String FAIL = "thất bại";

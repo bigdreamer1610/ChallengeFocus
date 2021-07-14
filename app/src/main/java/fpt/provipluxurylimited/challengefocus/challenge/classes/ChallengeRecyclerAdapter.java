@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +35,17 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         this.context = context;
     }
 
+    public void setList(ArrayList<Challenge> list) {
+        this.challengeList = list;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imgViewChallenge;
         private TextView textViewChallengeName;
         private TextView textViewPercentage;
         private ImageView imgViewStatus;
+        private TextView textViewDuration;
+        private LinearLayout layoutPercentageHolder;
 
         private DiscoveryItemClickListener itemClickListener;
 
@@ -48,6 +55,8 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
             textViewChallengeName = view.findViewById(R.id.textViewCategoryName);
             textViewPercentage = view.findViewById(R.id.textViewPercentage);
             imgViewStatus = view.findViewById(R.id.imageViewStatus);
+            textViewDuration = view.findViewById(R.id.textViewDuration);
+            layoutPercentageHolder = view.findViewById(R.id.layoutPercentageHolder);
 
             itemView.setOnClickListener(this);
         }
@@ -74,20 +83,28 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
 
         String status = challengeList.get(position).getStatus();
         int percetage = challengeList.get(position).getPercentage();
+        String dueDate = challengeList.get(position).getDueDate();
         switch (status) {
             case "doing":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_doing);
+                holder.layoutPercentageHolder.setVisibility(View.VISIBLE);
+                holder.textViewDuration.setVisibility(View.INVISIBLE);
                 break;
             case "done":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_check);
+                holder.textViewDuration.setVisibility(View.VISIBLE);
+                holder.layoutPercentageHolder.setVisibility(View.INVISIBLE);
                 break;
             case "failed":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_fail);
+                holder.layoutPercentageHolder.setVisibility(View.VISIBLE);
+                holder.textViewDuration.setVisibility(View.INVISIBLE);
                 break;
 
         }
         holder.textViewChallengeName.setText(title);
         holder.textViewPercentage.setText(percetage + "%");
+        holder.textViewDuration.setText(dueDate);
         Picasso.get().load(challengeList.get(position).getImageUrl()).into(holder.imgViewChallenge);
     }
 

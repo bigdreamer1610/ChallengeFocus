@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -28,11 +29,12 @@ import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
+import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
-public class DetailChallengeActivity extends BaseActivity {
+public class DetailChallengeActivity extends BaseActivity implements DetailChallengePresenter.DetailChallengePresenterDelegate {
 
-    Fragment fragmentItem;
-    Fragment fragmentNoItem;
+    ItemFragment fragmentItem;
+    NoItemFragment fragmentNoItem;
     ImageView imageViewBack;
     TextView textViewTitle;
     TextView textViewPercentage;
@@ -47,11 +49,14 @@ public class DetailChallengeActivity extends BaseActivity {
     private boolean hasItem = false;
     Date date;
     private ChallengeStatus challengeStatus = ChallengeStatus.doing;
+    private DetailChallengePresenter presenter;
+    private ArrayList<ToDoItem> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_challenge);
+        setUp();
         initComponents();
         initData();
     }
@@ -82,7 +87,14 @@ public class DetailChallengeActivity extends BaseActivity {
         clickChooseDate();
     }
 
+    void setUp() {
+        presenter = new DetailChallengePresenter(new DetailChallengeUseCase(), this);
+        presenter.setDelegate(this);
+    }
+
     void initData() {
+        list = new ArrayList<>();
+
         Gson gson = new Gson();
         String challengeString = getIntent().getStringExtra("challenge");
         if (challengeString != null) {
@@ -91,6 +103,7 @@ public class DetailChallengeActivity extends BaseActivity {
             textViewTitle.setText(challenge.getTitle());
             textViewChooseDate.setText(challenge.getDueDate());
             challengeStatus = Constants.getStatus(challenge.getStatus());
+            presenter.getItemList("id1", "doing");
             updateViewOnStatus(challengeStatus);
         }
     }
@@ -177,4 +190,22 @@ public class DetailChallengeActivity extends BaseActivity {
         }
     }
 
+    public void updateData(ArrayList<ToDoItem> list) {
+        this.list = list;
+        hasItem = list.size() != 0;
+        updateFragment();
+    }
+
+    @Override
+    public void responseItemList(ArrayList<ToDoItem> list) {
+        this.list = list;
+        fragmentItem.setList(list);
+        hasItem = list.size() != 0;
+        updateFragment();
+    }
+
+    @Override
+    public void showError(String error) {
+
+    }
 }

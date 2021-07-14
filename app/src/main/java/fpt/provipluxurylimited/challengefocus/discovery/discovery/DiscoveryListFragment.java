@@ -94,6 +94,7 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
         loadingView = view.findViewById(R.id.loadingView);
         swipeRefreshLayout  = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
+        setUpRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -117,7 +118,7 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     @Override
     public void responseData(ArrayList<Category> list) {
         this.list = list;
-        setUpRecyclerView();
+        discoveryRecylerAdapter.setList(list);
         discoveryRecylerAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
         loadingView.clearAnimation();

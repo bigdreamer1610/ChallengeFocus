@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
@@ -28,6 +29,10 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
     private ParentClickListener mClickListener;
 
     public DiscoveryRecylerAdapter(ArrayList<Category> list) {
+        this.list = list;
+    }
+
+    public void setList(ArrayList<Category> list) {
         this.list = list;
     }
 

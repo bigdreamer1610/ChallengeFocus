@@ -13,39 +13,85 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:orientation="vertical"
         android:background="@drawable/shadow_card"
         android:elevation="4dp"
         >
-
-        <ImageView
-            android:id="@+id/imgCheckbox"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_checkbox_unchecked" />
-
-        <TextView
-            android:id="@+id/textViewToDoTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/imgCheckbox"
-            android:fontFamily="@font/quicksand_medium"
-            android:text="Nhà giả kim"
-            android:textColor="@color/text_theme"
-            android:textSize="13dp"
-            android:layout_weight="1"
-            />
-        <ImageView
-            android:id="@+id/imgArrowOpen"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_arrow_right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            />
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            >
+            <ImageView
+                android:id="@+id/imgCheckbox"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_checkbox_unchecked" />
+
+            <TextView
+                android:id="@+id/textViewToDoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/imgCheckbox"
+                android:fontFamily="@font/quicksand_medium"
+                android:text="Nhà giả kim"
+                android:textColor="@color/text_theme"
+                android:textSize="13dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:id="@+id/imgArrowOpen"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutDateHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6:12pm 12/06/2021"
+                android:textSize="13dp"
+                android:textColor="@color/text_theme"
+                android:fontFamily="@font/quicksand_regular"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đổi ảnh"
+                android:fontFamily="@font/quicksand_regular"
+                android:textColor="@color/link_color"
+                />
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/layoutImageHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            >
+            <ImageView
+                android:id="@+id/imageViewResult"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/ic_book"
+                android:layout_centerInParent="true"
+                />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -28,7 +28,7 @@ public class ProfileUseCase {
         FirebaseUtil.shared.getReference().child(ApiClient.userProfile).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                UserProfile userProfile = FirebaseUtil.getUserProfile();
+                UserProfile userProfile = snapshot.getValue(UserProfile.class);
                 delegate.onGetUserProfileSuccess(userProfile);
             }
 

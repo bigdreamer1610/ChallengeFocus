@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void initData() {
-        initFirebaseListener();
+
+        //initFirebaseListener();
     }
 
     private void initFirebaseListener() {

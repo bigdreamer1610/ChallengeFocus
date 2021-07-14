@@ -79,12 +79,11 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
         context = this.getContext();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDone);
-
+        setUpRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initData();
-//                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -117,7 +116,7 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
     @Override
     public void responseDoingList(ArrayList<Challenge> list) {
         this.list = list;
-        setUpRecyclerView();
+        adapter.setList(list);
         adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
 

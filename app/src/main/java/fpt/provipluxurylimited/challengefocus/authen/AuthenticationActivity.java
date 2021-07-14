@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,14 +25,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import fpt.provipluxurylimited.challengefocus.MainActivity;
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 
 public class AuthenticationActivity extends AppCompatActivity {
     public static final String TAG = "GoogleActivity";
 
     private Button btnLogin;
-//    private ImageView btnBack;
+    //    private ImageView btnBack;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -68,6 +73,15 @@ public class AuthenticationActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        });
+
+
+        // shared perference
+         pref = getApplicationContext().getSharedPreferences(Constants.pref, 0);
+         editor = pref.edit();
+        if (pref.getString(Constants.userId, null) != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void signIn() {
@@ -129,7 +143,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUtil.user = FirebaseUtil.mFirebaseAuth.getCurrentUser();
+
                             updateUI(FirebaseUtil.user);
+                            // save to app
+                            editor.putString(Constants.userId, "id1");
+                            editor.commit();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

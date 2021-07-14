@@ -111,12 +111,11 @@ public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter
         context = this.getContext();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewFailed);
-
+        setUpRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initData();
-//                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -143,7 +142,7 @@ public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter
     @Override
     public void responseFailedList(ArrayList<Challenge> list) {
         this.list = list;
-        setUpRecyclerView();
+        adapter.setList(list);
         adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
