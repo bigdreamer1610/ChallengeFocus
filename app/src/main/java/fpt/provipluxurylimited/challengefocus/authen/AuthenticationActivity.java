@@ -35,10 +35,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private Button btnLogin;
     //    private ImageView btnBack;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
-
-
     @Override
     public void onBackPressed() {
         // do something on back.
@@ -75,13 +71,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 //        });
 
 
-        // shared perference
-         pref = getApplicationContext().getSharedPreferences(Constants.pref, 0);
-         editor = pref.edit();
-        if (pref.getString(Constants.userId, null) != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
     }
 
     private void signIn() {
@@ -143,11 +132,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUtil.user = FirebaseUtil.mFirebaseAuth.getCurrentUser();
-
-                            updateUI(FirebaseUtil.user);
-                            // save to app
-                            editor.putString(Constants.userId, "id1");
-                            editor.commit();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
