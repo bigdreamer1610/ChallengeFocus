@@ -4,14 +4,18 @@ public class CategoryChallenge {
     private int id;
     private String imageUrl;
     private String title;
+    private int categoryId;
+    private String categoryName;
 
     public CategoryChallenge() {
     }
 
-    public CategoryChallenge(int id, String imageUrl, String title) {
+    public CategoryChallenge(int id, String imageUrl, String title, int categoryId, String categoryName) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.title = title;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
     public int getId() {
@@ -26,6 +30,14 @@ public class CategoryChallenge {
         return title;
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -38,12 +50,11 @@ public class CategoryChallenge {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "CategoryChallenge{" +
-                "id=" + id +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

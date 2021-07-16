@@ -21,6 +21,7 @@ import android.widget.SearchView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoveryRecylerAdapter;
@@ -28,6 +29,7 @@ import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoverySection
 import fpt.provipluxurylimited.challengefocus.models.Category;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
+import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 import me.ibrahimsn.lib.CirclesLoadingView;
 
 public class DiscoveryListFragment extends Fragment implements DiscoveryListPresenter.DiscoveryListPresenterDelegate {
@@ -49,7 +51,7 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     CirclesLoadingView loadingView;
     Context context;
 
-    private ArrayList<Category> list;
+    private DiscoveryResult result;
     private DiscoveryListPresenter presenter;
 
     public DiscoveryListFragment() {
@@ -86,13 +88,13 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     }
 
     private void initComponents(View view) {
-        list = new ArrayList<>();
+        result = new DiscoveryResult(new ArrayList<>(), new HashMap<>());
         context = view.getContext();
         navController = Navigation.findNavController(view);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
         searchView = view.findViewById(R.id.searchView);
         loadingView = view.findViewById(R.id.loadingView);
-        swipeRefreshLayout  = view.findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
         setUpRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -104,7 +106,7 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     }
 
     void setUpRecyclerView() {
-        discoveryRecylerAdapter = new DiscoveryRecylerAdapter(list);
+        discoveryRecylerAdapter = new DiscoveryRecylerAdapter(result.getCategoryNames(), result.getList());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(discoveryRecylerAdapter);
@@ -116,17 +118,17 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     }
 
     @Override
-    public void responseData(ArrayList<Category> list) {
-        this.list = list;
-        discoveryRecylerAdapter.setList(list);
+    public void showError(String error) {
+        System.out.println("error: " + error);
+    }
+
+    @Override
+    public void responseData(DiscoveryResult result) {
+        this.result = result;
+        discoveryRecylerAdapter.setList(result);
         discoveryRecylerAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
         loadingView.clearAnimation();
         loadingView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showError(String error) {
-        System.out.println("error: " + error);
     }
 }

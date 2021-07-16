@@ -10,16 +10,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseUseCaseDelegate;
 import fpt.provipluxurylimited.challengefocus.models.Category;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
+import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 
 public class DiscoveryListUseCase {
     public interface DiscoveryListUseCaseDelegate extends BaseUseCaseDelegate {
-        void onGetCategoryListSuccess(ArrayList<Category> list);
+        void onGetCategoryListSuccess(DiscoveryResult result);
     }
 
     private DiscoveryListUseCaseDelegate delegate;
@@ -33,20 +36,15 @@ public class DiscoveryListUseCase {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        ArrayList<Category> categories = new ArrayList<>();
+                        ArrayList<CategoryChallenge> list = new ArrayList<>();
                         for(DataSnapshot ds : snapshot.getChildren()) {
-                            ArrayList<CategoryChallenge> categoryChallenges = new ArrayList<>();
-                            int id = ds.child("id").getValue(Integer.class);
-                            String title = ds.child("title").getValue(String.class);
-                            DataSnapshot challengeSnapshot = ds.child("challenges");
-                            for(DataSnapshot childDs : challengeSnapshot.getChildren()) {
-                                CategoryChallenge item = childDs.getValue(CategoryChallenge.class);
-                                categoryChallenges.add(item);
-                            }
-                            categories.add(new Category(id, title, categoryChallenges));
+                            CategoryChallenge item = ds.getValue(CategoryChallenge.class);
+                            list.add(item);
                         }
-                        System.out.println("count: " + categories.size());
-                        delegate.onGetCategoryListSuccess(categories);
+                        DiscoveryResult result = groupChallenges(list);
+                        System.out.println("names: " + result.getCategoryNames().size());
+                        System.out.println("challenges: " + result.getList().values().size());
+                        delegate.onGetCategoryListSuccess(result);
                     }
 
                     @Override
@@ -54,6 +52,22 @@ public class DiscoveryListUseCase {
                         delegate.onFailure(error.getMessage());
                     }
                 });
+    }
+
+    private DiscoveryResult groupChallenges(ArrayList<CategoryChallenge> list) {
+        HashMap<String, ArrayList<CategoryChallenge>> hashMap = new HashMap<>();
+        List<String> cateNames = new ArrayList<>();
+        for(CategoryChallenge challenge : list) {
+            if (!hashMap.containsKey(challenge.getCategoryName())) {
+                ArrayList<CategoryChallenge> challenges = new ArrayList<>();
+                challenges.add(challenge);
+                hashMap.put(challenge.getCategoryName(), challenges);
+                cateNames.add(challenge.getCategoryName());
+            } else {
+                hashMap.get(challenge.getCategoryName()).add(challenge);
+            }
+        }
+        return new DiscoveryResult(cateNames, hashMap);
     }
 
 }
