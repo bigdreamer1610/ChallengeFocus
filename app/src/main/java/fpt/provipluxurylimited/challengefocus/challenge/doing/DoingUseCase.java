@@ -8,12 +8,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseUseCaseDelegate;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
+import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
+import fpt.provipluxurylimited.challengefocus.models.MyChallenges;
 
 public class DoingUseCase {
     public interface DoingUseCaseDelegate extends BaseUseCaseDelegate {
@@ -27,7 +33,7 @@ public class DoingUseCase {
     }
 
     public void getDoingList() {
-        FirebaseUtil.shared.getReference().child(ApiClient.myDoing)
+        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -36,8 +42,7 @@ public class DoingUseCase {
                             Challenge challenge = ds.getValue(Challenge.class);
                             list.add(challenge);
                         }
-                        System.out.println(list.size() + " ahihihiihi");
-                        delegate.onSuccessDoing(list);
+                        delegate.onSuccessDoing(getChallengeByStatus(list).getDoingList());
                     }
 
                     @Override
@@ -46,4 +51,26 @@ public class DoingUseCase {
                     }
                 });
     }
+
+    private MyChallenges getChallengeByStatus(ArrayList<Challenge> list) {
+        MyChallenges myChallenges = new MyChallenges(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        for (Challenge challenge : list) {
+            if (challenge.getDoneDate() == null) {
+                Date dueDate = Utils.convertStringToDate(challenge.getDueDate());
+                Date today = new Date();
+                if (today.before(dueDate) || today.equals(dueDate)) {
+                    challenge.setStatus("doing");
+                    myChallenges.getDoingList().add(challenge);
+                } else {
+                    challenge.setStatus("failed");
+                    myChallenges.getFailedList().add(challenge);
+                }
+            } else {
+                challenge.setStatus("done");
+                myChallenges.getDoneList().add(challenge);
+            }
+        }
+        return myChallenges;
+    }
+
 }

@@ -27,6 +27,10 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         useCase.getToDoItemsList(userId, status);
     }
 
+    void addItem(String title) {
+        useCase.addItem(title);
+    }
+
     @Override
     public void onSuccessGetItems(ArrayList<ToDoItem> list) {
         delegate.responseItemList(list);

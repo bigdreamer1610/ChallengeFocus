@@ -96,7 +96,7 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
 
     private void initData() {
         list = new ArrayList<>();
-        list.add(new ToDoItem("Hi bitch", "10-12-1222",false, "ho",1));
+//        list.add(new ToDoItem("Hi bitch", "10-12-1222",false, "ho",1));
     }
 
     public void setList(ArrayList<ToDoItem> list) {

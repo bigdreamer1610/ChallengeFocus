@@ -27,14 +27,14 @@ public class DetailChallengeUseCase {
     }
 
     public void getToDoItemsList(String userId, String status){
-
-        FirebaseUtil.shared.getReference().child(ApiClient.getChallengeByStatus(status)).child("1").child(ApiClient.items)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge).child("fsdffd").child(ApiClient.items)
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         ArrayList<ToDoItem> list = new ArrayList<>();
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             ToDoItem item = ds.getValue(ToDoItem.class);
+                            item.setId(snapshot.getKey());
                             item.setExpanded(false);
                             System.out.println(item.toString());
                             list.add(item);
@@ -48,6 +48,13 @@ public class DetailChallengeUseCase {
                         delegate.onFailure(error.getMessage());
                     }
                 });
+    }
+
+    public void addItem(String title) {
+        if (!title.isEmpty()) {
+            FirebaseUtil.shared.getReference().child(ApiClient.myChallenge).child("fsdffd").child(ApiClient.items)
+                    .push().setValue(new ToDoItem(title, false));
+        }
     }
 }
 

@@ -25,10 +25,6 @@ import java.util.HashMap;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoveryRecylerAdapter;
-import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoverySection;
-import fpt.provipluxurylimited.challengefocus.models.Category;
-import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
-import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 import me.ibrahimsn.lib.CirclesLoadingView;
 

@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.challenge.done;
 
+import android.util.Log;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 

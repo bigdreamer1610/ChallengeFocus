@@ -4,6 +4,7 @@ public class Challenge {
     private String id;
     private int challengeId;
     private String dueDate;
+    private String doneDate;
     private String imageUrl;
     private int percentage;
     private String title;
@@ -12,10 +13,11 @@ public class Challenge {
     public Challenge() {
     }
 
-    public Challenge(String id, int challengeId, String dueDate, String imageUrl, int percentage, String title, String status) {
+    public Challenge(String id, int challengeId, String dueDate, String doneDate, String imageUrl, int percentage, String title, String status) {
         this.id = id;
         this.challengeId = challengeId;
         this.dueDate = dueDate;
+        this.doneDate = doneDate;
         this.imageUrl = imageUrl;
         this.percentage = percentage;
         this.title = title;
@@ -34,6 +36,10 @@ public class Challenge {
         this.dueDate = dueDate;
     }
 
+    public void setDoneDate(String doneDate) {
+        this.doneDate = doneDate;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -46,10 +52,6 @@ public class Challenge {
         this.title = title;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getId() {
         return id;
     }
@@ -60,6 +62,10 @@ public class Challenge {
 
     public String getDueDate() {
         return dueDate;
+    }
+
+    public String getDoneDate() {
+        return doneDate;
     }
 
     public String getImageUrl() {
@@ -78,6 +84,8 @@ public class Challenge {
         return status;
     }
 
-
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
 

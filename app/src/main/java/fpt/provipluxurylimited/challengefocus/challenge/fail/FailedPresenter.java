@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.challenge.fail;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.helpers.base.BasePresenterDelegate;

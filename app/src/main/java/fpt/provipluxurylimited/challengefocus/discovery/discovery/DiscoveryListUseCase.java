@@ -8,7 +8,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseUseCaseDelegate;
-import fpt.provipluxurylimited.challengefocus.models.Category;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 

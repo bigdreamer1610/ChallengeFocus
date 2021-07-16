@@ -100,6 +100,7 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
 
     protected void initData() {
         presenter.getDoneList();
+
     }
 
     @Override

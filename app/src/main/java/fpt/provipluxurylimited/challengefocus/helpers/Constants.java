@@ -2,6 +2,8 @@ package fpt.provipluxurylimited.challengefocus.helpers;
 
 import android.content.SharedPreferences;
 
+import java.util.Date;
+
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
 public class Constants {

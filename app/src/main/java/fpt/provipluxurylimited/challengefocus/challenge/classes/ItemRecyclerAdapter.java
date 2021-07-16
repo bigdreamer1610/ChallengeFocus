@@ -56,7 +56,7 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         }
 
         holder.imgArrow.setVisibility(isDone ? View.VISIBLE : View.INVISIBLE);
-        holder.imgCheckbox.setImageResource(isDone ? R.drawable.ic_checkbox_unchecked : R.drawable.ic_checkbox_checked);
+        holder.imgCheckbox.setImageResource(isDone ? R.drawable.ic_checkbox_checked : R.drawable.ic_checkbox_unchecked);
         holder.textViewToDo.setText(title);
         holder.layoutDateHolder.setVisibility(isExpand ? View.VISIBLE : View.GONE);
         holder.layoutImageHolder.setVisibility(isExpand ? View.VISIBLE : View.GONE);

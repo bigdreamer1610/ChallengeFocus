@@ -12,18 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import fpt.provipluxurylimited.challengefocus.R;
-import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
-import fpt.provipluxurylimited.challengefocus.models.Category;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
-import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 
 public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecylerAdapter.SectionHolder> implements ChildDiscoveryRecyclerAdapter.ChildClickListener {
@@ -100,14 +95,11 @@ public class DiscoveryRecylerAdapter extends RecyclerView.Adapter<DiscoveryRecyl
     }
 
     public interface ParentClickListener {
-//        void onClickParent(View view, int section);
         void onClickParent(View view, int section, int row);
     }
 
     @Override
     public void onClickChild(View view, int position) {
-//        Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
-//        startActivity(intent);
-//        mClickListener.onClickParent(view, get);
+        System.out.println("click maaaa");
     }
 }

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -47,6 +49,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private boolean hasItem = false;
+    String dateString;
     Date date;
     private ChallengeStatus challengeStatus = ChallengeStatus.doing;
     private DetailChallengePresenter presenter;
@@ -94,11 +97,12 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
 
     void initData() {
         list = new ArrayList<>();
-
         Gson gson = new Gson();
         String challengeString = getIntent().getStringExtra("challenge");
         if (challengeString != null) {
             Challenge challenge = gson.fromJson(challengeString, Challenge.class);
+            textViewChooseDate.setEnabled(false);
+            dateString = challenge.getDueDate();
             textViewPercentage.setText(challenge.getPercentage() + "%");
             textViewTitle.setText(challenge.getTitle());
             textViewChooseDate.setText(challenge.getDueDate());
@@ -137,7 +141,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             @Override
             public void onClick(View view) {
                 // when user has not picked the deadline => show dialog
-                if (date == null) {
+                if (dateString == null) {
                     showDialog("Bạn cần đặt deadline trước khi thêm item", context);
                 } else {
                     hasItem = true;
@@ -146,13 +150,34 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
                     bottomSheetDialog.setContentView(R.layout.add_item);
                     AppCompatButton btnAdd = bottomSheetDialog
                             .findViewById(R.id.btnAdd);
+                    btnAdd.setEnabled(false);
                     EditText editTextName = bottomSheetDialog.findViewById(R.id.editTextName);
                     bottomSheetDialog.show();
 
                     btnAdd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            presenter.addItem(editTextName.getText().toString());
+
                             bottomSheetDialog.dismiss();
+                        }
+                    });
+
+                    editTextName.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            btnAdd.setEnabled(charSequence.length() != 0);
+//                            btnAdd.setClickable(charSequence.length() != 0);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
                         }
                     });
                 }
