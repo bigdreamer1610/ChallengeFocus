@@ -29,6 +29,7 @@ public class FirebaseUtil {
     public static DatabaseReference mDatabaseReference;
     public static FirebaseStorage mFirebaseStorage;
     public static StorageReference mStorageReference;
+    public static StorageReference storageReference;
 
     // [START declare_auth]
     public static FirebaseAuth mFirebaseAuth;
@@ -45,11 +46,16 @@ public class FirebaseUtil {
             mDatabaseReference = FirebaseDatabase.getInstance(Constants.firebaseURL).getReference();
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mFirebaseAuth = FirebaseAuth.getInstance();
+            storageReference = FirebaseStorage.getInstance().getReference();
         }
     }
 
     public DatabaseReference getReference() {
         return mDatabaseReference;
+    }
+
+    public StorageReference getStorageReference() {
+        return storageReference;
     }
 
     public static UserProfile getUserProfile() {

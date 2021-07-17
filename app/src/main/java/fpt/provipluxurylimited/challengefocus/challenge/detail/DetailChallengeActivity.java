@@ -1,7 +1,10 @@
 package fpt.provipluxurylimited.challengefocus.challenge.detail;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -10,24 +13,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.ItemFragment;
@@ -48,6 +63,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     FloatingActionButton floatButton;
     TextView textViewChooseDate;
     Context context;
+    Dialog dialog;
+    AppCompatButton btnAgree;
+    AppCompatButton btnReject;
+    FragmentActivity fragmentActivity;
 
     BottomSheetDialog bottomSheetDialog;
     final Calendar myCalendar = Calendar.getInstance();
@@ -59,6 +78,13 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     private ChallengeStatus challengeStatus = ChallengeStatus.doing;
     private DetailChallengePresenter presenter;
     private ArrayList<ToDoItem> list;
+    int PICK_IMAGE = 1;
+    Uri imageUrl;
+    ToDoItem selectedItem;
+
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +108,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         updateFragment();
         clickBack();
         clickFloat();
-
+        setUpDialog();
+        setUpStorage();
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -100,6 +127,11 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void setUp() {
         presenter = new DetailChallengePresenter(new DetailChallengeUseCase(), this);
         presenter.setDelegate(this);
+    }
+
+    void setUpStorage() {
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
     }
 
     void initData() {
@@ -203,6 +235,59 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         });
     }
 
+    void setUpDialog() {
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.upload_image_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        btnAgree = dialog.findViewById(R.id.btnAgree);
+        btnReject = dialog.findViewById(R.id.btnReject);
+        btnAgree.setText(Constants.DialogConstants.optionUpload);
+        btnReject.setText(Constants.DialogConstants.optionCancel);
+        btnAgree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeDialog();
+                pickImage();
+
+            }
+        });
+
+        btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeDialog();
+            }
+        });
+    }
+
+    public void showDialog() {
+        dialog.show();
+    }
+
+    public void closeDialog() {
+        dialog.dismiss();
+    }
+
+    public void setClickItem(ToDoItem item) {
+        selectedItem = item;
+    }
+
+    void pickImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Upload Image"), PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUrl = data.getData();
+            presenter.uploadImageToStorage(imageUrl, selectedItem);
+        }
+    }
+
     void updateDate() {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat format = new SimpleDateFormat(myFormat, Locale.ENGLISH);
@@ -226,6 +311,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         updateFragment();
     }
 
+    public void removeItem(ToDoItem item) {
+        presenter.removeItem(item.getId());
+    }
+
     @Override
     public void responseItemList(ArrayList<ToDoItem> list) {
         this.list = list;
@@ -236,6 +325,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
 
     @Override
     public void showError(String error) {
-
+        Log.e("Error", error);
     }
 }

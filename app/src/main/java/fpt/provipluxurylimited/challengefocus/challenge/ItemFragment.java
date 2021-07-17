@@ -55,11 +55,6 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
     private ArrayList<ToDoItem> list;
     RecyclerView recyclerView;
     ItemRecyclerAdapter adapter;
-    Dialog dialog;
-    AppCompatButton btnAgree;
-    AppCompatButton btnReject;
-    FragmentActivity fragmentActivity;
-
 
     public ItemFragment() {
         // Required empty public constructor
@@ -117,8 +112,6 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
     }
 
     private void initComponent(View view) {
-        fragmentActivity = this.getActivity();
-        setUpDialog();
         recyclerView = view.findViewById(R.id.recyclerViewItem);
         adapter = new ItemRecyclerAdapter(list, this.getContext());
         adapter.setItemClickListener(this);
@@ -142,56 +135,24 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    list.remove(viewHolder.getAdapterPosition());
-                    adapter.notifyDataSetChanged();
-                    ((DetailChallengeActivity) getActivity()).updateData(list);
+                    ((DetailChallengeActivity) getActivity()).removeItem(list.get(viewHolder.getAdapterPosition()));
                 case ItemTouchHelper.RIGHT:
                     break;
             }
         }
     };
 
-    void setUpDialog() {
-        dialog = new Dialog(fragmentActivity);
-        dialog.setContentView(R.layout.upload_image_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        btnAgree = dialog.findViewById(R.id.btnAgree);
-        btnReject = dialog.findViewById(R.id.btnReject);
-        btnAgree.setText(Constants.DialogConstants.optionUpload);
-        btnReject.setText(Constants.DialogConstants.optionCancel);
-        btnAgree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeDialog();
-
-            }
-        });
-
-        btnReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeDialog();
-            }
-        });
-    }
-
-    void showDialog() {
-        dialog.show();
-    }
-
-    void closeDialog() {
-        dialog.dismiss();
-    }
-
     @Override
     public void onclick(View view, int position) {
         Boolean isDone = list.get(position).getIsDone();
+        ToDoItem item = list.get(position);
         if (isDone) {
             list.get(position).setExpanded(!list.get(position).getExpanded());
             adapter.setList(list);
             adapter.notifyDataSetChanged();
         } else {
-            showDialog();
+            ((DetailChallengeActivity) getActivity()).showDialog();
+            ((DetailChallengeActivity) getActivity()).setClickItem(item);
         }
     }
 }

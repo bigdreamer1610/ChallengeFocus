@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.challenge.detail;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.helpers.base.BasePresenterDelegate;
@@ -31,9 +33,22 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         useCase.addItem(title);
     }
 
+    void removeItem(String id) {
+        useCase.removeItem(id);
+    }
+
+    void uploadImageToStorage(Uri uri, ToDoItem item) {
+        useCase.uploadImageToStorage(uri, item);
+    }
+
     @Override
     public void onSuccessGetItems(ArrayList<ToDoItem> list) {
         delegate.responseItemList(list);
+    }
+
+    @Override
+    public void onSuccessUploadImage(String imageName) {
+        System.out.println("hi");
     }
 
     @Override

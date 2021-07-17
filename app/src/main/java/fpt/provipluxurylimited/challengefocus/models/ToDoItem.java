@@ -24,6 +24,13 @@ public class ToDoItem {
         this.isExpanded = isExpanded;
     }
 
+    public ToDoItem(String title, String date, Boolean isDone, String imageUrl) {
+        this.title = title;
+        this.date = date;
+        this.isDone = isDone;
+        this.imageUrl = imageUrl;
+    }
+
     public ToDoItem(String title, Boolean isDone) {
         this.title = title;
         this.isDone = isDone;
