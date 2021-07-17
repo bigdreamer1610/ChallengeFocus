@@ -34,4 +34,13 @@ public class Constants {
         }
         return status;
     }
+
+    public static class DialogConstants {
+        public static String confirmMessage = "Bạn muốn bắt đầu thử thách này chứ?";
+        public static String optionAgree = "Đúng vậy";
+        public static String optionReject = "Chưa, tôi chưa sẵn sàng";
+        public static String optionUpload = "Tải ảnh lên";
+        public static String optionCancel = "Huỷ";
+
+    }
 }

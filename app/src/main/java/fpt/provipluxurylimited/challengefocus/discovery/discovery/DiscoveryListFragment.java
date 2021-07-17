@@ -1,10 +1,16 @@
 package fpt.provipluxurylimited.challengefocus.discovery.discovery;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,10 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,11 +34,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoveryRecylerAdapter;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
+import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 import me.ibrahimsn.lib.CirclesLoadingView;
 
-public class DiscoveryListFragment extends Fragment implements DiscoveryListPresenter.DiscoveryListPresenterDelegate {
+public class DiscoveryListFragment extends Fragment implements DiscoveryListPresenter.DiscoveryListPresenterDelegate, DiscoveryRecylerAdapter.ParentClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,9 +59,16 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     DiscoveryRecylerAdapter discoveryRecylerAdapter;
     CirclesLoadingView loadingView;
     Context context;
+    Dialog dialog;
+    TextView textViewTitle;
+    AppCompatButton btnAgree;
+    AppCompatButton btnReject;
+    Activity activity;
 
     private DiscoveryResult result;
     private DiscoveryListPresenter presenter;
+    private CategoryChallenge selectedChallenge;
+    Gson gson = new Gson();
 
     public DiscoveryListFragment() {
         // Required empty public constructor
@@ -93,6 +113,7 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
         setUpRecyclerView();
+        setUpDialog();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -103,10 +124,50 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
 
     void setUpRecyclerView() {
         discoveryRecylerAdapter = new DiscoveryRecylerAdapter(result.getCategoryNames(), result.getList());
+        discoveryRecylerAdapter.setParentClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(discoveryRecylerAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    void setUpDialog() {
+        dialog = new Dialog(context);
+        dialog.setContentView(R.layout.confirm_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        btnAgree = dialog.findViewById(R.id.btnAgree);
+        btnReject = dialog.findViewById(R.id.btnReject);
+        textViewTitle = dialog.findViewById(R.id.dialogTitle);
+        textViewTitle.setText(Constants.DialogConstants.confirmMessage);
+        btnAgree.setText(Constants.DialogConstants.optionAgree);
+        btnReject.setText(Constants.DialogConstants.optionReject);
+        btnAgree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeDialog();
+                startChallenge();
+            }
+        });
+
+        btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeDialog();
+            }
+        });
+    }
+
+    void showDialog() {
+        dialog.show();
+    }
+
+    void closeDialog() {
+        dialog.dismiss();
+    }
+
+    void startChallenge() {
+        Intent intent = new Intent(context, DetailChallengeActivity.class);
+        startActivity(intent);
     }
 
     private void initData() {
@@ -126,5 +187,13 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
         swipeRefreshLayout.setRefreshing(false);
         loadingView.clearAnimation();
         loadingView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClickParent(View view, int row, int section) {
+        showDialog();
+//        String sectionName = result.getCategoryNames().get(section);
+//        selectedChallenge = result.getList().get(sectionName).get(row);
+//
     }
 }

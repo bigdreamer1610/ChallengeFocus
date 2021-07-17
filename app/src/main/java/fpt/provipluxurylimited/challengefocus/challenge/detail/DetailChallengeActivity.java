@@ -3,8 +3,13 @@ package fpt.provipluxurylimited.challengefocus.challenge.detail;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -90,6 +95,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         clickChooseDate();
     }
 
+
+
     void setUp() {
         presenter = new DetailChallengePresenter(new DetailChallengeUseCase(), this);
         presenter.setDelegate(this);
@@ -158,7 +165,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
                         @Override
                         public void onClick(View view) {
                             presenter.addItem(editTextName.getText().toString());
-
                             bottomSheetDialog.dismiss();
                         }
                     });
@@ -172,7 +178,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                             btnAdd.setEnabled(charSequence.length() != 0);
-//                            btnAdd.setClickable(charSequence.length() != 0);
                         }
 
                         @Override

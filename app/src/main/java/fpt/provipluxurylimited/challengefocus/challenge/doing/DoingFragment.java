@@ -1,12 +1,17 @@
 package fpt.provipluxurylimited.challengefocus.challenge.doing;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -47,6 +53,7 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     ChallengeRecyclerAdapter adapter;
     Timer timer;
     Context context;
+    FragmentActivity fragmentActivity;
 
     private DoingPresenter presenter;
 
@@ -87,10 +94,10 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
 
     protected void initComponents(View view) {
         context = this.getContext();
+        fragmentActivity = this.getActivity();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDoing);
         setUpRecyclerView();
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -107,6 +114,8 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
     }
+
+
 
     protected void initData() {
         presenter.getDoingList();

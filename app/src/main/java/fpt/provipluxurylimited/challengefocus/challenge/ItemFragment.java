@@ -1,13 +1,19 @@
 
 package fpt.provipluxurylimited.challengefocus.challenge;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +31,7 @@ import java.util.ArrayList;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ItemRecyclerAdapter;
 import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.models.ItemStatus;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -48,6 +55,10 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
     private ArrayList<ToDoItem> list;
     RecyclerView recyclerView;
     ItemRecyclerAdapter adapter;
+    Dialog dialog;
+    AppCompatButton btnAgree;
+    AppCompatButton btnReject;
+    FragmentActivity fragmentActivity;
 
 
     public ItemFragment() {
@@ -96,23 +107,23 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
 
     private void initData() {
         list = new ArrayList<>();
-//        list.add(new ToDoItem("Hi bitch", "10-12-1222",false, "ho",1));
     }
 
     public void setList(ArrayList<ToDoItem> list) {
         this.list = list;
         this.list = list;
         adapter.setList(list);
-        System.out.println("size: " + this.list.size());
-//        adapter.set
         adapter.notifyDataSetChanged();
     }
 
     private void initComponent(View view) {
+        fragmentActivity = this.getActivity();
+        setUpDialog();
         recyclerView = view.findViewById(R.id.recyclerViewItem);
         adapter = new ItemRecyclerAdapter(list, this.getContext());
         adapter.setItemClickListener(this);
-;        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        ;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -132,7 +143,6 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
             switch (direction) {
                 case ItemTouchHelper.LEFT:
                     list.remove(viewHolder.getAdapterPosition());
-//                    getActivity().
                     adapter.notifyDataSetChanged();
                     ((DetailChallengeActivity) getActivity()).updateData(list);
                 case ItemTouchHelper.RIGHT:
@@ -141,12 +151,47 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
         }
     };
 
+    void setUpDialog() {
+        dialog = new Dialog(fragmentActivity);
+        dialog.setContentView(R.layout.upload_image_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        btnAgree = dialog.findViewById(R.id.btnAgree);
+        btnReject = dialog.findViewById(R.id.btnReject);
+        btnAgree.setText(Constants.DialogConstants.optionUpload);
+        btnReject.setText(Constants.DialogConstants.optionCancel);
+        btnAgree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeDialog();
+
+            }
+        });
+
+        btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeDialog();
+            }
+        });
+    }
+
+    void showDialog() {
+        dialog.show();
+    }
+
+    void closeDialog() {
+        dialog.dismiss();
+    }
+
     @Override
     public void onclick(View view, int position) {
-        if (list.get(position).getIsDone()) {
+        Boolean isDone = list.get(position).getIsDone();
+        if (isDone) {
             list.get(position).setExpanded(!list.get(position).getExpanded());
             adapter.setList(list);
             adapter.notifyDataSetChanged();
+        } else {
+            showDialog();
         }
     }
 }

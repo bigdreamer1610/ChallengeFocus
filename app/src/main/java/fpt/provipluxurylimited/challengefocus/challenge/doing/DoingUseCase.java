@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseUseCaseDelegate;
@@ -59,14 +60,14 @@ public class DoingUseCase {
                 Date dueDate = Utils.convertStringToDate(challenge.getDueDate());
                 Date today = new Date();
                 if (today.before(dueDate) || today.equals(dueDate)) {
-                    challenge.setStatus("doing");
+                    challenge.setStatus(Constants.doing);
                     myChallenges.getDoingList().add(challenge);
                 } else {
-                    challenge.setStatus("failed");
+                    challenge.setStatus(Constants.failed);
                     myChallenges.getFailedList().add(challenge);
                 }
             } else {
-                challenge.setStatus("done");
+                challenge.setStatus(Constants.done);
                 myChallenges.getDoneList().add(challenge);
             }
         }

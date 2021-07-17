@@ -20,10 +20,12 @@ import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 
 public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDiscoveryRecyclerAdapter.ItemHolder> {
 
+    int section;
     ArrayList<CategoryChallenge> list;
     private ChildClickListener mClickListener;
 
-    public ChildDiscoveryRecyclerAdapter(ArrayList<CategoryChallenge> list) {
+    public ChildDiscoveryRecyclerAdapter(int section, ArrayList<CategoryChallenge> list) {
+        this.section = section;
         this.list = list;
     }
 
@@ -66,7 +68,12 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
 
         @Override
         public void onClick(View view) {
-            mClickListener.onClickChild(view, getAdapterPosition());
+            if (mClickListener != null) {
+                mClickListener.onClickChild(view, getAdapterPosition(), section);
+            }
+
+//            mClickListener.onClickChild(view, getAdapterPosition());
+            
         }
     }
 
@@ -75,6 +82,6 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
     }
 
     public interface ChildClickListener {
-        void onClickChild(View view, int position);
+        void onClickChild(View view, int position, int section);
     }
 }
