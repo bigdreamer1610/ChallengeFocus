@@ -1,9 +1,8 @@
 package fpt.provipluxurylimited.challengefocus.authen;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,25 +24,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.models.UserProfile;
 
 public class AuthenticationActivity extends AppCompatActivity {
     public static final String TAG = "GoogleActivity";
 
     private Button btnLogin;
-//    private ImageView btnBack;
-
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onBackPressed() {
         // do something on back.
-//        Intent returnIntent = new Intent();
-//        Bundle mBundle = new Bundle();
-//        mBundle.putParcelable("user", FirebaseUtil.user);
-//        returnIntent.putExtras(mBundle);
-//        setResult(Activity.RESULT_OK, returnIntent);
-//        finish();
-//        return;
     }
 
     @Override
@@ -52,8 +46,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_authentication);
 
         configureGoogleSignIn();
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-//        btnBack = (ImageView) findViewById(R.id.backButton);
+        btnLogin = (Button) findViewById(R.id.btnLoginGoogle);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,12 +55,13 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+        // Share preference
+        pref = getApplicationContext().getSharedPreferences(Constants.pref, Constants.PRIVATE_MODE);// 0 - for private mode
+        editor = pref.edit();
+//        if (pref.getString(Constants.userId, null) != null) {
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//        }
     }
 
     private void signIn() {
@@ -82,10 +76,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 //        FirebaseUtil.mGoogleSignInClient.signOut();
         FirebaseUtil.mFirebaseAuth.removeAuthStateListener(FirebaseUtil.mAuthStateListener);
 
-        //TODO: Test
         Intent myIntent = new Intent(this, AuthenticationActivity.class);
         startActivity(myIntent);
-
     }
 
     private void configureGoogleSignIn() {
@@ -130,6 +122,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUtil.user = FirebaseUtil.mFirebaseAuth.getCurrentUser();
                             updateUI(FirebaseUtil.user);
+                            // save user profile to app
+                            saveUserProfile();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -148,4 +143,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         finish();
     }
 
+    public void saveUserProfile() {
+        UserProfile userProfile = FirebaseUtil.getUserProfile();
+        editor.putString(Constants.userId, FirebaseUtil.user.getUid());
+        editor.putString(Constants.name, userProfile.getName());
+        editor.putString(Constants.imageUrl, userProfile.getImageUrl());
+        editor.putString(Constants.caption, userProfile.getCaption());
+        editor.commit();
+    }
 }

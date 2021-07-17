@@ -11,6 +11,14 @@ public class Constants {
     public static final String failed = "failed";
     public static final String firebaseURL = "https://fptu-challangefocus-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
+    public static final String pref = "pref";
+    public static final int PRIVATE_MODE = 0;
+
+    public static final String userId = "uid";
+    public static final String name = "name";
+    public static final String imageUrl = "imageUrl";
+    public static final String caption = "caption";
+
     public static ChallengeStatus getStatus(String statusString) {
         ChallengeStatus status = ChallengeStatus.doing;
         switch (statusString) {

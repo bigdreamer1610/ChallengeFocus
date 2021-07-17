@@ -10,7 +10,6 @@
         android:id="@+id/textViewProfileName"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="Le Kim Do"
         android:fontFamily="@font/quicksand_semibold"
         android:textSize="20dp"
         android:textColor="@color/text_theme"
@@ -33,7 +32,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_jennie"
             app:civ_border_color="@color/round_profile_background"
             app:civ_border_width="5dp"
             />
@@ -46,7 +44,6 @@
         android:layout_marginBottom="20dp"
         android:imeOptions="actionDone"
         android:singleLine="true"
-        android:text="I never give up"
         android:textAlignment="center"
         android:textColor="@color/text_theme"
         android:textSize="15dp"
