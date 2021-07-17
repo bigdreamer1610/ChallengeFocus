@@ -26,8 +26,8 @@ public class FailedPresenter implements FailedUseCase.FailedUseCaseDelegate {
         this.delegate = delegate;
     }
 
-    void getFailedList() {
-        useCase.getFailedList();
+    void getFailedList(String userId) {
+        useCase.getFailedList(userId);
     }
 
     @Override

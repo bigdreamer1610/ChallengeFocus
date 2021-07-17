@@ -28,8 +28,8 @@ public class DonePresenter implements DoneUseCase.DoneUseCaseDelegate {
         this.delegate = delegate;
     }
 
-    public void getDoneList() {
-        useCase.getDoneList();
+    public void getDoneList(String userId) {
+        useCase.getDoneList(userId);
     }
 
     @Override

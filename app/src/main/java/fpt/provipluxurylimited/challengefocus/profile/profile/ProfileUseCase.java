@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.profile.profile;
 
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +26,8 @@ public class ProfileUseCase {
         this.delegate = delegate;
     }
 
-    public void getUserProfile() {
-        FirebaseUtil.shared.getReference().child(ApiClient.userProfile).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void getUserProfile(String id) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getUserProfileById(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 UserProfile userProfile = snapshot.getValue(UserProfile.class);

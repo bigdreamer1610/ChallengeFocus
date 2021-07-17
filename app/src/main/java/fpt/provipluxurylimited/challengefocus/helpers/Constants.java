@@ -18,6 +18,9 @@ public class Constants {
     public static final String done = "done";
     public static final String failed = "failed";
     public static final String firebaseURL = "https://fptu-challangefocus-default-rtdb.asia-southeast1.firebasedatabase.app/";
+    public static final int PRIVATE_MODE = 0;
+    public static final String name = "name";
+    public static final String caption = "caption";
 
     public static ChallengeStatus getStatus(String statusString) {
         ChallengeStatus status = ChallengeStatus.doing;
@@ -35,12 +38,12 @@ public class Constants {
         return status;
     }
 
+
     public static class DialogConstants {
         public static String confirmMessage = "Bạn muốn bắt đầu thử thách này chứ?";
         public static String optionAgree = "Đúng vậy";
         public static String optionReject = "Chưa, tôi chưa sẵn sàng";
         public static String optionUpload = "Tải ảnh lên";
         public static String optionCancel = "Huỷ";
-
     }
 }

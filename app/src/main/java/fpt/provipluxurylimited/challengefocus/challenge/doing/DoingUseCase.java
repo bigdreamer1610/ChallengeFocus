@@ -33,8 +33,8 @@ public class DoingUseCase {
         this.delegate = delegate;
     }
 
-    public void getDoingList() {
-        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge)
+    public void getDoingList(String userId) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

@@ -3,6 +3,7 @@ package fpt.provipluxurylimited.challengefocus.challenge.doing;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ import java.util.TimerTask;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
@@ -118,7 +121,7 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
 
 
     protected void initData() {
-        presenter.getDoingList();
+        presenter.getDoingList(SaveSharedPreference.getUserId(this.getContext()));
     }
 
     @Override

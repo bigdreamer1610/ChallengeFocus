@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 import fpt.provipluxurylimited.challengefocus.models.Feedback;
 import fpt.provipluxurylimited.challengefocus.profile.classes.StarRecyclerAdapter;
@@ -40,6 +42,8 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
 
     private List<Boolean> list;
     private FeedbackPresenter presenter;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
         list.add(Boolean.FALSE);
         list.add(Boolean.FALSE);
         list.add(Boolean.FALSE);
+        pref = getApplicationContext().getSharedPreferences(Constants.pref, Constants.PRIVATE_MODE);// 0 - for private mode
+        editor = pref.edit();
     }
 
     private void initComponents() {
@@ -102,9 +108,9 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
                 Feedback feedback;
                 String content = editTextContent.getText().toString();
                 if (content.isEmpty()) {
-                    feedback = new Feedback(noOfStars, "id1");
+                    feedback = new Feedback(noOfStars, pref.getString(Constants.userId, "id1"));
                 } else {
-                    feedback = new Feedback(noOfStars, "id1", content);
+                    feedback = new Feedback(noOfStars, pref.getString(Constants.userId, "id1"), content);
                 }
                 presenter.sendFeedback(feedback);
 

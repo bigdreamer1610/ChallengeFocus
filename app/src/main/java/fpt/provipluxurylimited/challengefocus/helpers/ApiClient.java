@@ -1,11 +1,11 @@
 package fpt.provipluxurylimited.challengefocus.helpers;
 
 public class ApiClient {
-    public static String userProfile = "Users/id1/information";
-    public static String caption = "Users/id1/information/caption";
+    public static String userProfile = "Users/%s/information";
+    public static String caption = "Users/%s/information/caption";
     public static String feedback = "Feedbacks";
     public static String category = "Categories";
-    public static String myChallenge = "Users/id1/challenges";
+    public static String myChallenge = "Users/%s/challenges";
     public static String items = "items";
 
     public static String getUserProfileById(String uid) {
@@ -15,5 +15,11 @@ public class ApiClient {
     public static String getCaptionById(String uid) {
         return String.format(caption, uid);
     }
+
+    public static String getMyChallenge(String uid) {
+        return String.format(myChallenge, uid);
+    }
+
+
 
 }

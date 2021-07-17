@@ -23,8 +23,8 @@ public class ProfilePresenter implements ProfileUseCase.ProfileUseCaseDelegate {
     }
 
 
-    public void getUserProfile() {
-        useCase.getUserProfile();
+    public void getUserProfile(String id) {
+        useCase.getUserProfile(id);
     }
 
     @Override

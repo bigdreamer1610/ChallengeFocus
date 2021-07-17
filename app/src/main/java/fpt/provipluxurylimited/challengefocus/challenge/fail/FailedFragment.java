@@ -25,6 +25,7 @@ import java.util.Timer;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
@@ -130,7 +131,8 @@ public class FailedFragment extends Fragment implements ChallengeRecyclerAdapter
     }
 
     protected void initData() {
-        presenter.getFailedList();
+
+        presenter.getFailedList(SaveSharedPreference.getUserId(this.getContext()));
     }
 
     @Override

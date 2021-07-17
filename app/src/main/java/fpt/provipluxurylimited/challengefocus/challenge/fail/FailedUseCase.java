@@ -30,8 +30,8 @@ public class FailedUseCase {
         this.delegate = delegate;
     }
 
-    public void getFailedList() {
-        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge)
+    public void getFailedList(String userId) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {

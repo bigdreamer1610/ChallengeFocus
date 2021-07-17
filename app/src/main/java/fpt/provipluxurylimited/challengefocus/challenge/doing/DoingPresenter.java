@@ -25,8 +25,8 @@ public class DoingPresenter implements DoingUseCase.DoingUseCaseDelegate {
         this.delegate = delegate;
     }
 
-    void getDoingList() {
-        useCase.getDoingList();
+    void getDoingList(String userId) {
+        useCase.getDoingList(userId);
     }
 
     @Override
