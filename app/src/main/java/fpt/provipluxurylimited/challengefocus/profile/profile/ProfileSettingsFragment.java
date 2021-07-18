@@ -113,19 +113,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        textViewCaption.setOnEditorActionListener((textView, actionId, keyEvent) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
-                // Update Caption
-                String newCaption = textViewCaption.getText().toString();
-                FirebaseUtil.mDatabaseReference.child(ApiClient.getCaptionById(FirebaseUtil.user.getUid())).setValue(newCaption);
-                return true;
-            }
-            return false;
-        });
-
+        editCaption();
         clickLogout();
     }
 
@@ -135,6 +123,21 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
         //presenter.getUserProfile(pref.getString(Constants.userId, "id1"));
+    }
+
+    private void editCaption() {
+        textViewCaption.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+                // Update Caption
+                String newCaption = textViewCaption.getText().toString().trim();
+                presenter.setCaption(SaveSharedPreference.getUserId(context), newCaption);
+                return true;
+            }
+            return false;
+        });
+
     }
 
     private void setUpProfile() {
@@ -189,6 +192,9 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         System.out.println("response error: " + error);
     }
 
-
-
+    @Override
+    public void responseCaption(String caption) {
+        textViewCaption.setText(caption);
+        SaveSharedPreference.setCaption(context, caption);
+    }
 }

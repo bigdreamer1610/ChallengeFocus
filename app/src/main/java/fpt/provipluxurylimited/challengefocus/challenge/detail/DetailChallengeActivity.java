@@ -226,17 +226,15 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
                     btnAdd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String title = editTextName.getText().toString();
+                            String title = editTextName.getText().toString().trim();
                             // if this is the first item of the list
                             // add new challenge -> then add this item to this challnge
                             if (!hasItem) {
                                 presenter.addFirstIitem(SaveSharedPreference.getUserId(context), challenge, new ToDoItem(title, false));
+                                // if not the first -> just add this item to the existing challenge
                             } else {
                                 presenter.addItem(SaveSharedPreference.getUserId(context), challenge.getId(), new ToDoItem(title, false));
                             }
-
-                            // if not the first -> just add this item to the existing challenge
-//                            presenter.addItem(editTextName.getText().toString());
                             bottomSheetDialog.dismiss();
                         }
                     });
