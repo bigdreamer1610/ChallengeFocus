@@ -107,9 +107,12 @@ public class DetailChallengeUseCase {
                 .setValue(item);
     }
 
-    public void removeItem(String id) {
-        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge).child("fsdffd").child(ApiClient.items)
-                .child(id).getRef().removeValue();
+    public void removeItem(String userId, String challengeId, String itemId) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(challengeId)
+                .child(ApiClient.items)
+                .child(itemId)
+                .getRef().removeValue();
     }
 
     // upload image to storage

@@ -40,8 +40,8 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         useCase.addItem(userId, id, item);
     }
 
-    void removeItem(String id) {
-        useCase.removeItem(id);
+    void removeItem(String userId, String challengeId, String itemId) {
+        useCase.removeItem(userId, challengeId, itemId);
     }
 
     void uploadImageToStorage(String userId, String challengeId, ToDoItem item, Uri uri) {

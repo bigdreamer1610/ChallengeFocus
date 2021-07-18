@@ -386,7 +386,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     }
 
     public void removeItem(ToDoItem item) {
-        presenter.removeItem(item.getId());
+        presenter.removeItem(SaveSharedPreference.getUserId(context), challenge.getId(), item.getId());
     }
 
     @Override
