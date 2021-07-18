@@ -26,7 +26,7 @@
             android:textAlignment="center"
             android:fontFamily="@font/quicksand_medium"
             android:textColor="@color/black"
-            android:textSize="13dp"
+            android:textSize="15dp"
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAgree"

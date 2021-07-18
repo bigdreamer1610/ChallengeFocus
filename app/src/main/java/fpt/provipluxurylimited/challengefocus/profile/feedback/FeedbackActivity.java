@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -37,8 +39,8 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
     ImageView btnBack;
     AppCompatButton btnSend;
     EditText editTextContent;
+    Dialog dialog;
     private Context context;
-    CoordinatorLayout mainContent;
 
     private List<Boolean> list;
     private FeedbackPresenter presenter;
@@ -85,9 +87,28 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
         btnBack.setClickable(true);
         clickBack();
         clickSend();
-
+        setUpDialog();
     }
 
+    void setUpDialog() {
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.message_dialog);
+        TextView textViewMessage = dialog.findViewById(R.id.dialogTitle);
+        AppCompatButton btnOk = dialog.findViewById(R.id.btnOk);
+
+        textViewMessage.setText(Constants.DialogConstants.feedback);
+        btnOk.setText("OK");
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    void showDialog() {
+        dialog.show();
+    }
     void clickBack() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +158,7 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showDialog("Gửi feedback thành công, cảm ơn bạn nhaa!",context);
+                showDialog();
             }
         });
     }

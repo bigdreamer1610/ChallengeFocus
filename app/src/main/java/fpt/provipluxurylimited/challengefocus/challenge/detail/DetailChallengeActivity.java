@@ -58,6 +58,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     Dialog dialog;
     Dialog dialogWarning;
     Dialog dialogCongrats;
+    Dialog dialogMessage;
     AppCompatButton btnAgree;
     AppCompatButton btnReject;
     CirclesLoadingView loadingView;
@@ -107,6 +108,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         setUpDialog();
         setUpDialogWarning();
         setUpDialogCongrats();
+        setUpDialogMessage();
         setUpStorage();
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -219,7 +221,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             public void onClick(View view) {
                 // when user has not picked the deadline => show dialog
                 if (date == null) {
-                    showDialog("Bạn cần đặt deadline trước khi thêm item", context);
+                    showMessageDialog();
                 } else {
                     // open bottom sheet to input new item
                     bottomSheetDialog = new BottomSheetDialog(view.getContext());
@@ -272,7 +274,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             @Override
             public void onClick(View view) {
                 if (challengeStatus == ChallengeStatus.doing) {
-                    new DatePickerDialog(DetailChallengeActivity.this, onDateSetListener,myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(DetailChallengeActivity.this, R.style.CalendarTheme , onDateSetListener,myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.show();
                 } else {
                     return;
                 }
@@ -333,6 +336,23 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         });
     }
 
+    void setUpDialogMessage() {
+        dialogMessage = new Dialog(this);
+        dialogMessage.setContentView(R.layout.message_dialog);
+
+        TextView textViewMessage = dialogMessage.findViewById(R.id.dialogTitle);
+        AppCompatButton btnOk = dialogMessage.findViewById(R.id.btnOk);
+
+        textViewMessage.setText(Constants.DialogConstants.deadline);
+        btnOk.setText("OK");
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogMessage.dismiss();
+            }
+        });
+    }
+
     void setUpDialogCongrats() {
         dialogCongrats = new Dialog(this);
         dialogCongrats.setContentView(R.layout.congrat_screen);
@@ -361,6 +381,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
 
     void showCongratDialog() {
         dialogCongrats.show();
+    }
+
+    void showMessageDialog() {
+        dialogMessage.show();
     }
 
 
@@ -449,6 +473,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             showCongratDialog();
             challengeStatus = ChallengeStatus.done;
             updateViewOnStatus(challengeStatus);
+            fragmentItem.setAllowSwipe(false);
         }
     }
 

@@ -42,7 +42,6 @@ public class SplashActivity extends AppCompatActivity {
 
         if (SaveSharedPreference.getUserId(this) != null) {
             configureGoogleSignIn();
-            Log.e("Userid", SaveSharedPreference.getUserId(this));
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }

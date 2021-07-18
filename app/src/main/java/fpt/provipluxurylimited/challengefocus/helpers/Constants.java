@@ -51,5 +51,7 @@ public class Constants {
         public static String restartMessage = "Bạn có muốn bắt đầu lại thử thách này?";
         public static String optionAgreeRestart = "Có, tôi muốn bắt đầu lại";
         public static String optionRejectRestart = "Tôi sẽ xem xét lại";
+        public static String feedback = "Feedback đã được gửi lên thành công. Cảm ơn bạn nhé ❤️";
+        public static String deadline = "Bạn cần đặt deadline trước khi thêm item";
     }
 }
