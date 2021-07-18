@@ -40,8 +40,6 @@ public class DiscoveryListUseCase {
                             list.add(item);
                         }
                         DiscoveryResult result = groupChallenges(list);
-                        System.out.println("names: " + result.getCategoryNames().size());
-                        System.out.println("challenges: " + result.getList().values().size());
                         delegate.onGetCategoryListSuccess(result);
                     }
 

@@ -45,7 +45,6 @@ public class DoingUseCase {
                         for(DataSnapshot ds : snapshot.getChildren()) {
                             Challenge challenge = ds.getValue(Challenge.class);
                             challenge.setId(ds.getKey());
-                            Log.e("Challenge", challenge.toString());
                             list.add(challenge);
                         }
                         delegate.onSuccessDoing(getChallengeByStatus(list).getDoingList());
@@ -76,7 +75,6 @@ public class DoingUseCase {
                 myChallenges.getDoneList().add(challenge);
             }
         }
-        Log.e("Challenge Filter", "Filter success: " + myChallenges.getDoingList().size());
         return myChallenges;
     }
 

@@ -12,6 +12,7 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
     public interface DetailChallengePresenterDelegate extends BasePresenterDelegate {
         void responseItemList(ArrayList<ToDoItem> list);
         void responseChallengeId(String challengeId);
+        void responsePercentage(int percentage);
     }
 
     protected DetailChallengeUseCase useCase;
@@ -45,7 +46,10 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
 
     void uploadImageToStorage(String userId, String challengeId, ToDoItem item, Uri uri) {
         useCase.uploadImageToStorage(userId, challengeId, item, uri);
+    }
 
+    void updatePercentage(String userId, String id, ArrayList<ToDoItem> list) {
+        useCase.updateChallengePercentage(userId, id, list);
     }
 
     @Override
@@ -66,5 +70,10 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
     @Override
     public void onFailure(String message) {
         delegate.showError(message);
+    }
+
+    @Override
+    public void onSuccessGetPercentage(int percentage) {
+        delegate.responsePercentage(percentage);
     }
 }

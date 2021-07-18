@@ -15,9 +15,11 @@ import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
@@ -31,6 +33,7 @@ public class DetailChallengeUseCase {
         void onSuccessGetItems(ArrayList<ToDoItem> list);
         void onSuccessAddFirstItem(String challengeId);
         void onSuccessUploadImage(String imageName);
+        void onSuccessGetPercentage(int percentage);
     }
 
     private DetailChallengeUseCaseDelegate delegate;
@@ -142,11 +145,26 @@ public class DetailChallengeUseCase {
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Log.e("link", uri.toString());
                 ToDoItem updateItem = new ToDoItem(item.getTitle(), Utils.convertDateToString(new Date()), true, uri.toString());
                 updateItemWithImage(userId, challengeId, item.getId(), updateItem);
             }
         });
+    }
+
+    public void updateChallengePercentage(String userId, String id, ArrayList<ToDoItem> list) {
+        int doneItems = list.stream().filter(item -> item.getIsDone()).collect(Collectors.toList()).size();
+        int percentage = Math.round(((float) doneItems / list.size()) * 100);
+        Log.e("percentage", " alo: " + percentage);
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(id)
+                .child("percentage")
+                .setValue(percentage)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        delegate.onSuccessGetPercentage(percentage);
+                    }
+                });
     }
 }
 

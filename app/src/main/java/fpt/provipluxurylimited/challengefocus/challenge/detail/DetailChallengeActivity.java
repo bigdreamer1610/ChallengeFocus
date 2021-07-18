@@ -43,6 +43,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.ItemFragment;
@@ -152,20 +154,23 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     }
 
     void bindData(Challenge challenge) {
+        Log.e("challenge", challenge.toString());
         String duedate = challenge.getDueDate();
+
         int percentage = challenge.getPercentage();
         challengeStatus = Constants.getStatus(challenge.getStatus());
         String title = challenge.getTitle();
 
         textViewPercentage.setText(percentage + "%");
         textViewTitle.setText(title);
-        textViewChooseDate.setText(duedate);
         textViewChooseDate.setEnabled(duedate == null ? true : false);
-        if (duedate == null) {
-            textViewChooseDate.setEnabled(true);
-        } else {
+        if (duedate != null) {
+            date = Utils.convertStringToDate(duedate);
             textViewChooseDate.setEnabled(false);
+            textViewChooseDate.setText(duedate);
             getListItem();
+        } else {
+            textViewChooseDate.setEnabled(true);
         }
         updateViewOnStatus(challengeStatus);
 
@@ -212,8 +217,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
                 if (date == null) {
                     showDialog("Bạn cần đặt deadline trước khi thêm item", context);
                 } else {
-//                    hasItem = true;
-//                    updateFragment();
                     // open bottom sheet to input new item
                     bottomSheetDialog = new BottomSheetDialog(view.getContext());
                     bottomSheetDialog.setContentView(R.layout.add_item);
@@ -371,6 +374,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     }
 
     void updateFragment() {
+        fragmentItem = (ItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentItem);
+        fragmentNoItem = (NoItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentNoItem);
         if (hasItem) {
             fragmentNoItem.getView().setVisibility(View.GONE);
             fragmentItem.getView().setVisibility(View.VISIBLE);
@@ -389,7 +394,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         this.list = list;
         fragmentItem.setList(list);
         hasItem = list.size() != 0;
+        presenter.updatePercentage(SaveSharedPreference.getUserId(context), challenge.getId(), list);
         updateFragment();
+
+//        calculatePercentage();
     }
 
     @Override
@@ -401,5 +409,16 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     public void responseChallengeId(String challengeId) {
         challenge.setId(challengeId);
         getListItem();
+    }
+
+    @Override
+    public void responsePercentage(int percentage) {
+        challenge.setPercentage(percentage);
+        textViewPercentage.setText(percentage + "%");
+    }
+
+    void calculatePercentage() {
+        int number = list.stream().filter(item -> item.getIsDone()).collect(Collectors.toList()).size();
+        Log.e("percentage", "done: " + number + " / " + list.size());
     }
 }
