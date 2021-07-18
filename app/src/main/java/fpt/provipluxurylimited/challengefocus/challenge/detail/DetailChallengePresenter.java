@@ -52,6 +52,10 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         useCase.updateChallengePercentage(userId, id, list);
     }
 
+    void removeEmptyChallenge(String userId, String id) {
+        useCase.removeEmptyChallenge(userId, id);
+    }
+
     @Override
     public void onSuccessGetItems(ArrayList<ToDoItem> list) {
         delegate.responseItemList(list);

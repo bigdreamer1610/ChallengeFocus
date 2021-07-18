@@ -180,6 +180,12 @@ public class DetailChallengeUseCase {
                 .setValue(doneDate);
     }
 
+    public void removeEmptyChallenge(String userId, String id) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(id)
+                .removeValue();
+    }
+
     }
 
 

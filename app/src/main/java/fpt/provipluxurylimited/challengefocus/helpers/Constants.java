@@ -48,5 +48,8 @@ public class Constants {
         public static String warningAddItem = "Bạn chưa thêm item nào. Ở lại thêm item tiếp nhé?";
         public static String optionAgreeAddItem = "OK tôi sẽ thêm item";
         public static String optionRejectAddITem = "Tôi muốn quay lại";
+        public static String restartMessage = "Bạn có muốn bắt đầu lại thử thách này?";
+        public static String optionAgreeRestart = "Có, tôi muốn bắt đầu lại";
+        public static String optionRejectRestart = "Tôi sẽ xem xét lại";
     }
 }

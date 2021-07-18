@@ -414,6 +414,15 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         hasItem = list.size() != 0;
         presenter.updatePercentage(SaveSharedPreference.getUserId(context), challenge.getId(), list);
         updateFragment();
+        if (this.list.size() == 0 && challenge.getId() != null) {
+            // remove challenge
+            presenter.removeEmptyChallenge(SaveSharedPreference.getUserId(context), challenge.getId());
+            resetChallenge();
+        }
+    }
+
+    void resetChallenge() {
+        challenge.setId(null);
     }
 
     @Override
