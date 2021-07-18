@@ -63,11 +63,6 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
     }
 
     @Override
-    public void onSuccessUploadImage(String imageName) {
-        System.out.println("hi");
-    }
-
-    @Override
     public void onFailure(String message) {
         delegate.showError(message);
     }

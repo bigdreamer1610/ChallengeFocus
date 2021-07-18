@@ -32,7 +32,6 @@ public class DetailChallengeUseCase {
     public interface DetailChallengeUseCaseDelegate extends BaseUseCaseDelegate {
         void onSuccessGetItems(ArrayList<ToDoItem> list);
         void onSuccessAddFirstItem(String challengeId);
-        void onSuccessUploadImage(String imageName);
         void onSuccessGetPercentage(int percentage);
     }
 
@@ -165,9 +164,23 @@ public class DetailChallengeUseCase {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        if (percentage == 100) {
+                            setDoneStatusForChallenge(userId,id);
+                        }
                         delegate.onSuccessGetPercentage(percentage);
+
                     }
                 });
+        }
+    private void setDoneStatusForChallenge(String userId, String id) {
+        String doneDate = Utils.convertDateToString(new Date());
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(id)
+                .child("doneDate")
+                .setValue(doneDate);
     }
-}
+
+    }
+
+
 

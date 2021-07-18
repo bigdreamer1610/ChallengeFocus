@@ -55,6 +55,7 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
     private ArrayList<ToDoItem> list;
     RecyclerView recyclerView;
     ItemRecyclerAdapter adapter;
+    Boolean allowSwipe = true;
 
     public ItemFragment() {
         // Required empty public constructor
@@ -111,6 +112,10 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
         adapter.notifyDataSetChanged();
     }
 
+    public void setAllowSwipe(Boolean allowSwipe) {
+        this.allowSwipe = allowSwipe;
+    }
+
     private void initComponent(View view) {
         recyclerView = view.findViewById(R.id.recyclerViewItem);
         adapter = new ItemRecyclerAdapter(list, this.getContext());
@@ -139,6 +144,12 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
                 case ItemTouchHelper.RIGHT:
                     break;
             }
+        }
+
+        @Override
+        public int getSwipeDirs(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder) {
+            if (!allowSwipe) return 0;
+            return super.getSwipeDirs(recyclerView, viewHolder);
         }
     };
 

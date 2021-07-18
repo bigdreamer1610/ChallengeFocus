@@ -38,6 +38,7 @@ public class FailedUseCase {
                         ArrayList<Challenge> list = new ArrayList<>();
                         for(DataSnapshot ds : snapshot.getChildren()) {
                             Challenge challenge = ds.getValue(Challenge.class);
+                            challenge.setId(ds.getKey());
                             list.add(challenge);
                         }
                         delegate.onSuccessFailed(getChallengeByStatus(list).getFailedList());

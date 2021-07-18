@@ -1,12 +1,8 @@
 package fpt.provipluxurylimited.challengefocus.challenge.detail;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,26 +20,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.UUID;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.ItemFragment;
@@ -55,8 +41,8 @@ import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
-import fpt.provipluxurylimited.challengefocus.models.DialogType;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
+import me.ibrahimsn.lib.CirclesLoadingView;
 
 public class DetailChallengeActivity extends BaseActivity implements DetailChallengePresenter.DetailChallengePresenterDelegate {
 
@@ -70,9 +56,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     Context context;
     Dialog dialog;
     Dialog dialogWarning;
+    Dialog dialogCongrats;
     AppCompatButton btnAgree;
     AppCompatButton btnReject;
-    FragmentActivity fragmentActivity;
+    CirclesLoadingView loadingView;
 
     BottomSheetDialog bottomSheetDialog;
     final Calendar myCalendar = Calendar.getInstance();
@@ -88,8 +75,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     Uri imageUrl;
     ToDoItem selectedItem;
     Challenge challenge;
-    private DialogType dialogType = DialogType.WARNING_ADD_DUE_DATE;
-
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -112,12 +97,14 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         imageViewBack = findViewById(R.id.btnBack);
         floatButton = findViewById(R.id.floatingButton);
         textViewChooseDate = findViewById(R.id.textViewDate);
+        loadingView = findViewById(R.id.loadingView);
         imageViewBack.setClickable(true);
         updateFragment();
         clickBack();
         clickFloat();
         setUpDialog();
         setUpDialogWarning();
+        setUpDialogCongrats();
         setUpStorage();
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -129,6 +116,15 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             }
         };
         clickChooseDate();
+    }
+
+    void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    void hideLoading() {
+        loadingView.clearAnimation();
+        loadingView.setVisibility(View.GONE);
     }
 
 
@@ -170,6 +166,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             textViewChooseDate.setText(duedate);
             getListItem();
         } else {
+            hideLoading();
             textViewChooseDate.setEnabled(true);
         }
         updateViewOnStatus(challengeStatus);
@@ -177,11 +174,11 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     }
 
     void getListItem() {
+        showLoading();
         presenter.getItemList(SaveSharedPreference.getUserId(context), challenge.getId());
     }
 
     void updateViewOnStatus(ChallengeStatus status) {
-        System.out.println("status: " + status.name());
         switch (status) {
             case doing:
                 floatButton.setVisibility(View.VISIBLE);
@@ -331,6 +328,20 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         });
     }
 
+    void setUpDialogCongrats() {
+        dialogCongrats = new Dialog(this);
+        dialogCongrats.setContentView(R.layout.congrat_screen);
+        dialogCongrats.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        AppCompatButton btnOk = dialogCongrats.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogCongrats.dismiss();
+            }
+        });
+    }
+
     public void showDialog() {
         dialog.show();
     }
@@ -341,6 +352,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
 
     void showWarningDialog() {
         dialogWarning.show();
+    }
+
+    void showCongratDialog() {
+        dialogCongrats.show();
     }
 
 
@@ -360,6 +375,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUrl = data.getData();
+            showLoading();
             presenter.uploadImageToStorage(SaveSharedPreference.getUserId(context), challenge.getId(), selectedItem, imageUrl);
         }
     }
@@ -391,13 +407,13 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
 
     @Override
     public void responseItemList(ArrayList<ToDoItem> list) {
+        hideLoading();
         this.list = list;
         fragmentItem.setList(list);
+        fragmentItem.setAllowSwipe(challengeStatus == ChallengeStatus.doing ? true : false);
         hasItem = list.size() != 0;
         presenter.updatePercentage(SaveSharedPreference.getUserId(context), challenge.getId(), list);
         updateFragment();
-
-//        calculatePercentage();
     }
 
     @Override
@@ -415,10 +431,11 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     public void responsePercentage(int percentage) {
         challenge.setPercentage(percentage);
         textViewPercentage.setText(percentage + "%");
+        if (percentage == 100 && challengeStatus == ChallengeStatus.doing) {
+            showCongratDialog();
+            challengeStatus = ChallengeStatus.done;
+            updateViewOnStatus(challengeStatus);
+        }
     }
 
-    void calculatePercentage() {
-        int number = list.stream().filter(item -> item.getIsDone()).collect(Collectors.toList()).size();
-        Log.e("percentage", "done: " + number + " / " + list.size());
-    }
 }

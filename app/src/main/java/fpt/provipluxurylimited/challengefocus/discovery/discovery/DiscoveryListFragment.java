@@ -54,7 +54,6 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     private String mParam2;
 
     NavController navController;
-    SearchView searchView;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     DiscoveryRecylerAdapter discoveryRecylerAdapter;
@@ -64,8 +63,6 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     TextView textViewTitle;
     AppCompatButton btnAgree;
     AppCompatButton btnReject;
-    Activity activity;
-
     private DiscoveryResult result;
     private DiscoveryListPresenter presenter;
     private CategoryChallenge selectedChallenge;
@@ -110,7 +107,6 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
         context = view.getContext();
         navController = Navigation.findNavController(view);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
-        searchView = view.findViewById(R.id.searchView);
         loadingView = view.findViewById(R.id.loadingView);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDiscovery);
