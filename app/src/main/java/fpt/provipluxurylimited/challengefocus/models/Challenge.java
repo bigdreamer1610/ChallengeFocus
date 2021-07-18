@@ -24,6 +24,14 @@ public class Challenge {
         this.status = status;
     }
 
+    public Challenge(int challengeId, String imageUrl, int percentage, String title, String status) {
+        this.challengeId = challengeId;
+        this.imageUrl = imageUrl;
+        this.percentage = percentage;
+        this.title = title;
+        this.status = status;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -87,5 +95,21 @@ public class Challenge {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Challenge{" +
+                "id='" + id + '\'' +
+                ", challengeId=" + challengeId +
+                ", dueDate='" + dueDate + '\'' +
+                ", doneDate='" + doneDate + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", percentage=" + percentage +
+                ", title='" + title + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
+
 }
 

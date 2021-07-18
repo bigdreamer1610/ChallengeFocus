@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.challenge.doing;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -34,13 +36,16 @@ public class DoingUseCase {
     }
 
     public void getDoingList(String userId) {
+        Log.e("Userid", userId);
         FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         ArrayList<Challenge> list = new ArrayList<>();
                         for(DataSnapshot ds : snapshot.getChildren()) {
                             Challenge challenge = ds.getValue(Challenge.class);
+                            challenge.setId(ds.getKey());
+                            Log.e("Challenge", challenge.toString());
                             list.add(challenge);
                         }
                         delegate.onSuccessDoing(getChallengeByStatus(list).getDoingList());
@@ -71,6 +76,7 @@ public class DoingUseCase {
                 myChallenges.getDoneList().add(challenge);
             }
         }
+        Log.e("Challenge Filter", "Filter success: " + myChallenges.getDoingList().size());
         return myChallenges;
     }
 

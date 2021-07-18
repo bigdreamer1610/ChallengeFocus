@@ -48,9 +48,12 @@ import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.ItemFragment;
 import fpt.provipluxurylimited.challengefocus.challenge.NoItemFragment;
 import fpt.provipluxurylimited.challengefocus.helpers.Constants;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
+import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
+import fpt.provipluxurylimited.challengefocus.models.DialogType;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class DetailChallengeActivity extends BaseActivity implements DetailChallengePresenter.DetailChallengePresenterDelegate {
@@ -64,6 +67,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     TextView textViewChooseDate;
     Context context;
     Dialog dialog;
+    Dialog dialogWarning;
     AppCompatButton btnAgree;
     AppCompatButton btnReject;
     FragmentActivity fragmentActivity;
@@ -81,6 +85,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     int PICK_IMAGE = 1;
     Uri imageUrl;
     ToDoItem selectedItem;
+    Challenge challenge;
+    private DialogType dialogType = DialogType.WARNING_ADD_DUE_DATE;
 
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -109,6 +115,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         clickBack();
         clickFloat();
         setUpDialog();
+        setUpDialogWarning();
         setUpStorage();
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -139,28 +146,42 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         Gson gson = new Gson();
         String challengeString = getIntent().getStringExtra("challenge");
         if (challengeString != null) {
-            Challenge challenge = gson.fromJson(challengeString, Challenge.class);
-            textViewChooseDate.setEnabled(false);
-            dateString = challenge.getDueDate();
-            textViewPercentage.setText(challenge.getPercentage() + "%");
-            textViewTitle.setText(challenge.getTitle());
-            textViewChooseDate.setText(challenge.getDueDate());
-            challengeStatus = Constants.getStatus(challenge.getStatus());
-            presenter.getItemList("id1", "doing");
-            updateViewOnStatus(challengeStatus);
+            challenge = gson.fromJson(challengeString, Challenge.class);
+            bindData(challenge);
         }
+    }
+
+    void bindData(Challenge challenge) {
+        String duedate = challenge.getDueDate();
+        int percentage = challenge.getPercentage();
+        challengeStatus = Constants.getStatus(challenge.getStatus());
+        String title = challenge.getTitle();
+
+        textViewPercentage.setText(percentage + "%");
+        textViewTitle.setText(title);
+        textViewChooseDate.setText(duedate);
+        textViewChooseDate.setEnabled(duedate == null ? true : false);
+        if (duedate == null) {
+            textViewChooseDate.setEnabled(true);
+        } else {
+            textViewChooseDate.setEnabled(false);
+            getListItem();
+        }
+        updateViewOnStatus(challengeStatus);
+
+    }
+
+    void getListItem() {
+        presenter.getItemList(SaveSharedPreference.getUserId(context), challenge.getId());
     }
 
     void updateViewOnStatus(ChallengeStatus status) {
         System.out.println("status: " + status.name());
         switch (status) {
-            case done:
-                floatButton.setVisibility(View.INVISIBLE);
-                break;
             case doing:
                 floatButton.setVisibility(View.VISIBLE);
                 break;
-            case failed:
+            default:
                 floatButton.setVisibility(View.INVISIBLE);
                 break;
         }
@@ -170,7 +191,15 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                // no date & no item
+                if (date == null && !hasItem) {
+                    finish();
+                    // there's date but no item
+                } else if (date != null && !hasItem) {
+                    showWarningDialog();
+                } else {
+                    finish();
+                }
             }
         });
     }
@@ -180,11 +209,12 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             @Override
             public void onClick(View view) {
                 // when user has not picked the deadline => show dialog
-                if (dateString == null) {
+                if (date == null) {
                     showDialog("Bạn cần đặt deadline trước khi thêm item", context);
                 } else {
-                    hasItem = true;
-                    updateFragment();
+//                    hasItem = true;
+//                    updateFragment();
+                    // open bottom sheet to input new item
                     bottomSheetDialog = new BottomSheetDialog(view.getContext());
                     bottomSheetDialog.setContentView(R.layout.add_item);
                     AppCompatButton btnAdd = bottomSheetDialog
@@ -196,7 +226,17 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
                     btnAdd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            presenter.addItem(editTextName.getText().toString());
+                            String title = editTextName.getText().toString();
+                            // if this is the first item of the list
+                            // add new challenge -> then add this item to this challnge
+                            if (!hasItem) {
+                                presenter.addFirstIitem(SaveSharedPreference.getUserId(context), challenge, new ToDoItem(title, false));
+                            } else {
+                                presenter.addItem(SaveSharedPreference.getUserId(context), challenge.getId(), new ToDoItem(title, false));
+                            }
+
+                            // if not the first -> just add this item to the existing challenge
+//                            presenter.addItem(editTextName.getText().toString());
                             bottomSheetDialog.dismiss();
                         }
                     });
@@ -260,6 +300,34 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         });
     }
 
+    void setUpDialogWarning() {
+        dialogWarning = new Dialog(this);
+        dialogWarning.setContentView(R.layout.confirm_dialog);
+
+        TextView warningTitle = dialogWarning.findViewById(R.id.dialogTitle);
+        AppCompatButton warningAgreeButton = dialogWarning.findViewById(R.id.btnAgree);
+        AppCompatButton warningRejectButton = dialogWarning.findViewById(R.id.btnReject);
+
+        warningTitle.setText(Constants.DialogConstants.warningAddItem);
+        warningAgreeButton.setText(Constants.DialogConstants.optionAgreeAddItem);
+        warningRejectButton.setText(Constants.DialogConstants.optionRejectAddITem);
+
+        warningAgreeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogWarning.dismiss();
+            }
+        });
+
+        warningRejectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogWarning.dismiss();
+                finish();
+            }
+        });
+    }
+
     public void showDialog() {
         dialog.show();
     }
@@ -267,6 +335,11 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     public void closeDialog() {
         dialog.dismiss();
     }
+
+    void showWarningDialog() {
+        dialogWarning.show();
+    }
+
 
     public void setClickItem(ToDoItem item) {
         selectedItem = item;
@@ -284,7 +357,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUrl = data.getData();
-            presenter.uploadImageToStorage(imageUrl, selectedItem);
+            presenter.uploadImageToStorage(SaveSharedPreference.getUserId(context), challenge.getId(), selectedItem, imageUrl);
         }
     }
 
@@ -292,7 +365,9 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat format = new SimpleDateFormat(myFormat, Locale.ENGLISH);
         date = myCalendar.getTime();
+        challenge.setDueDate(Utils.convertDateToString(date));
         textViewChooseDate.setText(format.format(date));
+
     }
 
     void updateFragment() {
@@ -303,12 +378,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             fragmentItem.getView().setVisibility(View.GONE);
             fragmentNoItem.getView().setVisibility(View.VISIBLE);
         }
-    }
-
-    public void updateData(ArrayList<ToDoItem> list) {
-        this.list = list;
-        hasItem = list.size() != 0;
-        updateFragment();
     }
 
     public void removeItem(ToDoItem item) {
@@ -326,5 +395,11 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     @Override
     public void showError(String error) {
         Log.e("Error", error);
+    }
+
+    @Override
+    public void responseChallengeId(String challengeId) {
+        challenge.setId(challengeId);
+        getListItem();
     }
 }

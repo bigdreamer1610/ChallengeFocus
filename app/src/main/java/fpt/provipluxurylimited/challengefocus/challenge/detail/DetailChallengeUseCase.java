@@ -23,11 +23,13 @@ import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseUseCaseDelegate;
+import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class DetailChallengeUseCase {
     public interface DetailChallengeUseCaseDelegate extends BaseUseCaseDelegate {
         void onSuccessGetItems(ArrayList<ToDoItem> list);
+        void onSuccessAddFirstItem(String challengeId);
         void onSuccessUploadImage(String imageName);
     }
 
@@ -37,8 +39,10 @@ public class DetailChallengeUseCase {
         this.delegate = delegate;
     }
 
-    public void getToDoItemsList(String userId, String status){
-        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge).child("fsdffd").child(ApiClient.items)
+    public void getToDoItemsList(String userId, String challengeId){
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(challengeId)
+                .child(ApiClient.items)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -60,11 +64,44 @@ public class DetailChallengeUseCase {
                 });
     }
 
-    public void addItem(String title) {
-        if (!title.isEmpty()) {
-            FirebaseUtil.shared.getReference().child(ApiClient.myChallenge).child("fsdffd").child(ApiClient.items)
-                    .push().setValue(new ToDoItem(title, false));
-        }
+    public void addNewChallenge(String userId, Challenge challenge, ToDoItem firstItem) {
+        challenge.setStatus(null);
+        String key = FirebaseUtil.shared.getReference().push().getKey();
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(key)
+                .setValue(challenge)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        addFirstToDoItem(userId, key, firstItem);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        delegate.onFailure(e.getMessage());
+                    }
+                });
+    }
+
+    private void addFirstToDoItem(String userId, String challengeId, ToDoItem item) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId)).child(challengeId).child(ApiClient.items)
+                .push()
+                .setValue(item)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        delegate.onSuccessAddFirstItem(challengeId);
+                    }
+                });
+    }
+
+    public void addItem(String userId, String id, ToDoItem item) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(id)
+                .child(ApiClient.items)
+                .push()
+                .setValue(item);
     }
 
     public void removeItem(String id) {
@@ -72,13 +109,16 @@ public class DetailChallengeUseCase {
                 .child(id).getRef().removeValue();
     }
 
-    public void uploadImageToStorage(Uri uri, ToDoItem item) {
+    // upload image to storage
+    public void uploadImageToStorage(String userId, String challengeId , ToDoItem item, Uri uri) {
         final String randomKey = UUID.randomUUID().toString();
         FirebaseUtil.shared.getStorageReference().child("results/" + randomKey).putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        requestImageUrl(randomKey, item);
+                        // success
+                        // then get downloaded url
+                        requestImageUrl(userId, challengeId, randomKey,item);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -89,21 +129,22 @@ public class DetailChallengeUseCase {
                 });
     }
 
-    private void updateItemWithImage(String id,ToDoItem item) {
-        FirebaseUtil.shared.getReference().child(ApiClient.myChallenge).child("fsdffd").child(ApiClient.items)
+    private void updateItemWithImage(String userId, String challengeId, String id, ToDoItem item) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
+                .child(challengeId).child(ApiClient.items)
                 .child(id)
                 .setValue(item);
     }
 
 
-    private void requestImageUrl(String imageName, ToDoItem item) {
+    private void requestImageUrl(String userId, String challengeId, String imageName, ToDoItem item) {
         FirebaseUtil.shared.getStorageReference().child("results/" + imageName)
                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Log.e("link", uri.toString());
                 ToDoItem updateItem = new ToDoItem(item.getTitle(), Utils.convertDateToString(new Date()), true, uri.toString());
-                updateItemWithImage(item.getId(), updateItem);
+                updateItemWithImage(userId, challengeId, item.getId(), updateItem);
             }
         });
     }

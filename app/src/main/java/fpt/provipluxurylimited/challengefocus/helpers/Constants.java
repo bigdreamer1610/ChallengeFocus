@@ -45,5 +45,8 @@ public class Constants {
         public static String optionReject = "Chưa, tôi chưa sẵn sàng";
         public static String optionUpload = "Tải ảnh lên";
         public static String optionCancel = "Huỷ";
+        public static String warningAddItem = "Bạn chưa thêm item nào. Ở lại thêm item tiếp nhé?";
+        public static String optionAgreeAddItem = "OK tôi sẽ thêm item";
+        public static String optionRejectAddITem = "Tôi muốn quay lại";
     }
 }

@@ -82,7 +82,7 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         String title = challengeList.get(position).getTitle();
 
         String status = challengeList.get(position).getStatus();
-        int percetage = challengeList.get(position).getPercentage();
+        int percentage = challengeList.get(position).getPercentage();
         String dueDate = challengeList.get(position).getDueDate();
         switch (status) {
             case "doing":
@@ -103,7 +103,7 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
 
         }
         holder.textViewChallengeName.setText(title);
-        holder.textViewPercentage.setText(percetage + "%");
+        holder.textViewPercentage.setText(percentage + "%");
         holder.textViewDuration.setText(dueDate);
         Picasso.get().load(challengeList.get(position).getImageUrl()).into(holder.imgViewChallenge);
     }

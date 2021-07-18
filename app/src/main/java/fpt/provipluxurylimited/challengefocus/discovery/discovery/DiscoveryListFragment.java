@@ -38,6 +38,7 @@ import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeAc
 import fpt.provipluxurylimited.challengefocus.discovery.classes.DiscoveryRecylerAdapter;
 import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
+import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.DiscoveryResult;
 import me.ibrahimsn.lib.CirclesLoadingView;
 
@@ -68,6 +69,7 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     private DiscoveryResult result;
     private DiscoveryListPresenter presenter;
     private CategoryChallenge selectedChallenge;
+    private Challenge selectedItem;
     Gson gson = new Gson();
 
     public DiscoveryListFragment() {
@@ -166,7 +168,9 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     }
 
     void startChallenge() {
+        String challengeString = gson.toJson(selectedItem);
         Intent intent = new Intent(context, DetailChallengeActivity.class);
+        intent.putExtra("challenge", challengeString);
         startActivity(intent);
     }
 
@@ -192,8 +196,8 @@ public class DiscoveryListFragment extends Fragment implements DiscoveryListPres
     @Override
     public void onClickParent(View view, int row, int section) {
         showDialog();
-//        String sectionName = result.getCategoryNames().get(section);
-//        selectedChallenge = result.getList().get(sectionName).get(row);
-//
+        String sectionName = result.getCategoryNames().get(section);
+        selectedChallenge = result.getList().get(sectionName).get(row);
+        selectedItem = new Challenge(selectedChallenge.getId(), selectedChallenge.getImageUrl(),0, selectedChallenge.getTitle(), Constants.doing);
     }
 }

@@ -41,11 +41,6 @@ import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
 public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener, DoingPresenter.DoingPresenterDelegate {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -54,7 +49,6 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     ChallengeRecyclerAdapter adapter;
-    Timer timer;
     Context context;
     FragmentActivity fragmentActivity;
 
@@ -68,10 +62,6 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -136,19 +126,8 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     public void showError(String error) {
         System.out.println("error: " + error);
     }
-
-    class RefreshTask extends TimerTask {
-        @Override
-        public void run() {
-            System.out.println("refresh done");
-            timer.cancel();
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
     @Override
     public void onClick(View view, int position) {
-        System.out.println("position: " + position);
         Challenge challenge = list.get(position);
         Gson gson = new Gson();
         String challengeString = gson.toJson(challenge);

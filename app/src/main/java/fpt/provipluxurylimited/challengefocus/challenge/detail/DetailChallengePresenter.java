@@ -5,11 +5,13 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.helpers.base.BasePresenterDelegate;
+import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class DetailChallengePresenter implements DetailChallengeUseCase.DetailChallengeUseCaseDelegate {
     public interface DetailChallengePresenterDelegate extends BasePresenterDelegate {
         void responseItemList(ArrayList<ToDoItem> list);
+        void responseChallengeId(String challengeId);
     }
 
     protected DetailChallengeUseCase useCase;
@@ -25,25 +27,35 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         this.delegate = delegate;
     }
 
-    void getItemList(String userId, String status) {
-        useCase.getToDoItemsList(userId, status);
+    void getItemList(String userId, String challengId) {
+        useCase.getToDoItemsList(userId, challengId);
     }
 
-    void addItem(String title) {
-        useCase.addItem(title);
+    void addFirstIitem(String userId, Challenge challenge, ToDoItem item) {
+        useCase.addNewChallenge(userId, challenge, item);
+    }
+
+    void addItem(String userId, String id, ToDoItem item) {
+        useCase.addItem(userId, id, item);
     }
 
     void removeItem(String id) {
         useCase.removeItem(id);
     }
 
-    void uploadImageToStorage(Uri uri, ToDoItem item) {
-        useCase.uploadImageToStorage(uri, item);
+    void uploadImageToStorage(String userId, String challengeId, ToDoItem item, Uri uri) {
+        useCase.uploadImageToStorage(userId, challengeId, item, uri);
+
     }
 
     @Override
     public void onSuccessGetItems(ArrayList<ToDoItem> list) {
         delegate.responseItemList(list);
+    }
+
+    @Override
+    public void onSuccessAddFirstItem(String challengeId) {
+        delegate.responseChallengeId(challengeId);
     }
 
     @Override

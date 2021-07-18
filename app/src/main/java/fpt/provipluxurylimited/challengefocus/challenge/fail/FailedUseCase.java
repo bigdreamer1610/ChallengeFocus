@@ -32,7 +32,7 @@ public class FailedUseCase {
 
     public void getFailedList(String userId) {
         FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         ArrayList<Challenge> list = new ArrayList<>();
@@ -46,6 +46,7 @@ public class FailedUseCase {
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
                         delegate.onFailure(error.getMessage());
+
                     }
                 });
     }
