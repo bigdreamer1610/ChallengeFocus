@@ -1,9 +1,13 @@
 package fpt.provipluxurylimited.challengefocus.pomodoro;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +32,17 @@ public class PomodoroFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    FragmentActivity fragmentActivity;
+    Dialog dialog;
+    Button btnMusic;
+    Button btnSilent;
 
     public PomodoroFragment() {
         // Required empty public constructor
+    }
+    private void initComponent(View view) {
+        fragmentActivity = this.getActivity();
+        setUpDialog();
     }
 
     /**
@@ -66,9 +78,44 @@ public class PomodoroFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pomodoro, container, false);
     }
+
+    void setUpDialog() {
+        dialog = new Dialog(fragmentActivity);
+        dialog.setContentView(R.layout.music_dialog);
+        btnMusic = dialog.findViewById(R.id.btnMusic);
+        btnSilent = dialog.findViewById(R.id.btnSilent);
+        btnMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent soundPomoIntent = new Intent(getActivity(), SoundPomoActivity.class);
+                startActivity(soundPomoIntent);
+            }
+        });
+
+        btnSilent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent focusPomoIntent = new Intent(getActivity(), FocusPomoActivity.class);
+                startActivity(focusPomoIntent);
+            }
+        });
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Button btnAbout = (Button) getView().findViewById(R.id.btnAbout);
+        initComponent(view);
+        Button btnAbout = getView().findViewById(R.id.btnAbout);
+        Button btnStart = getView().findViewById(R.id.btnStart);
+        Button btnHistory = getView().findViewById(R.id.btnHistory);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
+
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +123,14 @@ public class PomodoroFragment extends Fragment {
                 startActivity(aboutPomoIntent);
             }
         });
+
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent historyPomoIntent = new Intent(getActivity(), HistoryPomoActivity.class);
+                startActivity(historyPomoIntent);
+            }
+        });
+
     }
-
-
 }

@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
-import fpt.provipluxurylimited.challengefocus.models.ItemStatus;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapter.ItemHolder>{
@@ -84,9 +83,9 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 
         public ItemHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            imgCheckbox = itemView.findViewById(R.id.imgCheckbox);
+            imgCheckbox = itemView.findViewById(R.id.imgCbx1);
             imgArrow = itemView.findViewById(R.id.imgArrowOpen);
-            textViewToDo = itemView.findViewById(R.id.textViewToDoTitle);
+            textViewToDo = itemView.findViewById(R.id.txt1);
             layoutImageHolder = itemView.findViewById(R.id.layoutImageHolder);
             layoutDateHolder = itemView.findViewById(R.id.layoutDateHolder);
             imgResult = itemView.findViewById(R.id.imageViewResult);

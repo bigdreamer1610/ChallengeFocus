@@ -96,4 +96,6 @@ dependencies {
     // swipe recyclerview decorator
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
 
+    //pie chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
