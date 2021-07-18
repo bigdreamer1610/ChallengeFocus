@@ -1,5 +1,6 @@
 package fpt.provipluxurylimited.challengefocus.pomodoro;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.profile.feedback.FeedbackActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +65,16 @@ public class PomodoroFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pomodoro, container, false);
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        Button btnAbout = (Button) getView().findViewById(R.id.btnAbout);
+        btnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aboutPomoIntent = new Intent(getActivity(), AboutPomoActivity.class);
+                startActivity(aboutPomoIntent);
+            }
+        });
     }
 }

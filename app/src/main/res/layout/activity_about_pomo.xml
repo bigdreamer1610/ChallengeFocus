@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    tools:context=".pomodoro.AboutPomoActivity">
+
+    <RelativeLayout
+        android:id="@+id/topHolder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/theme">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="Pomodoro là gì?"
+            android:textColor="@color/text_theme"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:layout_below="@+id/topHolder"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/quicksand_regular"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:text="Pomodoro là 1 phương pháp quản lí thời gian để nâng cao tối đa sự tập trung trong công việc được giới thiệu bởi Francesco Cirillo – CEO của 1 công ty phần mềm người Italia vào năm 1980."
+                android:textColor="@color/black"
+                android:textSize="17dp" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="289dp"
+                app:srcCompat="@drawable/ic_technique" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_regular"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:text="Lấy 2 tiếng làm việc làm tiêu chuẩn, kỹ thuật Pomodoro chia thời gian làm việc thành 4 quả cà chua. Mỗi quả cà chua bao gồm 25 phút làm việc và 5 phút nghỉ. Việc lặp lại 4 chu kỳ cà chua sẽ hoàn thành một thử thách Pomodoro."
+                android:textColor="@color/black"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_regular"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:text="Trong thời gian tập trung làm việc, đừng để bị sao lãng bởi bất kỳ thứ gì ngoài công việc. Nếu bạn chuyển qua ứng dụng khác để dùng, quả cà chua thử thách của bạn sẽ thối, và thử thách này thất bại. Kết quả của các thử thách Pomodoro, dù thất bại hay thành công, đều được lưu trong phần Lịch sử tập trung."
+                android:textColor="@color/black"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_regular"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:text="Chúc bạn làm việc và học tập hiệu quả!"
+                android:textColor="@color/black"
+                android:textSize="17dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
