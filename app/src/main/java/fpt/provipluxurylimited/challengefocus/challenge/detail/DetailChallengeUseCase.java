@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,13 +27,17 @@ import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseUseCaseDelegate;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
+import fpt.provipluxurylimited.challengefocus.models.Quote;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class DetailChallengeUseCase {
     public interface DetailChallengeUseCaseDelegate extends BaseUseCaseDelegate {
         void onSuccessGetItems(ArrayList<ToDoItem> list);
+
         void onSuccessAddFirstItem(String challengeId);
+
         void onSuccessGetPercentage(int percentage);
+        void onSuccessGetQuote(Quote quote);
     }
 
     private DetailChallengeUseCaseDelegate delegate;
@@ -41,7 +46,7 @@ public class DetailChallengeUseCase {
         this.delegate = delegate;
     }
 
-    public void getToDoItemsList(String userId, String challengeId){
+    public void getToDoItemsList(String userId, String challengeId) {
         FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
                 .child(challengeId)
                 .child(ApiClient.items)
@@ -115,7 +120,7 @@ public class DetailChallengeUseCase {
     }
 
     // upload image to storage
-    public void uploadImageToStorage(String userId, String challengeId , ToDoItem item, Uri uri) {
+    public void uploadImageToStorage(String userId, String challengeId, ToDoItem item, Uri uri) {
         final String randomKey = UUID.randomUUID().toString();
         FirebaseUtil.shared.getStorageReference().child("results/" + randomKey).putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -123,7 +128,7 @@ public class DetailChallengeUseCase {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // success
                         // then get downloaded url
-                        requestImageUrl(userId, challengeId, randomKey,item);
+                        requestImageUrl(userId, challengeId, randomKey, item);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -165,13 +170,14 @@ public class DetailChallengeUseCase {
                     @Override
                     public void onSuccess(Void unused) {
                         if (percentage == 100) {
-                            setDoneStatusForChallenge(userId,id);
+                            setDoneStatusForChallenge(userId, id);
                         }
                         delegate.onSuccessGetPercentage(percentage);
 
                     }
                 });
-        }
+    }
+
     private void setDoneStatusForChallenge(String userId, String id) {
         String doneDate = Utils.convertDateToString(new Date());
         FirebaseUtil.shared.getReference().child(ApiClient.getMyChallenge(userId))
@@ -186,7 +192,29 @@ public class DetailChallengeUseCase {
                 .removeValue();
     }
 
+    public void getRandomQuote() {
+        FirebaseUtil.shared.getReference().child(ApiClient.quotes)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        ArrayList<Quote> list = new ArrayList<>();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Quote item = ds.getValue(Quote.class);
+                            list.add(item);
+                        }
+                        int randomInt = new Random().nextInt(list.size());
+                        delegate.onSuccessGetQuote(list.get(randomInt));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        delegate.onFailure(error.getMessage());
+                    }
+                });
     }
+
+
+}
 
 
 

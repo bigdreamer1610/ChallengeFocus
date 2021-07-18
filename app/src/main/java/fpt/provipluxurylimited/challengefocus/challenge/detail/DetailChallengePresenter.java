@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.helpers.base.BasePresenterDelegate;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
+import fpt.provipluxurylimited.challengefocus.models.Quote;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class DetailChallengePresenter implements DetailChallengeUseCase.DetailChallengeUseCaseDelegate {
@@ -13,6 +14,7 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         void responseItemList(ArrayList<ToDoItem> list);
         void responseChallengeId(String challengeId);
         void responsePercentage(int percentage);
+        void responseQuote(Quote quote);
     }
 
     protected DetailChallengeUseCase useCase;
@@ -56,6 +58,10 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
         useCase.removeEmptyChallenge(userId, id);
     }
 
+    void getQuote() {
+        useCase.getRandomQuote();
+    }
+
     @Override
     public void onSuccessGetItems(ArrayList<ToDoItem> list) {
         delegate.responseItemList(list);
@@ -74,5 +80,10 @@ public class DetailChallengePresenter implements DetailChallengeUseCase.DetailCh
     @Override
     public void onSuccessGetPercentage(int percentage) {
         delegate.responsePercentage(percentage);
+    }
+
+    @Override
+    public void onSuccessGetQuote(Quote quote) {
+        delegate.responseQuote(quote);
     }
 }

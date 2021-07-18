@@ -41,6 +41,7 @@ import fpt.provipluxurylimited.challengefocus.helpers.Utils;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
+import fpt.provipluxurylimited.challengefocus.models.Quote;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 import me.ibrahimsn.lib.CirclesLoadingView;
 
@@ -75,6 +76,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     Uri imageUrl;
     ToDoItem selectedItem;
     Challenge challenge;
+    Quote quote;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -143,6 +145,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         list = new ArrayList<>();
         Gson gson = new Gson();
         String challengeString = getIntent().getStringExtra("challenge");
+        getQuote();
         if (challengeString != null) {
             challenge = gson.fromJson(challengeString, Challenge.class);
             bindData(challenge);
@@ -176,6 +179,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void getListItem() {
         showLoading();
         presenter.getItemList(SaveSharedPreference.getUserId(context), challenge.getId());
+    }
+
+    void getQuote() {
+        presenter.getQuote();
     }
 
     void updateViewOnStatus(ChallengeStatus status) {
@@ -443,6 +450,12 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             challengeStatus = ChallengeStatus.done;
             updateViewOnStatus(challengeStatus);
         }
+    }
+
+    @Override
+    public void responseQuote(Quote quote) {
+        this.quote = quote;
+        fragmentNoItem.setQuote(quote);
     }
 
 }
