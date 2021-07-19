@@ -1,8 +1,11 @@
 package fpt.provipluxurylimited.challengefocus.profile.profile;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -62,6 +66,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     NavController navController;
     TextView textViewProfileName;
     EditText textViewCaption;
+    Dialog dialog;
     Context context;
 
     private ArrayList<SettingsItem> list;
@@ -114,7 +119,31 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         editCaption();
+        setUpDialog();
         clickLogout();
+    }
+
+    void setUpDialog() {
+        dialog = new Dialog(context);
+        dialog.setContentView(R.layout.message_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        TextView textViewMessage = dialog.findViewById(R.id.dialogTitle);
+        AppCompatButton btnOk = dialog.findViewById(R.id.btnOk);
+
+        textViewMessage.setText("Liên hệ với chúng tôi qua: support@challengefocus.com");
+        btnOk.setText("OK");
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    void showDialog() {
+        dialog.show();
     }
 
 
@@ -174,8 +203,10 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
             case 1:
                 Intent feedbackIntent = new Intent(this.getActivity(), FeedbackActivity.class);
                 startActivity(feedbackIntent);
+                break;
             default:
-                return;
+                showDialog();
+                break;
         }
     }
 
