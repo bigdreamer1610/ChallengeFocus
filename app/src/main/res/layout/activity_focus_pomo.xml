@@ -32,7 +32,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/imgBtnSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -41,7 +41,7 @@
             app:srcCompat="@drawable/ic_sound_on" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/txtCountdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
