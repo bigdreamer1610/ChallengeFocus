@@ -46,10 +46,12 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/bar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -83,10 +85,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -120,10 +124,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -157,10 +163,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -194,10 +202,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -231,10 +241,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -268,10 +280,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -305,10 +319,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
@@ -342,10 +358,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bar9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/shadow_card"
+            android:onClick="playSoundDemo"
             android:orientation="vertical">
 
             <LinearLayout
