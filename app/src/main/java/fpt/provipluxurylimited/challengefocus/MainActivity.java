@@ -1,6 +1,7 @@
 package fpt.provipluxurylimited.challengefocus;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,7 +17,9 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import fpt.provipluxurylimited.challengefocus.authen.AuthenticationActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.ChallengeFragment;
 import fpt.provipluxurylimited.challengefocus.discovery.DiscoveryFragment;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.models.UserProfile;
 import fpt.provipluxurylimited.challengefocus.pomodoro.PomodoroFragment;
 import fpt.provipluxurylimited.challengefocus.profile.ProfileFragment;
 
@@ -25,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     ChipNavigationBar menu;
     FragmentManager fragmentManager;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void initData() {
+        pref = getApplicationContext().getSharedPreferences(Constants.pref, Constants.PRIVATE_MODE);// 0 - for private mode
+        editor = pref.edit();
 
         //initFirebaseListener();
     }
@@ -86,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(myIntent);
         } else {
             configureGoogleSignIn();
+            // TODO: Bug here: Client is offline :"((
+            // saveUserProfile();
         }
     }
 
@@ -99,5 +109,15 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUtil.mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         FirebaseUtil.mFirebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    // TODO: Issue duplicate code T_T
+    public void saveUserProfile() {
+        UserProfile userProfile = FirebaseUtil.getUserProfile();
+        editor.putString(Constants.userId, FirebaseUtil.user.getUid());
+        editor.putString(Constants.name, userProfile.getName());
+        editor.putString(Constants.imageUrl, userProfile.getImageUrl());
+        editor.putString(Constants.caption, userProfile.getCaption());
+        editor.commit();
     }
 }

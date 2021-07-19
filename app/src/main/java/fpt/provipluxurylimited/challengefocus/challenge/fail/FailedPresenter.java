@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.challenge.fail;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.helpers.base.BasePresenterDelegate;
@@ -24,8 +26,8 @@ public class FailedPresenter implements FailedUseCase.FailedUseCaseDelegate {
         this.delegate = delegate;
     }
 
-    void getFailedList() {
-        useCase.getFailedList();
+    void getFailedList(String userId) {
+        useCase.getFailedList(userId);
     }
 
     @Override

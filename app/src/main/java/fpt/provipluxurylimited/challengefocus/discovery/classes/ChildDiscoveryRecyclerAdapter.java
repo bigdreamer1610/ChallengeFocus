@@ -16,16 +16,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
-import fpt.provipluxurylimited.challengefocus.models.Category;
 import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
-import fpt.provipluxurylimited.challengefocus.models.Challenge;
 
 public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDiscoveryRecyclerAdapter.ItemHolder> {
 
+    int section;
     ArrayList<CategoryChallenge> list;
     private ChildClickListener mClickListener;
 
-    public ChildDiscoveryRecyclerAdapter(ArrayList<CategoryChallenge> list) {
+    public ChildDiscoveryRecyclerAdapter(int section, ArrayList<CategoryChallenge> list) {
+        this.section = section;
         this.list = list;
     }
 
@@ -49,7 +49,7 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
         String title = list.get(position).getTitle();
         holder.textViewName.setText(title);
         Picasso.get().load(list.get(position).getImageUrl()).into(holder.imgViewChallenge);
-//        holder.imgViewChallenge.setImageResource(R.drawable.ic_cook);
+
     }
 
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -69,8 +69,11 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-                mClickListener.onClickChild(view, getAdapterPosition());
+                mClickListener.onClickChild(view, getAdapterPosition(), section);
             }
+
+//            mClickListener.onClickChild(view, getAdapterPosition());
+            
         }
     }
 
@@ -79,6 +82,6 @@ public class ChildDiscoveryRecyclerAdapter extends RecyclerView.Adapter<ChildDis
     }
 
     public interface ChildClickListener {
-        void onClickChild(View view, int position);
+        void onClickChild(View view, int position, int section);
     }
 }

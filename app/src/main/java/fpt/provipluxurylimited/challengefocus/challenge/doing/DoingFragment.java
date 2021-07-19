@@ -1,12 +1,18 @@
 package fpt.provipluxurylimited.challengefocus.challenge.doing;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -27,15 +34,12 @@ import java.util.TimerTask;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
 public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.ChallengeItemClickListener, DoingPresenter.DoingPresenterDelegate {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -45,8 +49,8 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     ChallengeRecyclerAdapter adapter;
-    Timer timer;
     Context context;
+    FragmentActivity fragmentActivity;
 
     private DoingPresenter presenter;
 
@@ -58,10 +62,6 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -87,10 +87,10 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
 
     protected void initComponents(View view) {
         context = this.getContext();
+        fragmentActivity = this.getActivity();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         recyclerView = view.findViewById(R.id.recyclerViewDoing);
         setUpRecyclerView();
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -108,8 +108,10 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
         recyclerView.setAdapter(adapter);
     }
 
+
+
     protected void initData() {
-        presenter.getDoingList();
+        presenter.getDoingList(SaveSharedPreference.getUserId(this.getContext()));
     }
 
     @Override
@@ -124,19 +126,8 @@ public class DoingFragment extends Fragment implements ChallengeRecyclerAdapter.
     public void showError(String error) {
         System.out.println("error: " + error);
     }
-
-    class RefreshTask extends TimerTask {
-        @Override
-        public void run() {
-            System.out.println("refresh done");
-            timer.cancel();
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
     @Override
     public void onClick(View view, int position) {
-        System.out.println("position: " + position);
         Challenge challenge = list.get(position);
         Gson gson = new Gson();
         String challengeString = gson.toJson(challenge);

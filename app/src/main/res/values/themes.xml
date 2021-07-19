@@ -29,4 +29,8 @@
     <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:background">@color/white</item>
     </style>
+
+    <style name="CalendarTheme" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/text_theme</item>
+    </style>
 </resources>

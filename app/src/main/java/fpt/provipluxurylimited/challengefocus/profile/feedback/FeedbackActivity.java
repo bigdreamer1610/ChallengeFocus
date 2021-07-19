@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.base.BaseActivity;
 import fpt.provipluxurylimited.challengefocus.models.Feedback;
 import fpt.provipluxurylimited.challengefocus.profile.classes.StarRecyclerAdapter;
@@ -35,11 +39,13 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
     ImageView btnBack;
     AppCompatButton btnSend;
     EditText editTextContent;
+    Dialog dialog;
     private Context context;
-    CoordinatorLayout mainContent;
 
     private List<Boolean> list;
     private FeedbackPresenter presenter;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,8 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
         list.add(Boolean.FALSE);
         list.add(Boolean.FALSE);
         list.add(Boolean.FALSE);
+        pref = getApplicationContext().getSharedPreferences(Constants.pref, Constants.PRIVATE_MODE);// 0 - for private mode
+        editor = pref.edit();
     }
 
     private void initComponents() {
@@ -79,9 +87,28 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
         btnBack.setClickable(true);
         clickBack();
         clickSend();
-
+        setUpDialog();
     }
 
+    void setUpDialog() {
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.message_dialog);
+        TextView textViewMessage = dialog.findViewById(R.id.dialogTitle);
+        AppCompatButton btnOk = dialog.findViewById(R.id.btnOk);
+
+        textViewMessage.setText(Constants.DialogConstants.feedback);
+        btnOk.setText("OK");
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    void showDialog() {
+        dialog.show();
+    }
     void clickBack() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +129,9 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
                 Feedback feedback;
                 String content = editTextContent.getText().toString();
                 if (content.isEmpty()) {
-                    feedback = new Feedback(noOfStars, "id1");
+                    feedback = new Feedback(noOfStars, pref.getString(Constants.userId, "id1"));
                 } else {
-                    feedback = new Feedback(noOfStars, "id1", content);
+                    feedback = new Feedback(noOfStars, pref.getString(Constants.userId, "id1"), content);
                 }
                 presenter.sendFeedback(feedback);
 
@@ -131,7 +158,7 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showDialog("Gửi feedback thành công, cảm ơn bạn nhaa!",context);
+                showDialog();
             }
         });
     }

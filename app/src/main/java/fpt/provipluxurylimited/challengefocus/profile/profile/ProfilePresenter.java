@@ -10,6 +10,7 @@ public class ProfilePresenter implements ProfileUseCase.ProfileUseCaseDelegate {
 
     public interface ProfilePresenterDelegate extends BasePresenterDelegate {
         void responseData(UserProfile data);
+        void responseCaption(String caption);
     }
 
     public ProfilePresenter(ProfileUseCase useCase, ProfilePresenterDelegate delegate) {
@@ -23,8 +24,12 @@ public class ProfilePresenter implements ProfileUseCase.ProfileUseCaseDelegate {
     }
 
 
-    public void getUserProfile() {
-        useCase.getUserProfile();
+    public void getUserProfile(String id) {
+        useCase.getUserProfile(id);
+    }
+
+    public void setCaption(String userId, String caption) {
+        useCase.updateCaption(userId, caption);
     }
 
     @Override
@@ -37,5 +42,8 @@ public class ProfilePresenter implements ProfileUseCase.ProfileUseCaseDelegate {
         delegate.showError(message);
     }
 
-
+    @Override
+    public void onSuccessUpdateCaption(String caption) {
+        delegate.responseCaption(caption);
+    }
 }

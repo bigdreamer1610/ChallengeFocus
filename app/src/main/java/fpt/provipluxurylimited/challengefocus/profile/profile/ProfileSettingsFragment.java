@@ -2,6 +2,7 @@ package fpt.provipluxurylimited.challengefocus.profile.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.authen.AuthenticationActivity;
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
 import fpt.provipluxurylimited.challengefocus.models.SettingType;
 import fpt.provipluxurylimited.challengefocus.models.SettingsItem;
 import fpt.provipluxurylimited.challengefocus.models.UserProfile;
@@ -59,6 +62,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     NavController navController;
     TextView textViewProfileName;
     EditText textViewCaption;
+    Context context;
 
     private ArrayList<SettingsItem> list;
     private DatabaseReference mDatabase;
@@ -92,9 +96,11 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         super.onViewCreated(view, savedInstanceState);
         initData();
         initComponents(view);
+        setUpProfile();
     }
 
     private void initComponents(View view) {
+        context = this.getContext();
         textViewProfileName = view.findViewById(R.id.textViewProfileName);
         textViewCaption = view.findViewById(R.id.textViewCaption);
         navController = Navigation.findNavController(view);
@@ -107,19 +113,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        textViewCaption.setOnEditorActionListener((textView, actionId, keyEvent) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
-                // Update Caption
-                String newCaption = textViewCaption.getText().toString();
-                FirebaseUtil.mDatabaseReference.child(ApiClient.getCaptionById(FirebaseUtil.user.getUid())).setValue(newCaption);
-                return true;
-            }
-            return false;
-        });
-
+        editCaption();
         clickLogout();
     }
 
@@ -128,8 +122,33 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         list = new ArrayList<>();
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
+        //presenter.getUserProfile(pref.getString(Constants.userId, "id1"));
+    }
 
-        presenter.getUserProfile();
+    private void editCaption() {
+        textViewCaption.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+                // Update Caption
+                String newCaption = textViewCaption.getText().toString().trim();
+                presenter.setCaption(SaveSharedPreference.getUserId(context), newCaption);
+                return true;
+            }
+            return false;
+        });
+
+    }
+
+    private void setUpProfile() {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                textViewProfileName.setText(SaveSharedPreference.getName(context));
+                textViewCaption.setText(SaveSharedPreference.getCaption(context));
+                Picasso.get().load(SaveSharedPreference.getImageUrl(context)).into(imageView);
+            }
+        });
     }
 
     void clickLogout() {
@@ -146,7 +165,7 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         FirebaseAuth.getInstance().signOut();
         FirebaseUtil.mGoogleSignInClient.signOut();
         FirebaseUtil.mFirebaseAuth.removeAuthStateListener(FirebaseUtil.mAuthStateListener);
-
+        SaveSharedPreference.removeAll(this.getContext());
         Intent myIntent = new Intent(this.getContext(), AuthenticationActivity.class);
         startActivity(myIntent);
     }
@@ -165,20 +184,17 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
 
     @Override
     public void responseData(UserProfile data) {
-//        System.out.println("response data: " + data.toString());
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                textViewProfileName.setText(data.getName());
-                textViewCaption.setText(data.getCaption());
-                Picasso.get().load(data.getImageUrl()).into(imageView);
-            }
-        });
 
     }
 
     @Override
     public void showError(String error) {
         System.out.println("response error: " + error);
+    }
+
+    @Override
+    public void responseCaption(String caption) {
+        textViewCaption.setText(caption);
+        SaveSharedPreference.setCaption(context, caption);
     }
 }

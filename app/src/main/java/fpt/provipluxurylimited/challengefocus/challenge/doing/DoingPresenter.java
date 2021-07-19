@@ -1,5 +1,7 @@
 package fpt.provipluxurylimited.challengefocus.challenge.doing;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.helpers.base.BasePresenterDelegate;
@@ -23,8 +25,8 @@ public class DoingPresenter implements DoingUseCase.DoingUseCaseDelegate {
         this.delegate = delegate;
     }
 
-    void getDoingList() {
-        useCase.getDoingList();
+    void getDoingList(String userId) {
+        useCase.getDoingList(userId);
     }
 
     @Override

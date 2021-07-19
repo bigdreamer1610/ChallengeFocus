@@ -1,14 +1,14 @@
 package fpt.provipluxurylimited.challengefocus.authen;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,48 +29,40 @@ import fpt.provipluxurylimited.challengefocus.MainActivity;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
+import fpt.provipluxurylimited.challengefocus.models.UserProfile;
 
 public class AuthenticationActivity extends AppCompatActivity {
     public static final String TAG = "GoogleActivity";
 
-    private Button btnLogin;
-    //    private ImageView btnBack;
+    private LinearLayout btnGoogle;
+    Context context;
     @Override
     public void onBackPressed() {
         // do something on back.
-//        Intent returnIntent = new Intent();
-//        Bundle mBundle = new Bundle();
-//        mBundle.putParcelable("user", FirebaseUtil.user);
-//        returnIntent.putExtras(mBundle);
-//        setResult(Activity.RESULT_OK, returnIntent);
-//        finish();
-//        return;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_authentication);
+        initData();
+        initComponents();
+    }
 
-        configureGoogleSignIn();
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-//        btnBack = (ImageView) findViewById(R.id.backButton);
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+    private void initComponents() {
+        context = this;
+        btnGoogle = findViewById(R.id.btnGoogle);
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
+    }
 
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-
-
+    private void initData() {
+        configureGoogleSignIn();
     }
 
     private void signIn() {
@@ -85,10 +77,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 //        FirebaseUtil.mGoogleSignInClient.signOut();
         FirebaseUtil.mFirebaseAuth.removeAuthStateListener(FirebaseUtil.mAuthStateListener);
 
-        //TODO: Test
         Intent myIntent = new Intent(this, AuthenticationActivity.class);
         startActivity(myIntent);
-
     }
 
     private void configureGoogleSignIn() {
@@ -99,7 +89,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                 .build();
 
         FirebaseUtil.mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         FirebaseUtil.mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -132,6 +121,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUtil.user = FirebaseUtil.mFirebaseAuth.getCurrentUser();
+                            //updateUI(FirebaseUtil.user);
+                            // save user profile to app
+                            saveUserProfile();
+                            Intent intent = new Intent(context, MainActivity.class);
+                            startActivity(intent);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -150,4 +145,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         finish();
     }
 
+    public void saveUserProfile() {
+        UserProfile userProfile = FirebaseUtil.getUserProfile();
+        SaveSharedPreference.setName(this, userProfile.getName());
+        SaveSharedPreference.setCaption(this, userProfile.getCaption());
+        SaveSharedPreference.setImageUrl(this, userProfile.getImageUrl());
+        SaveSharedPreference.setUserId(this, FirebaseUtil.user.getUid());
+    }
 }

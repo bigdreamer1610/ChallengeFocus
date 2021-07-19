@@ -1,7 +1,10 @@
 package fpt.provipluxurylimited.challengefocus.profile.profile;
 
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -16,6 +19,7 @@ import fpt.provipluxurylimited.challengefocus.models.UserProfile;
 public class ProfileUseCase {
     public interface ProfileUseCaseDelegate extends BaseUseCaseDelegate {
         void onGetUserProfileSuccess(UserProfile data);
+        void onSuccessUpdateCaption(String caption);
     }
 
     private ProfileUseCaseDelegate delegate;
@@ -24,8 +28,8 @@ public class ProfileUseCase {
         this.delegate = delegate;
     }
 
-    public void getUserProfile() {
-        FirebaseUtil.shared.getReference().child(ApiClient.userProfile).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void getUserProfile(String id) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getUserProfileById(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 UserProfile userProfile = snapshot.getValue(UserProfile.class);
@@ -37,5 +41,16 @@ public class ProfileUseCase {
                 delegate.onFailure(error.getMessage());
             }
         });
+    }
+
+    public void updateCaption(String userId, String caption) {
+        FirebaseUtil.shared.getReference().child(ApiClient.getCaptionById(userId))
+                .setValue(caption)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        delegate.onSuccessUpdateCaption(caption);
+                    }
+                });
     }
 }

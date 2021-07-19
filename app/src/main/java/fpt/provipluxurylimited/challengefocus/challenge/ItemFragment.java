@@ -1,13 +1,19 @@
 
 package fpt.provipluxurylimited.challengefocus.challenge;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +31,7 @@ import java.util.ArrayList;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ItemRecyclerAdapter;
 import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
 import fpt.provipluxurylimited.challengefocus.models.ItemStatus;
 import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -48,7 +55,7 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
     private ArrayList<ToDoItem> list;
     RecyclerView recyclerView;
     ItemRecyclerAdapter adapter;
-
+    Boolean allowSwipe = true;
 
     public ItemFragment() {
         // Required empty public constructor
@@ -96,23 +103,25 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
 
     private void initData() {
         list = new ArrayList<>();
-        list.add(new ToDoItem("Hi bitch", "10-12-1222",false, "ho",1));
     }
 
     public void setList(ArrayList<ToDoItem> list) {
         this.list = list;
         this.list = list;
         adapter.setList(list);
-        System.out.println("size: " + this.list.size());
-//        adapter.set
         adapter.notifyDataSetChanged();
+    }
+
+    public void setAllowSwipe(Boolean allowSwipe) {
+        this.allowSwipe = allowSwipe;
     }
 
     private void initComponent(View view) {
         recyclerView = view.findViewById(R.id.recyclerViewItem);
         adapter = new ItemRecyclerAdapter(list, this.getContext());
         adapter.setItemClickListener(this);
-;        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        ;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -131,22 +140,30 @@ public class ItemFragment extends Fragment implements ItemRecyclerAdapter.ToDoIt
         public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    list.remove(viewHolder.getAdapterPosition());
-//                    getActivity().
-                    adapter.notifyDataSetChanged();
-                    ((DetailChallengeActivity) getActivity()).updateData(list);
+                    ((DetailChallengeActivity) getActivity()).removeItem(list.get(viewHolder.getAdapterPosition()));
                 case ItemTouchHelper.RIGHT:
                     break;
             }
+        }
+
+        @Override
+        public int getSwipeDirs(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder) {
+            if (!allowSwipe) return 0;
+            return super.getSwipeDirs(recyclerView, viewHolder);
         }
     };
 
     @Override
     public void onclick(View view, int position) {
-        if (list.get(position).getIsDone()) {
+        Boolean isDone = list.get(position).getIsDone();
+        ToDoItem item = list.get(position);
+        if (isDone) {
             list.get(position).setExpanded(!list.get(position).getExpanded());
             adapter.setList(list);
             adapter.notifyDataSetChanged();
+        } else {
+            ((DetailChallengeActivity) getActivity()).showDialog();
+            ((DetailChallengeActivity) getActivity()).setClickItem(item);
         }
     }
 }

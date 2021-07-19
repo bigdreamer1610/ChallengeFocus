@@ -82,8 +82,9 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         String title = challengeList.get(position).getTitle();
 
         String status = challengeList.get(position).getStatus();
-        int percetage = challengeList.get(position).getPercentage();
+        int percentage = challengeList.get(position).getPercentage();
         String dueDate = challengeList.get(position).getDueDate();
+        String doneDate = challengeList.get(position).getDoneDate();
         switch (status) {
             case "doing":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_doing);
@@ -94,6 +95,9 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
                 holder.imgViewStatus.setImageResource(R.drawable.ic_check);
                 holder.textViewDuration.setVisibility(View.VISIBLE);
                 holder.layoutPercentageHolder.setVisibility(View.INVISIBLE);
+                if (doneDate != null) {
+                    holder.textViewDuration.setText(doneDate);
+                }
                 break;
             case "failed":
                 holder.imgViewStatus.setImageResource(R.drawable.ic_fail);
@@ -103,8 +107,8 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
 
         }
         holder.textViewChallengeName.setText(title);
-        holder.textViewPercentage.setText(percetage + "%");
-        holder.textViewDuration.setText(dueDate);
+        holder.textViewPercentage.setText(percentage + "%");
+
         Picasso.get().load(challengeList.get(position).getImageUrl()).into(holder.imgViewChallenge);
     }
 
