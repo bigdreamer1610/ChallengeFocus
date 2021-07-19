@@ -26,6 +26,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+      
+        <activity android:name=".authen.AuthenticationActivity"></activity>
+        <activity android:name=".profile.feedback.FeedbackActivity" />
+        <activity android:name=".challenge.detail.DetailChallengeActivity" />
+        <activity
+            android:windowSoftInputMode="adjustResize"
+            android:name=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

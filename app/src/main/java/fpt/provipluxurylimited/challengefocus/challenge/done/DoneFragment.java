@@ -109,6 +109,7 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
     public void onClick(View view, int position) {
         System.out.println("position: " + position);
         Challenge challenge = list.get(position);
+        challenge.setStatus(Constants.done);
         Gson gson = new Gson();
         String challengeString = gson.toJson(challenge);
         Intent intent = new Intent(this.getActivity(), DetailChallengeActivity.class);
