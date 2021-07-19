@@ -36,55 +36,53 @@
         android:layout_marginEnd="14dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_pomo_mainscreen" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="0dp"
+        android:backgroundTint="#414B58"
+        android:fontFamily="@font/quicksand_semibold"
+        android:padding="5dp"
+        android:text="Bắt đầu"
+        android:textColor="#F8EBD7"
+        android:textSize="14sp"
+        app:cornerRadius="50dp"
+        android:layout_above="@id/btnAbout"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAbout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/btnHistory"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="30dp"
+        android:backgroundTint="#414B58"
+        android:fontFamily="@font/quicksand_semibold"
+        android:onClick="goToAbout"
+        android:padding="5dp"
+        android:text="Pomodoro là gì?"
+        android:textColor="#F8EBD7"
+        android:textSize="14sp"
+        app:cornerRadius="50dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
-        android:orientation="vertical">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStart"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:backgroundTint="#414B58"
-            android:fontFamily="@font/quicksand_semibold"
-            android:padding="5dp"
-            android:text="Bắt đầu"
-            android:textColor="#F8EBD7"
-            android:textSize="14sp"
-            app:cornerRadius="50dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:backgroundTint="#414B58"
-            android:fontFamily="@font/quicksand_semibold"
-            android:onClick="goToAbout"
-            android:padding="5dp"
-            android:text="Pomodoro là gì?"
-            android:textColor="#F8EBD7"
-            android:textSize="14sp"
-            app:cornerRadius="50dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnHistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:backgroundTint="#414B58"
-            android:fontFamily="@font/quicksand_semibold"
-            android:padding="5dp"
-            android:text="Lịch sử tập trung"
-            android:textColor="#F8EBD7"
-            android:textSize="14sp"
-            app:cornerRadius="50dp" />
-    </LinearLayout>
-
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#414B58"
+        android:fontFamily="@font/quicksand_semibold"
+        android:padding="5dp"
+        android:text="Lịch sử tập trung"
+        android:textColor="#F8EBD7"
+        android:textSize="14sp"
+        app:cornerRadius="50dp" />
 </RelativeLayout>
