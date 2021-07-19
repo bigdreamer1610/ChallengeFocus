@@ -12,10 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.models.Pomodoro;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class PomoRecyclerAdapter extends RecyclerView.Adapter<PomoRecyclerAdapter.PomoHolder>{
 
@@ -35,16 +41,17 @@ public class PomoRecyclerAdapter extends RecyclerView.Adapter<PomoRecyclerAdapte
   @NotNull
   @Override
   public PomoRecyclerAdapter.PomoHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-    View cell = LayoutInflater.from(context).inflate(R.layout.pomo_cell, parent, false);
+    View cell = LayoutInflater.from(parent.getContext()).inflate(R.layout.pomo_cell, parent, false);
     return new PomoRecyclerAdapter.PomoHolder(cell);
   }
 
   @Override
   public void onBindViewHolder(@NonNull @NotNull PomoRecyclerAdapter.PomoHolder holder, int position) {
     String date = list.get(position).getEndDate();
+    holder.txtEndDate.setText(date);
     String status = list.get(position).getStatus();
     int cycle = list.get(position).getCycle();
-    holder.txtEndDate.setText(list.get(position).getEndDate());
+
 
     switch (status) {
       case "RIPE":
@@ -64,7 +71,7 @@ public class PomoRecyclerAdapter extends RecyclerView.Adapter<PomoRecyclerAdapte
 
   @Override
   public int getItemCount() {
-    return 0;
+    return list.size();
   }
 
 

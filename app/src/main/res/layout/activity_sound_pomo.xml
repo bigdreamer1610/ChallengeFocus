@@ -275,126 +275,12 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/bar7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shadow_card"
-            android:onClick="playSoundDemo"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/imgCbx7"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:contentDescription="radiobtn"
-                    android:src="@drawable/ic_checkbox_unchecked" />
-
-                <TextView
-                    android:id="@+id/txt7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/quicksand_medium"
-                    android:text="empty"
-                    android:textColor="@color/text_theme"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bar8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shadow_card"
-            android:onClick="playSoundDemo"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/imgCbx8"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:contentDescription="radiobtn"
-                    android:src="@drawable/ic_checkbox_unchecked" />
-
-                <TextView
-                    android:id="@+id/txt8"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/quicksand_medium"
-                    android:text="empty"
-                    android:textColor="@color/text_theme"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bar9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shadow_card"
-            android:onClick="playSoundDemo"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/imgCbx9"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:contentDescription="radiobtn"
-                    android:src="@drawable/ic_checkbox_unchecked" />
-
-                <TextView
-                    android:id="@+id/txt9"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/quicksand_medium"
-                    android:text="empty"
-                    android:textColor="@color/text_theme"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirm"
             android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="128dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="220dp"
             android:backgroundTint="#414B58"
             android:fontFamily="@font/quicksand_semibold"
             android:padding="5dp"

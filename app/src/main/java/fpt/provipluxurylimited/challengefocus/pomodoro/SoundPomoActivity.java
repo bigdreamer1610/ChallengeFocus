@@ -191,60 +191,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         mp.setLooping(true);
         mp.start();
         break;
-      case 2131296898:
-        imgCbx1.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx2.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx3.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_checked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
-        if (mp == null) {
-        } else {
-          if(mp.isPlaying()){
-            mp.stop();
-            mp.release();
-          }
-        }
-        break;
-      case 2131296899:
-        imgCbx1.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx2.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx3.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_checked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
-        if (mp == null) {
-        } else {
-          if(mp.isPlaying()){
-            mp.stop();
-            mp.release();
-          }
-        }
-        break;
-      case 2131296900:
-        imgCbx1.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx2.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx3.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_checked);
-        if (mp == null) {
-        } else {
-          if(mp.isPlaying()){
-            mp.stop();
-            mp.release();
-          }
-        }
-        break;
       default:
         mp.stop();
         break;
