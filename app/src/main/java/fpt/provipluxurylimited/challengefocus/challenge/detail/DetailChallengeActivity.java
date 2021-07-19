@@ -466,6 +466,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void updateFragment() {
         fragmentItem = (ItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentItem);
         fragmentNoItem = (NoItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentNoItem);
+//        fragmentNoItem.getView().setVisibility(View.GONE);
+//        fragmentItem.getView().setVisibility(View.VISIBLE);
         if (hasItem) {
             fragmentNoItem.getView().setVisibility(View.GONE);
             fragmentItem.getView().setVisibility(View.VISIBLE);

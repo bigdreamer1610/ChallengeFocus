@@ -70,13 +70,6 @@
                 android:fontFamily="@font/quicksand_regular"
                 android:layout_weight="1"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đổi ảnh"
-                android:fontFamily="@font/quicksand_regular"
-                android:textColor="@color/link_color"
-                />
         </LinearLayout>
         <RelativeLayout
             android:id="@+id/layoutImageHolder"
