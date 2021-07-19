@@ -12,16 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.models.Pomodoro;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class PomoRecyclerAdapter extends RecyclerView.Adapter<PomoRecyclerAdapter.PomoHolder>{
 
