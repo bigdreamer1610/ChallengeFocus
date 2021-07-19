@@ -76,7 +76,7 @@ public class HistoryPomoActivity extends AppCompatActivity {
     Description description = new Description();
     description.setText("Tỷ lệ Cà chua");
     description.setTextSize(25);
-    description.setPosition(720f, 570f);
+    description.setPosition(710f, 570f);
     pieChart.setDescription(description);
 
     pieChart.setHoleRadius(50f);

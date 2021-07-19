@@ -8,11 +8,13 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -22,7 +24,9 @@ import fpt.provipluxurylimited.challengefocus.R;
 
 public class FocusPomoActivity extends AppCompatActivity {
 
+  Context context;
   Button btnGiveup;
+  ImageButton btnSound;
   private static int notificationId = 101;
   private final String NOTIFICATION_CHANNEL = "My channel";
 //  private static final long FOCUS_TIME_IN_MILLIS = 1500000;
@@ -32,7 +36,6 @@ public class FocusPomoActivity extends AppCompatActivity {
 
   private int cycle = 1;
   private boolean isFocus;
-  private boolean pomodoring;
   private TextView txtCountDown;
   private TextView textMode;
   private TextView textCycle;
@@ -40,6 +43,7 @@ public class FocusPomoActivity extends AppCompatActivity {
   private CountDownTimer mCountDownBreakTimer;
   private long mFocusTimeLeftInMillis;
   private long mBreakTimeLeftInMillis;
+  private String contentText;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +58,24 @@ public class FocusPomoActivity extends AppCompatActivity {
   }
 
   private void initComponents() {
+    context = this;
+    contentText = "Cà chua của bạn thối luôn, do bạn mất tập trung chuyển qua ứng dụng khác. Trồng lại cà chua sau nhé!";
     btnGiveup = findViewById(R.id.btnGiveup);
+    btnSound = findViewById(R.id.imgBtnSound);
     btnGiveup.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        pomodoring = false;
+        contentText = "Thêm một quả cà chua thối, vì bạn đã bỏ cuộc! Trồng lại cà chua sau nhé!";
         Intent historyPomoIntent = new Intent(FocusPomoActivity.this, HistoryPomoActivity.class);
         startActivity(historyPomoIntent);
+      }
+    });
+    btnSound.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        btnSound.setImageResource(R.drawable.ic_sound_off);
+        MediaPlayer media = MediaPlayer.create(context, R.raw.lake);
+        media.setVolume(0 , 0);
       }
     });
   }
@@ -74,7 +89,6 @@ public class FocusPomoActivity extends AppCompatActivity {
         @Override
         public void onTick(long millisFocusUntilFinished) {
           mFocusTimeLeftInMillis = millisFocusUntilFinished;
-          pomodoring = true;
           isFocus = true;
           updateTextMode();
           updateFocusCountDownText();
@@ -108,7 +122,6 @@ public class FocusPomoActivity extends AppCompatActivity {
 
   private void finishPomodoro() {
     mCountDownBreakTimer.cancel();
-    pomodoring = false;
     Intent historyPomoIntent = new Intent(this, HistoryPomoActivity.class);
     startActivity(historyPomoIntent);
   }
@@ -146,22 +159,26 @@ public class FocusPomoActivity extends AppCompatActivity {
     txtCountDown.setText(timeBreakLeftFormatted);
   }
 
+  private void addRipe(){
+
+  }
+
+  private void addRotten(){
+
+  }
+
   @RequiresApi(api = Build.VERSION_CODES.O)
   @Override
   protected void onStop() {
     super.onStop();
-    if(pomodoring) {
       sendNotification();
-    }
   }
 
   @RequiresApi(api = Build.VERSION_CODES.O)
   @Override
   protected void onPause() {
     super.onPause();
-    if(pomodoring) {
       sendNotification();
-    }
   }
 
   @RequiresApi(api = Build.VERSION_CODES.O)
@@ -169,7 +186,7 @@ public class FocusPomoActivity extends AppCompatActivity {
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
             .setSmallIcon(R.drawable.ic_menu_challenge)
             .setContentTitle("Á à, Pomodoro bắt được rồi nhé :<")
-            .setContentText("Cà chua của bạn thối luôn, do bạn mất tập trung chuyển qua ứng dụng khác. Trồng lại cà chua sau nhé!")
+            .setContentText(contentText)
             .setChannelId(NOTIFICATION_CHANNEL)
             .setStyle(new NotificationCompat.BigTextStyle());
     NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL,
