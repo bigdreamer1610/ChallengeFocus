@@ -1,5 +1,6 @@
 package fpt.provipluxurylimited.challengefocus.challenge.detail;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -25,6 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +63,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     Dialog dialogWarning;
     Dialog dialogCongrats;
     Dialog dialogMessage;
+    Dialog dialogCalendar;
     AppCompatButton btnAgree;
     AppCompatButton btnReject;
     CirclesLoadingView loadingView;
@@ -68,7 +73,6 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private boolean hasItem = false;
-    String dateString;
     Date date;
     private ChallengeStatus challengeStatus = ChallengeStatus.doing;
     private DetailChallengePresenter presenter;
@@ -81,6 +85,15 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
+    Date today = new Date();
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        fragmentItem = null;
+        fragmentNoItem = null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +103,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         initComponents();
         initData();
     }
-
+    
     private void initComponents() {
         context = this;
         fragmentItem = (ItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentItem);
@@ -110,6 +123,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         setUpDialogCongrats();
         setUpDialogMessage();
         setUpStorage();
+        setUpDialogCalendar();
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -311,6 +325,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void setUpDialogWarning() {
         dialogWarning = new Dialog(this);
         dialogWarning.setContentView(R.layout.confirm_dialog);
+        dialogWarning.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 
         TextView warningTitle = dialogWarning.findViewById(R.id.dialogTitle);
         AppCompatButton warningAgreeButton = dialogWarning.findViewById(R.id.btnAgree);
@@ -339,6 +355,8 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void setUpDialogMessage() {
         dialogMessage = new Dialog(this);
         dialogMessage.setContentView(R.layout.message_dialog);
+        dialogMessage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 
         TextView textViewMessage = dialogMessage.findViewById(R.id.dialogTitle);
         AppCompatButton btnOk = dialogMessage.findViewById(R.id.btnOk);
@@ -349,6 +367,25 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
             @Override
             public void onClick(View view) {
                 dialogMessage.dismiss();
+            }
+        });
+    }
+
+    void setUpDialogCalendar() {
+        dialogCalendar = new Dialog(this);
+        dialogCalendar.setContentView(R.layout.message_dialog);
+        dialogCalendar.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        TextView textViewMessage = dialogCalendar.findViewById(R.id.dialogTitle);
+        AppCompatButton btnOk = dialogCalendar.findViewById(R.id.btnOk);
+
+        textViewMessage.setText(Constants.DialogConstants.calendarMessage);
+        btnOk.setText("OK");
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogCalendar.dismiss();
             }
         });
     }
@@ -387,6 +424,10 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         dialogMessage.show();
     }
 
+    void showCalendarDialog() {
+        dialogCalendar.show();
+    }
+
 
     public void setClickItem(ToDoItem item) {
         selectedItem = item;
@@ -412,10 +453,14 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void updateDate() {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat format = new SimpleDateFormat(myFormat, Locale.ENGLISH);
-        date = myCalendar.getTime();
-        challenge.setDueDate(Utils.convertDateToString(date));
-        textViewChooseDate.setText(format.format(date));
-
+        if (!myCalendar.getTime().after(today)) {
+            showCalendarDialog();
+        } else {
+            date = myCalendar.getTime();
+            challenge.setDueDate(Utils.convertDateToString(date));
+            textViewChooseDate.setText(format.format(date));
+            textViewChooseDate.setEnabled(false);
+        }
     }
 
     void updateFragment() {

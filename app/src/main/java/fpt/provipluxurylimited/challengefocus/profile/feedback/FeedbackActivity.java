@@ -14,6 +14,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -93,6 +95,8 @@ public class FeedbackActivity extends BaseActivity implements StarRecyclerAdapte
     void setUpDialog() {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.message_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         TextView textViewMessage = dialog.findViewById(R.id.dialogTitle);
         AppCompatButton btnOk = dialog.findViewById(R.id.btnOk);
 

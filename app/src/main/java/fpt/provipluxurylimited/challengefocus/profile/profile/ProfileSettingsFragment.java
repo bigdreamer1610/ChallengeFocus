@@ -122,7 +122,6 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
         list = new ArrayList<>();
         list.add(new SettingsItem(SettingType.FEEDBACK));
         list.add(new SettingsItem((SettingType.CONTACT)));
-        //presenter.getUserProfile(pref.getString(Constants.userId, "id1"));
     }
 
     private void editCaption() {
@@ -161,7 +160,6 @@ public class ProfileSettingsFragment extends Fragment implements SettingsRecycle
     }
 
     public void signOut() {
-        Log.d("sign out", "Singing out");
         FirebaseAuth.getInstance().signOut();
         FirebaseUtil.mGoogleSignInClient.signOut();
         FirebaseUtil.mFirebaseAuth.removeAuthStateListener(FirebaseUtil.mAuthStateListener);
