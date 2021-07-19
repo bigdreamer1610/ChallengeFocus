@@ -59,9 +59,6 @@ public class SoundPomoActivity extends AppCompatActivity {
     ImageView imgCbx4 = findViewById(R.id.imgCbx4);
     ImageView imgCbx5 = findViewById(R.id.imgCbx5);
     ImageView imgCbx6 = findViewById(R.id.imgCbx6);
-    ImageView imgCbx7 = findViewById(R.id.imgCbx7);
-    ImageView imgCbx8 = findViewById(R.id.imgCbx8);
-    ImageView imgCbx9 = findViewById(R.id.imgCbx9);
     int clickedPosition = view.getId();
     System.out.println(clickedPosition);
     switch (clickedPosition) {
@@ -72,9 +69,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
         if (mp == null) {
         } else {
           if(mp.isPlaying()){
@@ -93,9 +87,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
         if (mp == null) {
         } else {
           if(mp.isPlaying()){
@@ -114,9 +105,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
         if (mp == null) {
         } else {
           if(mp.isPlaying()){
@@ -135,9 +123,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         imgCbx4.setImageResource(R.drawable.ic_checkbox_checked);
         imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
         if (mp == null) {
         } else {
           if(mp.isPlaying()){
@@ -156,9 +141,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx5.setImageResource(R.drawable.ic_checkbox_checked);
         imgCbx6.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
         if (mp == null) {
         } else {
           if(mp.isPlaying()){
@@ -177,9 +159,6 @@ public class SoundPomoActivity extends AppCompatActivity {
         imgCbx4.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx5.setImageResource(R.drawable.ic_checkbox_unchecked);
         imgCbx6.setImageResource(R.drawable.ic_checkbox_checked);
-        imgCbx7.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx8.setImageResource(R.drawable.ic_checkbox_unchecked);
-        imgCbx9.setImageResource(R.drawable.ic_checkbox_unchecked);
         if (mp == null) {
         } else {
           if(mp.isPlaying()){
