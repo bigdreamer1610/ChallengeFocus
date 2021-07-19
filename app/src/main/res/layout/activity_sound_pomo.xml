@@ -7,6 +7,7 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:background="#FFFFFF"
+    android:contentDescription="radiobtn"
     tools:context=".pomodoro.SoundPomoActivity">
 
     <RelativeLayout
@@ -19,9 +20,10 @@
             android:id="@+id/btnBack"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:contentDescription="radiobtn"
             android:src="@drawable/ic_back" />
 
         <TextView
@@ -66,19 +68,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt1"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="Lớp học"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -105,19 +106,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt2"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="Tíc Tắc"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -144,19 +144,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt3"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="Hồ nước"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -183,19 +182,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt4"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="Biển"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -222,19 +220,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt5"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="Mưa 1"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -261,19 +258,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt6"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="Mưa 2"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -300,19 +296,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt7"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="empty"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -339,19 +334,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt8"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="empty"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -378,19 +372,18 @@
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:contentDescription="radiobtn"
                     android:src="@drawable/ic_checkbox_unchecked" />
 
                 <TextView
                     android:id="@+id/txt9"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/imgCbx2"
                     android:layout_weight="1"
                     android:fontFamily="@font/quicksand_medium"
                     android:text="empty"
                     android:textColor="@color/text_theme"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -401,7 +394,7 @@
             android:layout_width="119dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="128dp"
-            android:layout_marginBottom="17dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="#414B58"
             android:fontFamily="@font/quicksand_semibold"
             android:padding="5dp"
