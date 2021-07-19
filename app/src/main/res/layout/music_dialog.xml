@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:background="#F8F0DD"
+                android:background="@drawable/dialog_agree_button"
                 android:text="OK"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/text_theme" />
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/dialog_reject_button"
                 android:text="Không, tôi muốn yên tĩnh"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 
