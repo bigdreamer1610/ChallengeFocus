@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:gravity="center"
         android:background="@color/white"
-        android:layout_height="70dp">
+        android:layout_height="60dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -24,32 +24,11 @@
             android:fontFamily="@font/quicksand_bold"
             />
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/searchViewHolder"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:layout_below="@id/layoutHolder"
-        >
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:background="@drawable/searchview_rounded"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:searchIcon="@drawable/ic_search"
-            android:queryHint="Tim thu thach"
-            android:iconifiedByDefault="false"
-            />
-    </RelativeLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchViewHolder"
+        android:layout_below="@id/layoutHolder"
         android:id="@+id/swipeRefresh"
-        android:layout_marginTop="10dp"
         >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDiscovery"

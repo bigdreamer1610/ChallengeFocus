@@ -2,6 +2,7 @@ package fpt.provipluxurylimited.challengefocus.challenge.done;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import java.util.Timer;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.challenge.detail.DetailChallengeActivity;
 import fpt.provipluxurylimited.challengefocus.challenge.classes.ChallengeRecyclerAdapter;
+import fpt.provipluxurylimited.challengefocus.helpers.Constants;
+import fpt.provipluxurylimited.challengefocus.helpers.SaveSharedPreference;
 import fpt.provipluxurylimited.challengefocus.models.Challenge;
 import fpt.provipluxurylimited.challengefocus.models.ChallengeStatus;
 
@@ -99,7 +102,7 @@ public class DoneFragment extends Fragment implements ChallengeRecyclerAdapter.C
     }
 
     protected void initData() {
-        presenter.getDoneList();
+        presenter.getDoneList(SaveSharedPreference.getUserId(this.getContext()));
     }
 
     @Override

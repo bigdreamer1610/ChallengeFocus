@@ -19,11 +19,17 @@
         <activity android:name=".profile.feedback.FeedbackActivity" />
         <activity android:name=".challenge.detail.DetailChallengeActivity" />
         <activity android:name=".MainActivity">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".authen.AuthenticationActivity"></activity>
+        <activity android:name=".profile.feedback.FeedbackActivity" />
+        <activity android:name=".challenge.detail.DetailChallengeActivity" />
+        <activity android:name=".MainActivity">
         </activity>
     </application>
 
