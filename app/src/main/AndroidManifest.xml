@@ -6,11 +6,18 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_clock_deadline"
+        android:icon="@drawable/ic_menu_challenge"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_menu_challenge"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChallengeFocus">
+        <activity android:name=".pomodoro.SoundPomoActivity"></activity>
+        <activity android:name=".pomodoro.HistoryPomoActivity" />
+        <activity android:name=".pomodoro.FocusPomoActivity" />
+        <activity android:name=".pomodoro.AboutPomoActivity" />
+        <activity android:name=".authen.AuthenticationActivity" />
+        <activity android:name=".profile.feedback.FeedbackActivity" />
+        <activity android:name=".challenge.detail.DetailChallengeActivity" />
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authen.AuthenticationActivity"></activity>
-        <activity android:name=".profile.feedback.FeedbackActivity" />
-        <activity android:name=".challenge.detail.DetailChallengeActivity" />
         <activity
             android:windowSoftInputMode="adjustResize"
             android:name=".MainActivity">

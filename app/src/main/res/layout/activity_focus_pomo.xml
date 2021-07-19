@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".pomodoro.FocusPomoActivity">
+
+    <RelativeLayout
+        android:id="@+id/topHolder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/theme">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/quicksand_semibold"
+            android:text="Tập trung bằng Pomodoro"
+            android:textColor="@color/text_theme"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="745dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imgBtnSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="#FFFFFF"
+            app:srcCompat="@drawable/ic_sound_on" />
+
+        <TextView
+            android:id="@+id/txtCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:text="24:00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="#000000"
+            android:textSize="96sp" />
+
+        <TextView
+            android:id="@+id/textMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="30dp"
+            android:text="Chế độ tập trung"
+            android:textColor="#000000"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/textCycle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="113dp"
+            android:layout_marginTop="20dp"
+            android:text="Chu kỳ thứ nhất"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGiveup"
+            android:layout_width="119dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="141dp"
+            android:layout_marginTop="200dp"
+            android:backgroundTint="#414B58"
+            android:fontFamily="@font/quicksand_semibold"
+            android:padding="5dp"
+            android:text="Bỏ cuộc"
+            android:textColor="#F8EBD7"
+            android:textSize="16sp"
+            app:cornerRadius="50dp" />
+    </LinearLayout>
+
+</RelativeLayout>
