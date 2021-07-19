@@ -30,7 +30,8 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="CalendarTheme" parent="Theme.AppCompat.DayNight.Dialog">
+    <style name="CalendarTheme" parent="Theme.MaterialComponents.Dialog">
         <item name="colorAccent">@color/text_theme</item>
+        <item name="android:textColorPrimary">@color/text_theme</item>
     </style>
 </resources>

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -102,7 +103,7 @@ public class MyChallengesFragment extends Fragment{
     }
 
     protected void setUpAction() {
-        fm = getActivity().getSupportFragmentManager();
+        fm = getChildFragmentManager();
         fragmentAdapter = new FragmentAdapter(fm, getLifecycle());
         viewPager.setAdapter(fragmentAdapter);
 
@@ -110,9 +111,16 @@ public class MyChallengesFragment extends Fragment{
         tabLayout.addTab(tabLayout.newTab().setText(Constants.DONE));
         tabLayout.addTab(tabLayout.newTab().setText(Constants.FAIL));
 
+//        tabLayout.setupwith
+
+//        new TabLayoutMediator(tabLayout, viewPager,
+//                (tab, position) -> tab.setText("OBJECT " + (position + 1))
+//        ).attach();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 viewPager.setCurrentItem(tab.getPosition());
             }
 

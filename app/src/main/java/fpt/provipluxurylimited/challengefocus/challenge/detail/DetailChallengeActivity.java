@@ -483,11 +483,11 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     public void responseItemList(ArrayList<ToDoItem> list) {
         hideLoading();
         this.list = list;
+        hasItem = list.size() != 0;
+        updateFragment();
         fragmentItem.setList(list);
         fragmentItem.setAllowSwipe(challengeStatus == ChallengeStatus.doing ? true : false);
-        hasItem = list.size() != 0;
         presenter.updatePercentage(SaveSharedPreference.getUserId(context), challenge.getId(), list);
-        updateFragment();
         if (this.list.size() == 0 && challenge.getId() != null) {
             // remove challenge
             presenter.removeEmptyChallenge(SaveSharedPreference.getUserId(context), challenge.getId());
