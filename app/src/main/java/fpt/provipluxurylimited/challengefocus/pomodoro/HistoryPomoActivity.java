@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
-import fpt.provipluxurylimited.challengefocus.models.Category;
-import fpt.provipluxurylimited.challengefocus.models.CategoryChallenge;
 import fpt.provipluxurylimited.challengefocus.models.Pomodoro;
 
 public class HistoryPomoActivity extends AppCompatActivity {
