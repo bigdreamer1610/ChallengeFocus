@@ -2,10 +2,11 @@ package fpt.provipluxurylimited.challengefocus.pomodoro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -31,23 +31,33 @@ import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.models.Pomodoro;
 
+
 public class HistoryPomoActivity extends AppCompatActivity {
 
   int ripe_num = 0, rotten_num = 0;
   ImageView btnBack;
+  private ArrayList<Pomodoro> list;
+  RecyclerView recyclerView;
+  PomoRecyclerAdapter adapter;
+  Context context;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_history_pomo);
+    list = new ArrayList<>();
     initComponents();
     getPomoList();
   }
 
   private void initComponents() {
+    context = this;
     btnBack = findViewById(R.id.btnBack);
     btnBack.setClickable(true);
     clickBack();
+    recyclerView = findViewById(R.id.pomo_recycleview);
+    setUpRecyclerView();
+    getList();
   }
 
   void clickBack() {
@@ -118,6 +128,34 @@ public class HistoryPomoActivity extends AppCompatActivity {
                 drawChart();
               }
 
+              @Override
+              public void onCancelled(@NonNull @NotNull DatabaseError error) {
+              }
+            });
+  }
+
+  void setUpRecyclerView() {
+    adapter = new PomoRecyclerAdapter(list, context);
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setItemAnimator(new DefaultItemAnimator());
+    recyclerView.setAdapter(adapter);
+  }
+
+  public void getList() {
+    FirebaseUtil.shared.getReference().child(ApiClient.pomodoro)
+            .addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<Pomodoro> listPomo = new ArrayList<>();
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                  Pomodoro pomodoro = ds.getValue(Pomodoro.class);
+                  listPomo.add(pomodoro);
+                }
+                list = listPomo;
+                adapter.setList(listPomo);
+                adapter.notifyDataSetChanged();
+              }
               @Override
               public void onCancelled(@NonNull @NotNull DatabaseError error) {
               }

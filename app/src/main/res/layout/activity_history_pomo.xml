@@ -29,25 +29,40 @@
             android:fontFamily="@font/quicksand_medium"
             android:text="Lịch sử Tập trung"
             android:textColor="@color/text_theme"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="67dp"
+        android:orientation="vertical">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="425dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="60dp">
+
+        </com.github.mikephil.charting.charts.PieChart>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="745dp"
+        android:layout_height="351dp"
         android:layout_below="@+id/topHolder"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="463dp"
         android:background="@color/white">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pomo_recycleview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pieChart"
-                android:layout_width="match_parent"
-                android:layout_height="425dp"
-                android:layout_margin="15dp" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
     </ScrollView>
 </RelativeLayout>
