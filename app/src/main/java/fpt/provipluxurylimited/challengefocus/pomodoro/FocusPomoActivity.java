@@ -1,8 +1,12 @@
 package fpt.provipluxurylimited.challengefocus.pomodoro;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -17,14 +21,30 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import fpt.provipluxurylimited.challengefocus.MainActivity;
 import fpt.provipluxurylimited.challengefocus.R;
+import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
+import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
+import fpt.provipluxurylimited.challengefocus.models.Pomodoro;
+import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class FocusPomoActivity extends AppCompatActivity {
 
   Context context;
+  private ArrayList<Pomodoro> list;
   Button btnGiveup;
   ImageButton btnSound;
   private static int notificationId = 101;
@@ -59,12 +79,20 @@ public class FocusPomoActivity extends AppCompatActivity {
 
   private void initComponents() {
     context = this;
+    getList();
     contentText = "Cà chua của bạn thối luôn, do bạn mất tập trung chuyển qua ứng dụng khác. Trồng lại cà chua sau nhé!";
     btnGiveup = findViewById(R.id.btnGiveup);
     btnSound = findViewById(R.id.imgBtnSound);
     btnGiveup.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        String mode;
+        if(isFocus){
+          mode = "FOCUS";
+        } else {
+          mode = "BREAK";
+        }
+        addPomo(list.size()+1, cycle, Calendar.getInstance().getTime().toString(), mode, "ROTTEN");
         contentText = "Thêm một quả cà chua thối, vì bạn đã bỏ cuộc! Trồng lại cà chua sau nhé!";
         Intent historyPomoIntent = new Intent(FocusPomoActivity.this, HistoryPomoActivity.class);
         startActivity(historyPomoIntent);
@@ -82,6 +110,7 @@ public class FocusPomoActivity extends AppCompatActivity {
 
   private void startFocusTimer() {
     if(cycle>4){
+      cycle=4;
       finishPomodoro();
     } else {
       mFocusTimeLeftInMillis = FOCUS_TIME_IN_MILLIS;
@@ -121,7 +150,9 @@ public class FocusPomoActivity extends AppCompatActivity {
   }
 
   private void finishPomodoro() {
+    contentText = "Bạn vừa trồng được một quả cà chua chín! Tiếp tục phát huy nhé!";
     mCountDownBreakTimer.cancel();
+    addPomo(list.size()+1, cycle, Calendar.getInstance().getTime().toString(), "BREAK", "RIPE");
     Intent historyPomoIntent = new Intent(this, HistoryPomoActivity.class);
     startActivity(historyPomoIntent);
   }
@@ -159,18 +190,41 @@ public class FocusPomoActivity extends AppCompatActivity {
     txtCountDown.setText(timeBreakLeftFormatted);
   }
 
-  private void addRipe(){
-
+  private void addPomo(int id, int cycle, String endDate, String mode, String status){
+    Pomodoro pomodoro = new Pomodoro(id, cycle, endDate, mode, status);
+    FirebaseUtil.shared.getReference().child(ApiClient.pomodoro).push()
+            .setValue(pomodoro);
   }
 
-  private void addRotten(){
-
+  public void getList() {
+    FirebaseUtil.shared.getReference().child(ApiClient.pomodoro)
+            .addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<Pomodoro> listPomo = new ArrayList<>();
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                  Pomodoro pomodoro = ds.getValue(Pomodoro.class);
+                  listPomo.add(pomodoro);
+                }
+                list = listPomo;
+              }
+              @Override
+              public void onCancelled(@NonNull @NotNull DatabaseError error) {
+              }
+            });
   }
 
   @RequiresApi(api = Build.VERSION_CODES.O)
   @Override
   protected void onStop() {
     super.onStop();
+//    String mode;
+//    if(isFocus){
+//      mode = "FOCUS";
+//    } else {
+//      mode = "BREAK";
+//    }
+//    addPomo(list.size()+1, cycle, Calendar.getInstance().getTime().toString(), mode, "ROTTEN");
       sendNotification();
   }
 
@@ -178,6 +232,13 @@ public class FocusPomoActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
+//    String mode;
+//    if(isFocus){
+//      mode = "FOCUS";
+//    } else {
+//      mode = "BREAK";
+//    }
+//    addPomo(list.size()+1, cycle, Calendar.getInstance().getTime().toString(), mode, "ROTTEN");
       sendNotification();
   }
 
