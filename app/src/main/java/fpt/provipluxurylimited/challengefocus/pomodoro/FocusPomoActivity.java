@@ -4,9 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -21,25 +18,20 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import fpt.provipluxurylimited.challengefocus.MainActivity;
 import fpt.provipluxurylimited.challengefocus.R;
 import fpt.provipluxurylimited.challengefocus.helpers.ApiClient;
 import fpt.provipluxurylimited.challengefocus.helpers.FirebaseUtil;
 import fpt.provipluxurylimited.challengefocus.models.Pomodoro;
-import fpt.provipluxurylimited.challengefocus.models.ToDoItem;
 
 public class FocusPomoActivity extends AppCompatActivity {
 
@@ -49,10 +41,10 @@ public class FocusPomoActivity extends AppCompatActivity {
   ImageButton btnSound;
   private static int notificationId = 101;
   private final String NOTIFICATION_CHANNEL = "My channel";
-//  private static final long FOCUS_TIME_IN_MILLIS = 1500000;
-//  private static final long BREAK_TIME_IN_MILLIS = 300000;
-  private static final long FOCUS_TIME_IN_MILLIS = 15000;
-  private static final long BREAK_TIME_IN_MILLIS = 8500;
+  private static final long FOCUS_TIME_IN_MILLIS = 1500000;
+  private static final long BREAK_TIME_IN_MILLIS = 300000;
+//  private static final long FOCUS_TIME_IN_MILLIS = 15000;
+//  private static final long BREAK_TIME_IN_MILLIS = 8500;
 
   private int cycle = 1;
   private boolean isFocus;
