@@ -466,14 +466,14 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
     void updateFragment() {
         fragmentItem = (ItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentItem);
         fragmentNoItem = (NoItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentNoItem);
-//        fragmentNoItem.getView().setVisibility(View.GONE);
-//        fragmentItem.getView().setVisibility(View.VISIBLE);
-        if (hasItem) {
-            fragmentNoItem.getView().setVisibility(View.GONE);
-            fragmentItem.getView().setVisibility(View.VISIBLE);
-        } else {
-            fragmentItem.getView().setVisibility(View.GONE);
-            fragmentNoItem.getView().setVisibility(View.VISIBLE);
+        if (fragmentNoItem != null && fragmentItem != null) {
+            if (hasItem) {
+                fragmentNoItem.getView().setVisibility(View.GONE);
+                fragmentItem.getView().setVisibility(View.VISIBLE);
+            } else {
+                fragmentItem.getView().setVisibility(View.GONE);
+                fragmentNoItem.getView().setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -489,7 +489,9 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         updateFragment();
         fragmentItem.setList(list);
         fragmentItem.setAllowSwipe(challengeStatus == ChallengeStatus.doing ? true : false);
-        presenter.updatePercentage(SaveSharedPreference.getUserId(context), challenge.getId(), list);
+        if (challengeStatus == ChallengeStatus.doing) {
+            presenter.updatePercentage(SaveSharedPreference.getUserId(context), challenge.getId(), list);
+        }
         if (this.list.size() == 0 && challenge.getId() != null) {
             // remove challenge
             presenter.removeEmptyChallenge(SaveSharedPreference.getUserId(context), challenge.getId());
