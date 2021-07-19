@@ -487,6 +487,7 @@ public class DetailChallengeActivity extends BaseActivity implements DetailChall
         this.list = list;
         hasItem = list.size() != 0;
         updateFragment();
+        fragmentItem = (ItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragmentItem);
         fragmentItem.setList(list);
         fragmentItem.setAllowSwipe(challengeStatus == ChallengeStatus.doing ? true : false);
         if (challengeStatus == ChallengeStatus.doing) {
